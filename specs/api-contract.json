@@ -1,0 +1,53 @@
+{
+  "profiles": {
+    "legacy": {
+      "source": "joseodaniel/umg-api-django@6eb56d75f481c4ef9219524bccd02c96f34a4b69 (Render)",
+      "snapshot": "specs/contracts/legacy-openapi.yaml",
+      "sha256": "cf06534e4de203c4b6c5490d4fe3501626601f4bfdd2e974d715fd66a6e68bc5",
+      "requiredOperations": ["login", "changePassword", "listUsers", "createUser", "deactivateUser", "resetUserPassword", "listLabs", "createLab", "updateLab", "getLabAvailability", "listLabConditions", "createLabCondition", "updateLabCondition", "listReservations", "createReservation", "getReservation", "updateReservation", "cancelReservation", "listAuditLogs"],
+      "requiredPaths": {
+        "/api/auth/login/": ["post"],
+        "/api/auth/cambiar-contrasena/": ["post"],
+        "/api/usuarios/": ["get", "post"],
+        "/api/usuarios/{id}/inactivar/": ["patch"],
+        "/api/usuarios/{id}/resetear-contrasena/": ["patch"],
+        "/api/labs/": ["get", "post"],
+        "/api/labs/{id}/": ["put"],
+        "/api/labs/disponibles/": ["get"],
+        "/api/condiciones/": ["get", "post"],
+        "/api/condiciones/{id}/": ["put"],
+        "/api/reservas/": ["get", "post"],
+        "/api/reservas/{id}/": ["get"],
+        "/api/reservas/{id}/modificar/": ["put"],
+        "/api/reservas/{id}/cancelar/": ["patch"],
+        "/api/logs/": ["get"]
+      }
+    },
+    "v2": {
+      "source": "local umg-api-django JWT v2",
+      "snapshot": "specs/contracts/v2-openapi.yaml",
+      "sha256": "ad76c0d3b6d572c2282449567830ce603ac1205a92c2722282910a783c27b7b5",
+      "requiredOperations": ["login", "refreshSession", "logout", "getCurrentUser", "changePassword", "listUsers", "createUser", "deactivateUser", "resetUserPassword", "listLabs", "createLab", "updateLab", "getLabAvailability", "listLabConditions", "createLabCondition", "updateLabCondition", "listReservations", "createReservation", "getReservation", "updateReservation", "cancelReservation", "listAuditLogs"],
+      "requiredPaths": {
+        "/api/v2/auth/login/": ["post"],
+        "/api/v2/auth/refresh/": ["post"],
+        "/api/v2/auth/logout/": ["post"],
+        "/api/v2/auth/me/": ["get"],
+        "/api/v2/auth/change-password/": ["post"],
+        "/api/v2/usuarios/": ["get", "post"],
+        "/api/v2/usuarios/{id}/inactivar/": ["patch"],
+        "/api/v2/usuarios/{id}/resetear-contrasena/": ["patch"],
+        "/api/v2/labs/": ["get", "post"],
+        "/api/v2/labs/{id}/": ["put"],
+        "/api/v2/labs/disponibles/": ["get"],
+        "/api/v2/condiciones/": ["get", "post"],
+        "/api/v2/condiciones/{id}/": ["put"],
+        "/api/v2/reservas/": ["get", "post"],
+        "/api/v2/reservas/{id}/": ["get"],
+        "/api/v2/reservas/{id}/modificar/": ["put"],
+        "/api/v2/reservas/{id}/cancelar/": ["patch"],
+        "/api/v2/logs/": ["get"]
+      }
+    }
+  }
+}

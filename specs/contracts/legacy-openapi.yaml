@@ -1,0 +1,1239 @@
+openapi: 3.0.3
+info:
+  title: API UMG - Sistema de Reservas de Laboratorios
+  version: 1.0.0
+  description: API para gestionar reservas de laboratorios de la Facultad de Ingenieria
+paths:
+  /api/auth/cambiar-contrasena/:
+    post:
+      operationId: auth_cambiar_contrasena_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_ID: 1
+                  NuevaContrasena: Cambiar123
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_ID: 1
+                  NuevaContrasena: Cambiar123
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_ID: 1
+                  NuevaContrasena: Cambiar123
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioList'
+          description: ''
+      summary: Cambiar contrasena de usuarios
+  /api/auth/login/:
+    post:
+      operationId: auth_login_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Contrasena: Cambiar123
+                  UMG_Usuario: ejemplo@umg.edu.gt
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Contrasena: Cambiar123
+                  UMG_Usuario: ejemplo@umg.edu.gt
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Contrasena: Cambiar123
+                  UMG_Usuario: ejemplo@umg.edu.gt
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioList'
+          description: ''
+      summary: Iniciar sesion de usuarios
+  /api/condiciones/:
+    get:
+      operationId: condiciones_retrieve
+      tags:
+      - condiciones
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CondicionList'
+          description: ''
+      summary: Obtener lista de condiciones
+    post:
+      operationId: condiciones_create
+      tags:
+      - condiciones
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CondicionList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Lab_ID: 1
+                  UMG_Fecha: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Tipo: string
+                  UMG_Motivo: string
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CondicionList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Lab_ID: 1
+                  UMG_Fecha: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Tipo: string
+                  UMG_Motivo: string
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CondicionList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Lab_ID: 1
+                  UMG_Fecha: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Tipo: string
+                  UMG_Motivo: string
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CondicionList'
+          description: ''
+      summary: Crear condiciones
+  /api/condiciones/{id}/:
+    put:
+      operationId: condiciones_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - condiciones
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CondicionList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Lab_ID: 1
+                  UMG_Fecha: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Tipo: string
+                  UMG_Motivo: string
+                  UMG_Estado: 1
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CondicionList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Lab_ID: 1
+                  UMG_Fecha: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Tipo: string
+                  UMG_Motivo: string
+                  UMG_Estado: 1
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CondicionList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Lab_ID: 1
+                  UMG_Fecha: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Tipo: string
+                  UMG_Motivo: string
+                  UMG_Estado: 1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CondicionList'
+          description: ''
+      summary: Actualizar condiciones
+  /api/labs/:
+    get:
+      operationId: labs_retrieve
+      tags:
+      - labs
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lab'
+          description: ''
+      summary: Obtener lista de labs
+    post:
+      operationId: labs_create
+      tags:
+      - labs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lab'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Nombre: string
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lab'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Nombre: string
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lab'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Nombre: string
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lab'
+          description: ''
+      summary: Crear labs
+  /api/labs/{id}/:
+    put:
+      operationId: labs_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - labs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lab'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Estado: 1
+                  UMG_Nombre: string
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lab'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Estado: 1
+                  UMG_Nombre: string
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lab'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Estado: 1
+                  UMG_Nombre: string
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lab'
+          description: ''
+      summary: Actualizar labs
+  /api/labs/disponibles/:
+    get:
+      operationId: labs_disponibles_retrieve
+      description: |-
+        Como docente, quiero consultar los laboratorios disponibles filtrando por
+        fecha y horario, para elegir el espacio adecuado antes de registrar mi
+        reserva.
+
+        GET /api/labs/disponibles/?fecha=YYYY-MM-DD&hora_inicio=HH:MM&hora_fin=HH:MM
+      tags:
+      - labs
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lab'
+          description: ''
+      summary: Obtener labs disponibles
+      parameters:
+      - name: fecha
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '2026-08-08'
+      - name: hora_inicio
+        in: query
+        required: false
+        schema:
+          type: string
+        example: 08:00:00
+      - name: hora_fin
+        in: query
+        required: false
+        schema:
+          type: string
+        example: 08:00:00
+  /api/logs/:
+    get:
+      operationId: logs_retrieve
+      tags:
+      - logs
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogEntry'
+          description: ''
+      summary: Obtener lista de logs
+      parameters:
+      - name: UMG_User_ID
+        in: query
+        required: false
+        schema:
+          type: string
+        example: 1
+  /api/reservas/:
+    get:
+      operationId: reservas_listar
+      tags:
+      - reservas
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservaList'
+          description: ''
+      summary: Obtener lista de reservas
+      parameters:
+      - name: labId
+        in: query
+        required: false
+        schema:
+          type: string
+        example: 1
+      - name: fecha
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '2026-08-08'
+      - name: userId
+        in: query
+        required: false
+        schema:
+          type: string
+        example: 1
+    post:
+      operationId: reservas_crear
+      tags:
+      - reservas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservaList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_User_ID: 1
+                  UMG_Lab_ID: 1
+                  UMG_Fecha_Reserva: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Motivo: string
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReservaList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_User_ID: 1
+                  UMG_Lab_ID: 1
+                  UMG_Fecha_Reserva: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Motivo: string
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReservaList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_User_ID: 1
+                  UMG_Lab_ID: 1
+                  UMG_Fecha_Reserva: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Motivo: string
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservaList'
+          description: ''
+      summary: Crear reservas
+  /api/reservas/{id}/:
+    get:
+      operationId: reservas_obtener_detalle
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reservas
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservaList'
+          description: ''
+      summary: Obtener detalle de reservas
+  /api/reservas/{id}/cancelar/:
+    patch:
+      operationId: reservas_cancelar_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reservas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedReservaList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Solicitante_ID: 1
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedReservaList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Solicitante_ID: 1
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedReservaList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Solicitante_ID: 1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservaList'
+          description: ''
+      summary: Cancelar reservas
+  /api/reservas/{id}/modificar/:
+    put:
+      operationId: reservas_modificar_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reservas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservaList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_User_ID: 1
+                  UMG_Lab_ID: 1
+                  UMG_Fecha_Reserva: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Solicitante_ID: 1
+                  UMG_Motivo: string
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReservaList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_User_ID: 1
+                  UMG_Lab_ID: 1
+                  UMG_Fecha_Reserva: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Solicitante_ID: 1
+                  UMG_Motivo: string
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReservaList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_User_ID: 1
+                  UMG_Lab_ID: 1
+                  UMG_Fecha_Reserva: '2026-08-08'
+                  UMG_Hora_Inicio: 08:00:00
+                  UMG_Hora_Fin: 08:00:00
+                  UMG_Solicitante_ID: 1
+                  UMG_Motivo: string
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservaList'
+          description: ''
+      summary: Modificar reservas
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/usuarios/:
+    get:
+      operationId: usuarios_retrieve
+      tags:
+      - usuarios
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioList'
+          description: ''
+      summary: Obtener lista de usuarios
+    post:
+      operationId: usuarios_create
+      tags:
+      - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Contrasena: Cambiar123
+                  UMG_Rol_ID: 1
+                  UMG_Nombre: string
+                  UMG_Apellido: 1
+                  UMG_Usuario: ejemplo@umg.edu.gt
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Contrasena: Cambiar123
+                  UMG_Rol_ID: 1
+                  UMG_Nombre: string
+                  UMG_Apellido: 1
+                  UMG_Usuario: ejemplo@umg.edu.gt
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  UMG_Contrasena: Cambiar123
+                  UMG_Rol_ID: 1
+                  UMG_Nombre: string
+                  UMG_Apellido: 1
+                  UMG_Usuario: ejemplo@umg.edu.gt
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioList'
+          description: ''
+      summary: Crear usuarios
+  /api/usuarios/{id}/inactivar/:
+    patch:
+      operationId: usuarios_inactivar_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuarioList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuarioList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuarioList'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioList'
+          description: ''
+      summary: Inactivar usuario
+  /api/usuarios/{id}/resetear-contrasena/:
+    patch:
+      operationId: usuarios_resetear_contrasena_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  ContrasenaTemporal: Cambiar123
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  ContrasenaTemporal: Cambiar123
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuarioList'
+            examples:
+              auto-generated:
+                summary: Estructura base generada automaticamente
+                value:
+                  ContrasenaTemporal: Cambiar123
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioList'
+          description: ''
+      summary: Restablecer contrasena de usuarios
+components:
+  schemas:
+    CondicionList:
+      type: object
+      properties:
+        UMG_ID:
+          type: integer
+          readOnly: true
+        UMG_Lab_ID:
+          type: integer
+          readOnly: true
+        UMG_Lab_Nombre:
+          type: string
+          readOnly: true
+        UMG_Fecha:
+          type: string
+          format: date
+          readOnly: true
+        UMG_Hora_Inicio:
+          type: string
+          format: time
+          readOnly: true
+        UMG_Hora_Fin:
+          type: string
+          format: time
+          readOnly: true
+        UMG_Tipo:
+          type: string
+          readOnly: true
+        UMG_Motivo:
+          type: string
+          readOnly: true
+        UMG_Estado:
+          type: integer
+          readOnly: true
+        UMG_Fecha_Registro:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - UMG_Estado
+      - UMG_Fecha
+      - UMG_Fecha_Registro
+      - UMG_Hora_Fin
+      - UMG_Hora_Inicio
+      - UMG_ID
+      - UMG_Lab_ID
+      - UMG_Lab_Nombre
+      - UMG_Motivo
+      - UMG_Tipo
+    Lab:
+      type: object
+      properties:
+        UMG_ID:
+          type: integer
+          readOnly: true
+        UMG_Nombre:
+          type: string
+        UMG_Estado:
+          type: integer
+        UMG_Reserva:
+          type: string
+          readOnly: true
+        UMG_Fecha_Registro:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - UMG_Estado
+      - UMG_Fecha_Registro
+      - UMG_ID
+      - UMG_Nombre
+      - UMG_Reserva
+    LogEntry:
+      type: object
+      properties:
+        umg_id:
+          type: integer
+          readOnly: true
+        umg_user:
+          type: integer
+          nullable: true
+        umg_accion:
+          type: string
+          maxLength: 50
+        umg_modulo:
+          type: string
+          maxLength: 50
+        umg_descripcion:
+          type: string
+        umg_fecha_registro:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - umg_accion
+      - umg_descripcion
+      - umg_fecha_registro
+      - umg_id
+      - umg_modulo
+    PatchedReservaList:
+      type: object
+      properties:
+        UMG_ID:
+          type: integer
+          readOnly: true
+        UMG_User_ID:
+          type: integer
+          readOnly: true
+        UMG_Docente_Nombre:
+          type: string
+          readOnly: true
+        UMG_Docente_Correo:
+          type: string
+          readOnly: true
+        UMG_Lab_ID:
+          type: integer
+          readOnly: true
+        UMG_Lab_Nombre:
+          type: string
+          readOnly: true
+        UMG_Fecha_Reserva:
+          type: string
+          format: date
+          readOnly: true
+        UMG_Hora_Inicio:
+          type: string
+          format: time
+          readOnly: true
+        UMG_Hora_Fin:
+          type: string
+          format: time
+          readOnly: true
+        UMG_Motivo:
+          type: string
+          readOnly: true
+        UMG_Estado:
+          type: string
+          readOnly: true
+        UMG_Fecha_Registro:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedUsuarioList:
+      type: object
+      properties:
+        UMG_ID:
+          type: integer
+          readOnly: true
+        UMG_Usuario:
+          type: string
+          readOnly: true
+        UMG_Nombre:
+          type: string
+          readOnly: true
+        UMG_Apellido:
+          type: string
+          readOnly: true
+        UMG_Rol_ID:
+          type: integer
+          readOnly: true
+        UMG_Rol_Nombre:
+          type: string
+          readOnly: true
+        UMG_Estado:
+          type: integer
+          readOnly: true
+        UMG_Ingreso:
+          type: integer
+          readOnly: true
+        UMG_Fecha_Creacion:
+          type: string
+          format: date-time
+          readOnly: true
+        UMG_Ultimo_Acceso:
+          type: string
+          format: date-time
+          readOnly: true
+    ReservaList:
+      type: object
+      properties:
+        UMG_ID:
+          type: integer
+          readOnly: true
+        UMG_User_ID:
+          type: integer
+          readOnly: true
+        UMG_Docente_Nombre:
+          type: string
+          readOnly: true
+        UMG_Docente_Correo:
+          type: string
+          readOnly: true
+        UMG_Lab_ID:
+          type: integer
+          readOnly: true
+        UMG_Lab_Nombre:
+          type: string
+          readOnly: true
+        UMG_Fecha_Reserva:
+          type: string
+          format: date
+          readOnly: true
+        UMG_Hora_Inicio:
+          type: string
+          format: time
+          readOnly: true
+        UMG_Hora_Fin:
+          type: string
+          format: time
+          readOnly: true
+        UMG_Motivo:
+          type: string
+          readOnly: true
+        UMG_Estado:
+          type: string
+          readOnly: true
+        UMG_Fecha_Registro:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - UMG_Docente_Correo
+      - UMG_Docente_Nombre
+      - UMG_Estado
+      - UMG_Fecha_Registro
+      - UMG_Fecha_Reserva
+      - UMG_Hora_Fin
+      - UMG_Hora_Inicio
+      - UMG_ID
+      - UMG_Lab_ID
+      - UMG_Lab_Nombre
+      - UMG_Motivo
+      - UMG_User_ID
+    UsuarioList:
+      type: object
+      properties:
+        UMG_ID:
+          type: integer
+          readOnly: true
+        UMG_Usuario:
+          type: string
+          readOnly: true
+        UMG_Nombre:
+          type: string
+          readOnly: true
+        UMG_Apellido:
+          type: string
+          readOnly: true
+        UMG_Rol_ID:
+          type: integer
+          readOnly: true
+        UMG_Rol_Nombre:
+          type: string
+          readOnly: true
+        UMG_Estado:
+          type: integer
+          readOnly: true
+        UMG_Ingreso:
+          type: integer
+          readOnly: true
+        UMG_Fecha_Creacion:
+          type: string
+          format: date-time
+          readOnly: true
+        UMG_Ultimo_Acceso:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - UMG_Apellido
+      - UMG_Estado
+      - UMG_Fecha_Creacion
+      - UMG_ID
+      - UMG_Ingreso
+      - UMG_Nombre
+      - UMG_Rol_ID
+      - UMG_Rol_Nombre
+      - UMG_Ultimo_Acceso
+      - UMG_Usuario
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

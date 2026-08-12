@@ -1,0 +1,53 @@
+{
+  "name": "reservas-front",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "overrides": {
+    "minimatch": "10.2.6",
+    "nanoid": "3.3.17",
+    "postcss": "8.5.25",
+    "sharp": "0.35.3"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:profiles": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 vitest run && NEXT_PUBLIC_API_PROFILE=v2 NEXT_PUBLIC_API_BASE_URL=http://localhost:8100 vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "contract": "node scripts/verify-api-contract.mjs",
+    "build:profiles": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 next build && NEXT_PUBLIC_API_PROFILE=v2 NEXT_PUBLIC_API_BASE_URL=http://localhost:8100 next build",
+    "check": "npm run contract && npm run lint && npm run test:profiles && npm run build:profiles"
+  },
+  "dependencies": {
+    "@khrizenriquez/reservas-design-tokens": "workspace:*",
+    "bulma": "1.0.4",
+    "next": "16.2.12",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@eslint/js": "9.39.5",
+    "@next/eslint-plugin-next": "16.2.12",
+    "@playwright/test": "1.62.1",
+    "@testing-library/jest-dom": "7.0.0",
+    "@testing-library/react": "16.3.2",
+    "eslint": "9.39.5",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.8.0",
+    "jsdom": "26.1.0",
+    "sass": "1.102.0",
+    "vitest": "3.2.7",
+    "yaml": "2.9.0"
+  }
+}
