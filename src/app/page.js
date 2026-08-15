@@ -1,12 +1,8 @@
+import Link from "next/link";
+import { LanguageSelector } from "@/components/LanguageSelector";
+
 export default function HomePage() {
   return (
-    <main className="section" aria-labelledby="page-title">
-      <div className="container">
-        <h1 id="page-title" className="title has-text-link-dark">
-          Reservas de laboratorios UMG
-        </h1>
-        <p className="subtitle">La base de la aplicación está lista.</p>
-      </div>
-    </main>
+    <main aria-labelledby="page-title"><section className="landing-hero"><nav aria-label="Principal"><strong>UMG · Ingeniería</strong><LanguageSelector /></nav><div className="landing-copy"><p className="eyebrow">GESTIÓN ACADÉMICA</p><h1 id="page-title">Reserva el laboratorio que tu clase necesita.</h1><p>Consulta disponibilidad, confirma tu espacio y mantén tu agenda académica al día.</p><Link className="button is-primary is-medium" href="/acceso">Acceso institucional</Link></div></section><section className="section landing-section" aria-labelledby="labs-title"><p className="eyebrow">ESPACIOS DISPONIBLES</p><h2 id="labs-title">Tres ambientes, un proceso claro.</h2><div className="columns">{["Cómputo y programación", "Redes y conectividad", "Desarrollo de proyectos"].map((name, index) => <article className="column" key={name}><div className={`lab-image lab-${index + 1}`} aria-hidden="true" /><h3>{name}</h3><p>Un espacio preparado para aprendizaje práctico y planificación docente.</p></article>)}</div></section><section className="section process" aria-labelledby="process-title"><h2 id="process-title">Cómo reservar</h2><ol><li><strong>Consulta</strong><span>Elige fecha y horario.</span></li><li><strong>Selecciona</strong><span>Encuentra un laboratorio libre.</span></li><li><strong>Confirma</strong><span>Registra el motivo de tu clase.</span></li></ol></section><section className="section landing-section" aria-labelledby="faq-title"><h2 id="faq-title">Preguntas frecuentes</h2><details><summary>¿Quién puede solicitar una reserva?</summary><p>Los usuarios institucionales autorizados pueden consultar y gestionar sus reservas.</p></details><details><summary>¿Dónde veo mi reserva?</summary><p>Después de ingresar, el portal mostrará tus reservas activas.</p></details></section></main>
   );
 }
