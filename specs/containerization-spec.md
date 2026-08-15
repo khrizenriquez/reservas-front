@@ -4,6 +4,8 @@
 
 Define container requirements for local development and reproducible startup using Podman.
 
+Containerization in this project complements free-hosting deployment (Netlify-first); it does not replace hosting deployment requirements.
+
 ## Requirements
 
 1. The frontend must run in a Podman-compatible container image.
@@ -12,6 +14,7 @@ Define container requirements for local development and reproducible startup usi
 4. The container must expose the app on port `3000`.
 5. The setup must support switching API base URL without image rebuild.
 6. The containerized setup must preserve trunk-based quality checks before merge.
+7. Containerized workflows must remain aligned with Netlify deployment behavior for environment variables and API base URL configuration.
 
 ## Non-functional constraints
 

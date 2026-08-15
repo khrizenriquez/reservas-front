@@ -17,6 +17,11 @@ Use a strict trunk-based workflow to build this project from a clean baseline wh
 - JavaScript
 - Bulma CSS
 
+## Hosting baseline
+
+- Primary free hosting target: Netlify
+- Secondary free hosting options are allowed only if they preserve the same security and quality gates.
+
 ## Required workflow
 
 1. Branch from `main` using naming convention.
@@ -51,6 +56,12 @@ Minimum required before merge:
 - `npm run contract`
 - `npm run check`
 - `npm run test:jest`
+
+## Deployment gates
+
+- Preview deployment must pass before merge.
+- Production deployment must use environment variables managed by hosting.
+- No secrets in repository, commit history, or build logs.
 
 ## Testing policy
 

@@ -15,6 +15,7 @@ Este directorio centraliza el modelo de trabajo para iniciar proyectos desde cer
 - construction-kickoff.md: pasos iniciales, restricciones y reglas de construccion.
 - architecture-flow.md: diagramas de arquitectura, flujo y secuencia cliente-API.
 - podman-runbook.md: ejecucion local con Podman y compose.
+- deployment-free-hosting.md: guia de despliegue en servicios gratuitos (Netlify-first).
 - adr/: decisiones de arquitectura (ADRs) versionadas.
 - requirements/: historias de usuario, criterios de aceptacion y matriz.
 - harness/: guias para ejecutar pruebas y recolectar evidencia.
@@ -47,6 +48,7 @@ Este baseline se alinea con estos artefactos existentes:
 - specs/api-contract.json
 - specs/contracts/legacy-openapi.yaml
 - specs/containerization-spec.md
+- specs/deployment-hosting-spec.md
 
 ## Fuente de verdad (repositorio actual)
 
@@ -56,4 +58,5 @@ Para evitar ambiguedad, en este proyecto la verdad normativa es:
 - Aceptacion: `specs/acceptance/LEG-WEB.feature`
 - Contrato: `specs/contracts/legacy-openapi.yaml` + `specs/api-contract.json`
 - Contenedores: `specs/containerization-spec.md` + `docs/podman-runbook.md`
+- Hosting gratuito: `specs/deployment-hosting-spec.md` + `docs/deployment-free-hosting.md`
 - Gates y comandos: se reactivan durante la fase de scaffold inicial.

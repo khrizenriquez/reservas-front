@@ -13,8 +13,16 @@ journeys that consume reservation HUs.
 - UI runtime: React
 - Language baseline: JavaScript
 - Styling baseline: Bulma CSS
+- Hosting baseline: Netlify (free tier) as primary target
 
 This specification does not define a pure React-only baseline. The default implementation is Next.js + React + Bulma.
+
+## Deployment baseline
+
+- The frontend must be deployable to Netlify free tier without functional regressions.
+- Branch/PR preview deployments should be enabled to validate UI and API connectivity before merge.
+- Production and preview must use distinct environment variable scopes.
+- API base URL must be configurable at deploy time.
 
 ## Product intent
 
