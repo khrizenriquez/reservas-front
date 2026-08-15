@@ -1,8 +1,0 @@
-title = "Reservas web secret scanning"
-
-[extend]
-useDefault = true
-
-[[allowlists]]
-description = "Next.js generated caches and manifests contain public build hashes, not credentials."
-paths = ['''^\.next/''']
