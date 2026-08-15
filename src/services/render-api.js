@@ -1,4 +1,5 @@
 const DEFAULT_BASE_URL = "https://umg-api-django.onrender.com";
+const runtimeBaseUrl = () => typeof window === "undefined" ? undefined : window.__RESERVAS_RUNTIME_CONFIG__?.apiBaseUrl;
 
 export class RenderApiError extends Error {
   constructor({ status = 0, code, details }) {
@@ -34,7 +35,7 @@ export function mapRenderRecord(record) {
   };
 }
 
-export function createRenderApiClient({ baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || DEFAULT_BASE_URL, fetchImpl = fetch } = {}) {
+export function createRenderApiClient({ baseUrl = runtimeBaseUrl() || process.env.NEXT_PUBLIC_API_BASE_URL || DEFAULT_BASE_URL, fetchImpl = fetch } = {}) {
   const request = async (path, { method = "GET", body, query } = {}) => {
     const url = new URL(path, `${baseUrl}/`);
     Object.entries(query ?? {}).forEach(([key, value]) => {

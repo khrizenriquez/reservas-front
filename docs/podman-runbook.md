@@ -4,15 +4,15 @@
 
 Run the frontend project locally using Podman-compatible container definitions.
 
-## Planned baseline
+## Runtime baseline
 
 - Container runtime: Podman
 - Compose command: `podman compose`
 - Main service: `web`
 
-## Planned files
+## Runtime files
 
-- `Containerfile` (or `Dockerfile` compatible with Podman)
+- `Containerfile` (Podman compatible multi-stage image)
 - `compose.yaml`
 - `.env.example`
 
@@ -34,6 +34,13 @@ podman compose down
 
 ## Notes
 
-- API base URL must point to the expected environment (Render or local stub).
+- API base URL defaults to Render v1. Override it at runtime without rebuilding:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=https://umg-api-django.onrender.com podman compose up --build
+```
+
+- The entrypoint writes `/runtime-config.js` when the container starts; this is
+  the only runtime configuration exposed to the browser.
 - No secrets should be committed to source control.
-- Health checks and container hardening are included in containerization tasks.
+- Validate the running app with `curl http://localhost:3000/`.
