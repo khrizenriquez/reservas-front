@@ -22,6 +22,7 @@ Implementation code, build files, and runtime folders will be recreated in contr
 - Product behavior: `specs/product-design.md`
 - Acceptance scenarios: `specs/acceptance/HU-018-web-client.feature`
 - Constraints traceability: `specs/constraints-traceability.md`
+- i18n and error specification: `specs/i18n-error-spec.md`
 - Team workflow rules: `AGENTS.md` + `docs/`
 
 ## Technical baseline
@@ -97,6 +98,7 @@ Minimum required before merging into `main`:
 - Static checks/lint.
 - Unit tests.
 - Jest coverage > 80%.
+- Friendly localized error behavior validated for critical user journeys.
 
 Note: command scripts are reintroduced during scaffold phase. The execution policy is defined now; runnable scripts are part of implementation tasks.
 

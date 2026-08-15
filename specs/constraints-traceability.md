@@ -22,6 +22,8 @@ Define and map implementation constraints to user stories and acceptance scenari
 | CST-008 | Optional Zod usage rule | `zod` allowed for complex runtime schema validation at API/form boundaries. | HU-018-S03, HU-018-S04, HU-018-S05 | Validation tests |
 | CST-009 | Netlify deployment readiness | Preview and production deployments must pass with env isolation and API connectivity. | HU-018-S01..HU-018-S08 | Deployment checks in `docs/deployment-free-hosting.md` |
 | CST-010 | Security and storage restrictions | Access token in memory only; no token in localStorage/sessionStorage/IndexedDB/logs. | HU-018-S02 | Security tests + code review |
+| CST-011 | Friendly API error UX | API 4xx/5xx responses map to friendly user-facing localized messages in forms and page-level status blocks. | HU-018-S03, HU-018-S04, HU-018-S05, HU-018-S08 | UI/error handling tests + accessibility checks |
+| CST-012 | i18n baseline | Spanish default and English selectable across public and authenticated surfaces. | HU-018-S01..HU-018-S08 | Localization tests + UX walkthrough |
 
 ## Working rules
 
@@ -29,3 +31,4 @@ Define and map implementation constraints to user stories and acceptance scenari
 2. Any dependency addition must update this matrix if it changes constraints.
 3. Any CORS-related change must update both `SECURITY.md` and this matrix.
 4. Acceptance validation is incomplete if mapped constraints are not verified.
+5. Any localization or error-copy change must update `specs/i18n-error-spec.md` and this matrix.

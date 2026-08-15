@@ -12,6 +12,7 @@
 - Container runtime target: Podman
 - Container orchestration target: Podman Compose
 - Hosting target: Netlify (free tier) primary
+- i18n baseline: Spanish default, English selectable
 
 ## Delivery and governance stack
 
@@ -34,6 +35,13 @@
 - `zod` is optional and recommended for boundary validation (API payload parsing, form schema validation) when complexity justifies it.
 - Any adoption of `zustand` or `zod` must be documented in specs and reflected in tests.
 
+## Visual and interaction policy
+
+- Dashboard/forms direction: Vuexy-inspired enterprise UI language.
+- Landing direction: Crafto-inspired modern marketing layout rhythm.
+- All implementations must be original and project-owned.
+- API error handling must produce friendly localized UI messages for 4xx/5xx cases.
+
 ## Architecture definition status
 
 Yes, architecture and patterns are already defined at baseline level and should drive implementation.
@@ -45,6 +53,8 @@ Defined sources:
 - Process and quality governance: `docs/spec-driven-development.md`, `AGENTS.md`
 - Architecture and sequence diagrams: `docs/architecture-flow.md`
 - Constraints traceability: `specs/constraints-traceability.md`
+- Design direction: `design.md`
+- i18n and error specification: `specs/i18n-error-spec.md`
 
 ## Architecture patterns to follow
 

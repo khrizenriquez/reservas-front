@@ -59,6 +59,20 @@ actions are checking availability, creating a reservation, understanding the nex
 reservation, and reacting to a change. Dense administration and reporting remain
 available without dominating the teacher experience.
 
+## Visual reference direction
+
+- Dashboard/forms interaction language should follow a Vuexy-style enterprise feel.
+- Landing composition should follow a Crafto-style premium visual rhythm.
+- Reference style must be interpreted and implemented with original project-owned code.
+
+## Media direction
+
+Approved baseline imagery references:
+
+- https://umg.edu.gt/img/admisiones/guatemala.webp
+- https://umg.edu.gt/img/admisiones/Edificio_medicina-odontologia.webp
+- https://umg.edu.gt/img/cu/centros-universitarios-t.webp
+
 ## Information architecture
 
 | Route | Audience | Purpose |
@@ -122,6 +136,7 @@ mobile theme. It conveys the product domain without decorative illustration.
   screens switch to labeled rows instead of horizontal overflow where practical.
 - Loading, empty, error, offline, forbidden, and success states are designed for each
   data surface.
+- API 4xx/5xx failures must resolve to friendly user copy (not raw backend detail text).
 
 ## Responsive behavior
 
@@ -156,4 +171,10 @@ Reconnection triggers revalidation.
 - Inputs have programmatic labels, descriptions, and error associations.
 - Status is never communicated by color alone.
 - Motion respects `prefers-reduced-motion`.
+
+## Language and localization
+
+- Default language is Spanish.
+- English must be selectable through visible language controls.
+- Error, validation, and status messages must be localized.
 

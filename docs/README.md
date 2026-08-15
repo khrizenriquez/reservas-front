@@ -10,6 +10,7 @@ Este directorio centraliza el modelo de trabajo para iniciar proyectos desde cer
 
 ## Mapa rapido
 
+- ../design.md: direccion visual y de interacciones.
 - vision-and-scope.md: alcance, limites y objetivos.
 - spec-driven-development.md: ciclo SDD y reglas de trazabilidad.
 - construction-kickoff.md: pasos iniciales, restricciones y reglas de construccion.
@@ -50,6 +51,7 @@ Este baseline se alinea con estos artefactos existentes:
 - specs/containerization-spec.md
 - specs/constraints-traceability.md
 - specs/deployment-hosting-spec.md
+- specs/i18n-error-spec.md
 
 ## Fuente de verdad (repositorio actual)
 
@@ -57,8 +59,10 @@ Para evitar ambiguedad, en este proyecto la verdad normativa es:
 
 - Producto y limites: `specs/product-design.md`
 - Aceptacion: `specs/acceptance/HU-018-web-client.feature`
+- Diseno e interacciones: `design.md`
 - Contrato: `specs/contracts/legacy-openapi.yaml` + `specs/api-contract.json`
 - Contenedores: `specs/containerization-spec.md` + `docs/podman-runbook.md`
 - Hosting gratuito: `specs/deployment-hosting-spec.md` + `docs/deployment-free-hosting.md`
 - Restricciones y mapeo: `specs/constraints-traceability.md`
+- i18n y errores: `specs/i18n-error-spec.md`
 - Gates y comandos: se reactivan durante la fase de scaffold inicial.
