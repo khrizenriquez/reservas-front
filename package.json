@@ -15,17 +15,23 @@
     "sharp": "0.35.3"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 next dev",
+    "build": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 next build",
+    "start": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 next start",
     "lint": "eslint .",
-    "test": "vitest run",
-    "test:profiles": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 vitest run && NEXT_PUBLIC_API_PROFILE=v2 NEXT_PUBLIC_API_BASE_URL=http://localhost:8100 vitest run",
-    "test:watch": "vitest",
-    "test:e2e": "playwright test",
-    "contract": "node scripts/verify-api-contract.mjs",
-    "build:profiles": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 next build && NEXT_PUBLIC_API_PROFILE=v2 NEXT_PUBLIC_API_BASE_URL=http://localhost:8100 next build",
-    "check": "npm run contract && npm run lint && npm run test:profiles && npm run build:profiles"
+    "test": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 vitest run",
+    "test:watch": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 vitest",
+    "test:e2e": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 playwright test",
+    "test:e2e:mock": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 playwright test tests/e2e/public.spec.js tests/e2e/accessibility.spec.js",
+    "test:e2e:seeded": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 playwright test tests/e2e/seeded-api.spec.js --workers=1",
+    "test:e2e:cross-client": "NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 playwright test tests/e2e/cross-client.spec.js --project=chromium --workers=1",
+    "test:pwa": "npm run build && NEXT_PUBLIC_API_PROFILE=legacy NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 PWA_E2E=1 PLAYWRIGHT_PRODUCTION=1 playwright test tests/e2e/pwa.spec.js --project=chromium",
+    "contract:generate": "node scripts/generate-legacy-consumer-contract.mjs --write",
+    "contract": "node scripts/generate-legacy-consumer-contract.mjs --check && node scripts/verify-api-contract.mjs",
+    "check": "npm run contract && npm run lint && npm test && npm run build",
+    "check:full": "npm run check && npm run test:e2e:mock && npm run test:pwa",
+    "test:jest": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "test:jest:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
   },
   "dependencies": {
     "@khrizenriquez/reservas-design-tokens": "workspace:*",
@@ -45,7 +51,9 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
     "globals": "17.8.0",
+    "jest": "30.2.0",
     "jsdom": "26.1.0",
+    "@jest/globals": "30.2.0",
     "sass": "1.102.0",
     "vitest": "3.2.7",
     "yaml": "2.9.0"

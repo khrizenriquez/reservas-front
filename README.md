@@ -1,42 +1,77 @@
-# Reservas Front
+# Reservas Front Reset Plan
 
-Landing, web application, and installable PWA for the UMG laboratory reservation
-platform. The client uses Next.js App Router, JavaScript, and Bulma; TypeScript is
-intentionally not part of this repository.
+This repository will follow a trunk-based workflow to rebuild from a clean baseline.
+Main stays stable and releasable. Work is delivered in short-lived branches and merged frequently.
 
-## Product surfaces
+## Source of truth
 
-- Public landing and laboratory overview.
-- Secure teacher workflows for availability, reservations, notifications, and
-  sessions.
-- Administrative views for global reservations, laboratories, users, audit, and
-  reports.
-- Installable PWA shell with read-only offline behavior.
+- API base source: https://umg-api-django.onrender.com/api/docs/
+- Contract baseline used in this repo: `specs/api-contract.json`
+- Product and acceptance specifications: `specs/`
+- Team rules and workflow: `docs/` and `AGENTS.md`
 
-The API URL is public configuration and is read from `NEXT_PUBLIC_API_BASE_URL`.
-Credentials, access tokens, cookies, push endpoints, and environment secrets must
-never be committed. Access tokens remain in memory; the API owns the HttpOnly refresh
-cookie and CSRF controls.
+## Trunk-based rules
 
-## Development
+- `main` is always releasable.
+- Keep branches short-lived and small.
+- Merge at least daily when work is ready.
+- Run automated checks before merge.
+- Delete branches after merge.
+- Keep active branches low (target: 3 or fewer in parallel).
+
+## Branch naming convention
+
+Use short English names only:
+
+- `feature/login`
+- `feature/backend-connectivity`
+- `fix/get-main-dashboard-info`
+
+## Commit message convention
+
+Use short native English messages matching branch scope:
+
+- `add login shell`
+- `connect dashboard api`
+- `fix dashboard summary`
+
+## API endpoint inventory (legacy contract)
+
+The current verified operation set is:
+
+| Operation | Method | Path |
+|---|---|---|
+| login | POST | /api/auth/login/ |
+| changePassword | POST | /api/auth/cambiar-contrasena/ |
+| listUsers | GET | /api/usuarios/ |
+| createUser | POST | /api/usuarios/ |
+| deactivateUser | PATCH | /api/usuarios/{id}/inactivar/ |
+| resetUserPassword | PATCH | /api/usuarios/{id}/resetear-contrasena/ |
+| listLabs | GET | /api/labs/ |
+| createLab | POST | /api/labs/ |
+| updateLab | PUT | /api/labs/{id}/ |
+| getLabAvailability | GET | /api/labs/disponibles/ |
+| listLabConditions | GET | /api/condiciones/ |
+| createLabCondition | POST | /api/condiciones/ |
+| updateLabCondition | PUT | /api/condiciones/{id}/ |
+| listReservations | GET | /api/reservas/ |
+| createReservation | POST | /api/reservas/ |
+| getReservation | GET | /api/reservas/{id}/ |
+| updateReservation | PUT | /api/reservas/{id}/modificar/ |
+| cancelReservation | PATCH | /api/reservas/{id}/cancelar/ |
+| listAuditLogs | GET | /api/logs/ |
+
+## Local quality gates
+
+Run before every merge to `main`:
 
 ```bash
-npm install
-npm run dev
+npm run contract
+npm run check
+npm run test:jest
 ```
 
-The API and Kong normally run at <http://localhost:8000>. This web client runs at
-<http://localhost:3000>.
+## Jest coverage policy
 
-## Quality gates
-
-```bash
-npm run lint
-npm test
-npm run build
-npm run test:e2e
-```
-
-The product and acceptance specifications live under `specs/`. Shared web/mobile
-visual tokens live under `packages/design-tokens/`.
-
+- Local Jest coverage must stay above 80%.
+- Coverage is enforced by threshold in Jest config.
