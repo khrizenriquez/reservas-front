@@ -12,6 +12,8 @@ Define deployment requirements for free hosting with Netlify as the primary targ
 4. Runtime environment variables must be configured in hosting settings.
 5. API base URL and API profile must be environment-driven.
 6. Deployment must not expose secrets in source, logs, or client bundles.
+7. Cross-origin API calls must satisfy the CORS constraints defined in product/security specifications.
+8. Deployment setup must preserve REST-first integration and native `fetch` client behavior.
 
 ## Operational constraints
 
@@ -24,4 +26,5 @@ Define deployment requirements for free hosting with Netlify as the primary targ
 - Preview deploy URL is generated for active branch/PR.
 - Production deploy is successful from `main`.
 - App can call the configured API base URL after deployment.
+- Credentialed cross-origin flows succeed only for approved origins.
 - Deployment and security checks are documented in `docs/deployment-free-hosting.md` and `SECURITY.md`.

@@ -16,6 +16,15 @@ Use a strict trunk-based workflow to build this project from a clean baseline wh
 - React
 - JavaScript
 - Bulma CSS
+- REST-first API integration
+- Native `fetch` + `async/await` (do not use Axios)
+
+## Dependency and patterns policy
+
+- Keep dependency count low; prefer native APIs.
+- `zustand` is optional and only when cross-route shared client state needs it.
+- `zod` is optional and recommended for complex runtime input/payload validation.
+- Any new dependency must be justified and mapped to acceptance criteria.
 
 ## Hosting baseline
 

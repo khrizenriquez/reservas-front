@@ -6,10 +6,12 @@
 - UI runtime: React
 - Language: JavaScript
 - Styling: Bulma CSS
+- HTTP client strategy: Native `fetch` + `async/await` (no Axios)
 - API contract format: OpenAPI 3 (`specs/contracts/legacy-openapi.yaml`)
 - Contract manifest: `specs/api-contract.json`
 - Container runtime target: Podman
 - Container orchestration target: Podman Compose
+- Hosting target: Netlify (free tier) primary
 
 ## Delivery and governance stack
 
@@ -18,6 +20,20 @@
 - Decision model: ADR-driven governance
 - Security baseline: `SECURITY.md`
 
+## Dependency policy
+
+- Keep dependencies minimal by default.
+- Prefer platform-native APIs and framework-native capabilities before adding libraries.
+- New dependency additions require explicit justification in PR notes.
+- `axios` is not allowed in baseline architecture.
+
+## State and validation policy
+
+- Default state approach: React local state/context per route scope.
+- `zustand` is optional and only allowed when cross-route client state cannot be managed cleanly with local/context state.
+- `zod` is optional and recommended for boundary validation (API payload parsing, form schema validation) when complexity justifies it.
+- Any adoption of `zustand` or `zod` must be documented in specs and reflected in tests.
+
 ## Architecture definition status
 
 Yes, architecture and patterns are already defined at baseline level and should drive implementation.
@@ -25,9 +41,10 @@ Yes, architecture and patterns are already defined at baseline level and should 
 Defined sources:
 
 - Product and route behavior: `specs/product-design.md`
-- Acceptance scenarios: `specs/acceptance/LEG-WEB.feature`
+- Acceptance scenarios: `specs/acceptance/HU-018-web-client.feature`
 - Process and quality governance: `docs/spec-driven-development.md`, `AGENTS.md`
 - Architecture and sequence diagrams: `docs/architecture-flow.md`
+- Constraints traceability: `specs/constraints-traceability.md`
 
 ## Architecture patterns to follow
 
@@ -45,6 +62,8 @@ Defined sources:
   - Small branches, frequent merges, always-releasable `main`.
 - Quality-gate pattern:
   - Contract validation + tests + coverage thresholds before merge.
+- CORS governance pattern:
+  - Credentialed cross-origin requests require explicit origin allowlists and strict preflight policy.
 
 ## Client-to-API interaction model
 
