@@ -17,8 +17,8 @@ Implementation code, build files, and runtime folders will be recreated in contr
 ## Source of truth
 
 - Primary API docs: https://umg-api-django.onrender.com/api/docs/
-- Local contract baseline: `specs/api-contract.json`
-- API contract snapshot: `specs/contracts/legacy-openapi.yaml`
+- Local Render v1 contract baseline: `specs/api-contract.json`
+- API contract snapshot: `specs/contracts/render-v1-openapi.yaml`
 - Product behavior: `specs/product-design.md`
 - Acceptance scenarios: `specs/acceptance/HU-018-web-client.feature`
 - Constraints traceability: `specs/constraints-traceability.md`
@@ -42,13 +42,13 @@ The target flow is:
 
 1. User interacts with web UI routes (`/`, `/acceso`, `/portal/...`).
 2. UI layer calls application/client services.
-3. Client services map requests to legacy contract operations.
+3. Client services map requests only to published Render v1 contract operations.
 4. API requests go to the Django API source through the configured base URL.
 5. Responses are normalized for UI state rendering.
 
 Architecture and sequence diagrams are documented in `docs/architecture-flow.md`.
 
-## API endpoint inventory (legacy contract)
+## API endpoint inventory (Render v1 contract)
 
 | Operation | Method | Path |
 |---|---|---|

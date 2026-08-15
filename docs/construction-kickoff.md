@@ -17,8 +17,8 @@ This baseline is not a pure React-only setup. It is Next.js + React + Bulma.
 
 1. Validate source of truth documents:
    - `specs/product-design.md`
-   - `specs/acceptance/LEG-WEB.feature`
-   - `specs/traceability.md`
+   - `specs/acceptance/HU-018-web-client.feature`
+   - `specs/constraints-traceability.md`
    - `specs/api-contract.json`
 2. Confirm branch and commit conventions from `AGENTS.md`.
 3. Confirm quality gates and test policy (Jest >= 80% coverage).

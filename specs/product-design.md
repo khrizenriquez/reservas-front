@@ -26,7 +26,7 @@ This specification does not define a pure React-only baseline. The default imple
 
 ## Integration constraints
 
-- API style: REST only, aligned to `specs/api-contract.json` and `specs/contracts/legacy-openapi.yaml`.
+- API style: REST only, aligned to the Render v1 schema and `specs/api-contract.json` / `specs/contracts/render-v1-openapi.yaml`.
 - HTTP client: native `fetch` with `async/await`.
 - `axios` is not part of the approved baseline.
 - Credentials model: requests requiring session continuity use `credentials: include`.
@@ -177,4 +177,3 @@ Reconnection triggers revalidation.
 - Default language is Spanish.
 - English must be selectable through visible language controls.
 - Error, validation, and status messages must be localized.
-

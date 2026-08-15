@@ -6,11 +6,11 @@ La especificacion es la fuente de verdad. El codigo implementa la spec; no la re
 
 ## Perfil vigente de referencia
 
-Para este repositorio, el perfil vigente es `legacy` y su alcance funcional esta descrito por IDs `LEG-WEB-*`, `ERR-001` y `LEG-INT-001`.
+Para este repositorio, el único perfil vigente es Render v1 y su alcance funcional está descrito por HU-018 y sus escenarios.
 
 - Catalogo funcional: `specs/product-design.md`
-- Escenarios: `specs/acceptance/LEG-WEB.feature`
-- Matriz normativa: `specs/traceability.md`
+- Escenarios: `specs/acceptance/HU-018-web-client.feature`
+- Matriz normativa: `specs/constraints-traceability.md`
 
 ## Artefactos obligatorios
 
@@ -43,7 +43,7 @@ Ningun requisito se considera cerrado sin evidencia automatizada o checklist man
 
 - `npm run contract`
 - `npm run check`
-- `npm run check:full` cuando el cambio impacta UX/E2E/PWA
+- `npm run test:jest` con cobertura global superior a 80%
 
 ## Politica trunk-based
 

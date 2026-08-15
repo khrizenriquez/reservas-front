@@ -12,7 +12,7 @@ Define and map implementation constraints to user stories and acceptance scenari
 
 | Constraint ID | Constraint | How we implement it | Mapped scenarios | Verification evidence |
 |---|---|---|---|---|
-| CST-001 | REST-first API integration | Use only contract operations from `specs/api-contract.json` and OpenAPI paths from `specs/contracts/legacy-openapi.yaml`. | HU-018-S02, HU-018-S03, HU-018-S04, HU-018-S05, HU-018-S06 | Contract checks + API integration tests |
+| CST-001 | REST-first API integration | Use only contract operations from `specs/api-contract.json` and OpenAPI paths from the Render v1 snapshot `specs/contracts/render-v1-openapi.yaml`. | HU-018-S02, HU-018-S03, HU-018-S04, HU-018-S05, HU-018-S06 | Contract checks + API integration tests |
 | CST-002 | Native async HTTP (no Axios) | HTTP calls use native `fetch` and `async/await`; avoid Axios dependency. | HU-018-S02, HU-018-S03, HU-018-S04, HU-018-S05 | Lint/dependency checks + code review |
 | CST-003 | CORS explicit allowlist | Backend allows only approved origins per env (local, preview, production); unknown origins denied. | HU-018-S02, HU-018-S03, HU-018-S04, HU-018-S05, HU-018-S06 | CORS integration checklist + deployment validation |
 | CST-004 | Credentialed CORS safety | For cookie/session flows, CORS uses explicit `Access-Control-Allow-Origin` and `Access-Control-Allow-Credentials=true` for approved origins only. | HU-018-S02 | Auth/session integration tests |

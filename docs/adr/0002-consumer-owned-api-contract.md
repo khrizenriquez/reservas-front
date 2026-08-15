@@ -5,7 +5,7 @@ Aprobado
 
 ## Contexto
 
-Se necesita evitar incompatibilidades silenciosas entre clientes y backend legacy/objetivo.
+Se necesita evitar incompatibilidades silenciosas entre el cliente y el API Render v1.
 
 ## Decision
 
