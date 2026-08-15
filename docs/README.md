@@ -13,6 +13,8 @@ Este directorio centraliza el modelo de trabajo para iniciar proyectos desde cer
 - vision-and-scope.md: alcance, limites y objetivos.
 - spec-driven-development.md: ciclo SDD y reglas de trazabilidad.
 - construction-kickoff.md: pasos iniciales, restricciones y reglas de construccion.
+- architecture-flow.md: diagramas de arquitectura, flujo y secuencia cliente-API.
+- podman-runbook.md: ejecucion local con Podman y compose.
 - adr/: decisiones de arquitectura (ADRs) versionadas.
 - requirements/: historias de usuario, criterios de aceptacion y matriz.
 - harness/: guias para ejecutar pruebas y recolectar evidencia.
@@ -42,9 +44,9 @@ Este baseline se alinea con estos artefactos existentes:
 
 - specs/product-design.md
 - specs/acceptance/LEG-WEB.feature
-- specs/traceability.md
 - specs/api-contract.json
-- scripts/verify-api-contract.mjs
+- specs/contracts/legacy-openapi.yaml
+- specs/containerization-spec.md
 
 ## Fuente de verdad (repositorio actual)
 
@@ -52,8 +54,6 @@ Para evitar ambiguedad, en este proyecto la verdad normativa es:
 
 - Producto y limites: `specs/product-design.md`
 - Aceptacion: `specs/acceptance/LEG-WEB.feature`
-- Trazabilidad SDD: `specs/traceability.md`
 - Contrato: `specs/contracts/legacy-openapi.yaml` + `specs/api-contract.json`
-- Gate de contrato: `npm run contract`
-- Gate base: `npm run check`
-- Gate ampliado: `npm run check:full`
+- Contenedores: `specs/containerization-spec.md` + `docs/podman-runbook.md`
+- Gates y comandos: se reactivan durante la fase de scaffold inicial.

@@ -1,43 +1,51 @@
-# Reservas Front Reset Plan
+# Reservas Front
 
-This repository will follow a trunk-based workflow to rebuild from a clean baseline.
-Main stays stable and releasable. Work is delivered in short-lived branches and merged frequently.
+This repository is intentionally reset to a documentation-first baseline so the web application can be rebuilt from scratch using spec-driven development and trunk-based delivery.
+
+## Current baseline state
+
+Only governance and specification assets are kept at root level:
+
+- `README.md`
+- `SECURITY.md`
+- `AGENTS.md`
+- `docs/`
+- `specs/`
+
+Implementation code, build files, and runtime folders will be recreated in controlled phases.
 
 ## Source of truth
 
-- API base source: https://umg-api-django.onrender.com/api/docs/
-- Contract baseline used in this repo: `specs/api-contract.json`
-- Product and acceptance specifications: `specs/`
-- Team rules and workflow: `docs/` and `AGENTS.md`
+- Primary API docs: https://umg-api-django.onrender.com/api/docs/
+- Local contract baseline: `specs/api-contract.json`
+- API contract snapshot: `specs/contracts/legacy-openapi.yaml`
+- Product behavior: `specs/product-design.md`
+- Acceptance scenarios: `specs/acceptance/LEG-WEB.feature`
+- Team workflow rules: `AGENTS.md` + `docs/`
 
-## Trunk-based rules
+## Technical baseline
 
-- `main` is always releasable.
-- Keep branches short-lived and small.
-- Merge at least daily when work is ready.
-- Run automated checks before merge.
-- Delete branches after merge.
-- Keep active branches low (target: 3 or fewer in parallel).
+- Framework: Next.js (App Router)
+- UI runtime: React
+- Language: JavaScript
+- CSS framework: Bulma
+- Container runtime target: Podman
 
-## Branch naming convention
+This project is not a pure React-only baseline.
 
-Use short English names only:
+## How the project works
 
-- `feature/login`
-- `feature/backend-connectivity`
-- `fix/get-main-dashboard-info`
+The target flow is:
 
-## Commit message convention
+1. User interacts with web UI routes (`/`, `/acceso`, `/portal/...`).
+2. UI layer calls application/client services.
+3. Client services map requests to legacy contract operations.
+4. API requests go to the Django API source through the configured base URL.
+5. Responses are normalized for UI state rendering.
 
-Use short native English messages matching branch scope:
-
-- `add login shell`
-- `connect dashboard api`
-- `fix dashboard summary`
+Architecture and sequence diagrams are documented in `docs/architecture-flow.md`.
 
 ## API endpoint inventory (legacy contract)
-
-The current verified operation set is:
 
 | Operation | Method | Path |
 |---|---|---|
@@ -61,17 +69,53 @@ The current verified operation set is:
 | cancelReservation | PATCH | /api/reservas/{id}/cancelar/ |
 | listAuditLogs | GET | /api/logs/ |
 
-## Local quality gates
+## Trunk-based workflow
 
-Run before every merge to `main`:
+- `main` must stay stable and releasable.
+- Branches are short-lived (`feature/*`, `fix/*`).
+- Merge in small batches with fast feedback.
+- Delete branches after merge.
 
-```bash
-npm run contract
-npm run check
-npm run test:jest
-```
+Branch examples:
 
-## Jest coverage policy
+- `feature/login`
+- `feature/backend-connectivity`
+- `fix/get-main-dashboard-info`
 
-- Local Jest coverage must stay above 80%.
-- Coverage is enforced by threshold in Jest config.
+Commit style:
+
+- Short native English messages.
+- Example: `add login shell`
+
+## Quality gates policy
+
+Minimum required before merging into `main`:
+
+- Contract validation.
+- Static checks/lint.
+- Unit tests.
+- Jest coverage > 80%.
+
+Note: command scripts are reintroduced during scaffold phase. The execution policy is defined now; runnable scripts are part of implementation tasks.
+
+## Podman container plan
+
+Containerized development is an explicit requirement.
+
+- Runtime: Podman
+- Orchestration: Podman Compose (`podman compose`)
+- Planned services:
+	- `web` (Next.js app)
+	- optional local `mock-api` for isolated testing
+
+Detailed container spec and runbook:
+
+- `specs/containerization-spec.md`
+- `docs/podman-runbook.md`
+
+## Start here
+
+1. Read `docs/construction-kickoff.md`.
+2. Review `todo-list.md`.
+3. Review `stack.md`.
+4. Implement in short feature branches following `AGENTS.md`.
