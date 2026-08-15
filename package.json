@@ -1,0 +1,33 @@
+{
+  "name": "reservas-front",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "contract": "node scripts/verify-api-contract.mjs",
+    "test:jest": "jest --coverage",
+    "check": "npm run lint && npm run test:jest"
+  },
+  "dependencies": {
+    "bulma": "^1.0.4",
+    "next": "^16.3.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "babel-jest": "^30.4.1",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.3.1",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.0"
+  }
+}

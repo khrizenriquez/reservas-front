@@ -1,0 +1,24 @@
+@import "bulma/css/bulma.min.css";
+
+:root {
+  color-scheme: light;
+  --academic-navy: #17355f;
+  --paper: #f4f1e8;
+  --ink: #1d2a36;
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+*:focus-visible {
+  outline: 3px solid #2376a8;
+  outline-offset: 3px;
+}
