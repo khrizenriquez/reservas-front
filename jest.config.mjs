@@ -19,6 +19,7 @@ export default createJestConfig({
       statements: 80
     }
   },
+  modulePathIgnorePatterns: ["<rootDir>/.next/"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   testEnvironment: "jest-environment-jsdom"
 });
