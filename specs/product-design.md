@@ -7,6 +7,15 @@ This versioned specification applies the approved decisions from ADR-010 and ADR
 to the web increment. It is the implementation contract for HU-018 and the web
 journeys that consume reservation HUs.
 
+## Implementation baseline
+
+- Framework: Next.js (App Router)
+- UI runtime: React
+- Language baseline: JavaScript
+- Styling baseline: Bulma CSS
+
+This specification does not define a pure React-only baseline. The default implementation is Next.js + React + Bulma.
+
 ## Product intent
 
 The product should feel like a dependable academic operations desk: calm enough for

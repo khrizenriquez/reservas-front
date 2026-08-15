@@ -12,10 +12,20 @@ Este directorio centraliza el modelo de trabajo para iniciar proyectos desde cer
 
 - vision-and-scope.md: alcance, limites y objetivos.
 - spec-driven-development.md: ciclo SDD y reglas de trazabilidad.
+- construction-kickoff.md: pasos iniciales, restricciones y reglas de construccion.
 - adr/: decisiones de arquitectura (ADRs) versionadas.
 - requirements/: historias de usuario, criterios de aceptacion y matriz.
 - harness/: guias para ejecutar pruebas y recolectar evidencia.
 - process/: convenciones de commits, PR y Definition of Done.
+
+## Baseline tecnico confirmado
+
+- Framework: Next.js (App Router)
+- UI runtime: React
+- Lenguaje: JavaScript
+- Estilos: Bulma
+
+No se considera un baseline de React puro sin Next.js.
 
 ## Flujo recomendado
 

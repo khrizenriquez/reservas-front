@@ -10,6 +10,13 @@ Use a strict trunk-based workflow to build this project from a clean baseline wh
 - Local verified contract baseline: `specs/api-contract.json`
 - Product and acceptance specs: `specs/`
 
+## Technical baseline
+
+- Next.js (App Router)
+- React
+- JavaScript
+- Bulma CSS
+
 ## Required workflow
 
 1. Branch from `main` using naming convention.
