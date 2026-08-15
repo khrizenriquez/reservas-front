@@ -20,6 +20,19 @@
 
 No item is complete without tests, traceability, and passing quality gates.
 
+## Current status and important notes
+
+- **Completed:** 6 of 15 delivery items; the next item is the public landing.
+- **Backend boundary:** Render v1 is the only supported API. No client flow may
+  depend on endpoints that its published schema does not expose.
+- **Runtime configuration:** Podman creates `runtime-config.js` at startup;
+  `NEXT_PUBLIC_API_BASE_URL` is a public URL, never a secret.
+- **Known product gaps:** reports and notifications remain non-data-backed until
+  Render publishes matching operations. Reservation idempotency must be verified
+  with Render before HU-018-S04 can be marked complete.
+- **Required closure:** every completed item has its own merged PR; quality gates
+  remain contract, lint, Jest coverage over 80%, and production build.
+
 ## Ordered delivery steps
 
 - [x] **01 — `feature/governance-render-v1`: lock Render v1 as the sole contract.** The docs and contract manifest now use the published Render schema and `render-v1-openapi.yaml`; absent endpoints are not substituted. Reports and notifications cannot make data requests until Render publishes matching operations. The documentation PR must validate every referenced local path and the published schema.
@@ -28,7 +41,7 @@ No item is complete without tests, traceability, and passing quality gates.
 - [x] **04 — `feature/render-api-client`: build the API boundary.** A native-`fetch` client implements only published Render operations, normalizes API records, and maps transport/4xx/5xx failures to localized error keys. Tests cover methods, URLs, bodies, query parameters, network failures, and status mappings. Maps CST-001, CST-002, and CST-011.
 - [x] **05 — `feature/podman-runtime`: enable reproducible local startup.** A Podman-compatible multi-stage Containerfile, `compose.yaml`, runtime configuration, and runbook are available. The image was built and validated on port 3000 with a configurable Render base URL and clean shutdown.
 - [x] **06 — `feature/ui-foundation`: implement the shared visual system.** Shared tokens, reduced-motion support, visible focus, ES/EN provider and selector, and localized accessible status/error states are implemented and tested. Maps HU-018-S08 and CST-011/012.
-- [ ] **07 — `feature/public-landing`: deliver `/`.** Build the Crafto-inspired original institutional landing using only approved imagery, three laboratory explanations, reservation process, FAQ, responsive layout, and access CTA. Test HU-018-S01, localization, accessibility landmarks, and the required call-to-action.
+- [x] **07 — `feature/public-landing`: deliver `/`.** The original institutional landing includes approved imagery, three laboratory explanations, reservation process, FAQ, responsive layout, visible language control, and access CTA. Tests cover HU-018-S01 landmarks and CTA.
 - [ ] **08 — `feature/render-login`: deliver `/acceso` using Render login.** Implement only `POST /api/auth/login/` according to the live Render contract. Verify the response behavior before defining the in-memory session shape; do not add refresh, logout, `/me`, local token persistence, or guessed headers. Test valid/invalid login, loading, localized validation/error states, and security storage restrictions. Map HU-018-S02.
 - [ ] **09 — `feature/portal-shell`: deliver authenticated shell and profile.** Build `/portal` and `/portal/perfil` from data actually available after Render login. Enforce client-side role-aware navigation as a usability layer only. Test route guards, focus order, responsive navigation, language control, and forbidden states.
 - [ ] **10 — `feature/lab-availability`: deliver availability search.** Build `/portal/disponibilidad` using `GET /api/labs/disponibles/` with `fecha`, `hora_inicio`, and `hora_fin`; introduce the accessible laboratory time rail. Test query mapping, input validation, free/empty/error states, keyboard interaction, and offline read-only messaging. Map HU-018-S03.
