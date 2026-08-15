@@ -1,16 +1,49 @@
+import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
 import { constants } from "node:fs";
+import { createRequire } from "node:module";
 import { resolve } from "node:path";
+
+const require = createRequire(import.meta.url);
+const {
+  validateManifest,
+  validatePublishedSchema,
+  validationMessage
+} = require("./contract/validate.cjs");
 
 const manifestPath = resolve("specs/api-contract.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-const profiles = Object.keys(manifest.profiles ?? {});
+const manifestErrors = validateManifest(manifest);
 
-if (profiles.length !== 1 || profiles[0] !== "render-v1") {
-  throw new Error("The contract manifest must contain only the Render v1 profile.");
+if (manifestErrors.length > 0) {
+  throw new Error(validationMessage(manifestErrors));
 }
 
-const snapshot = manifest.profiles["render-v1"].snapshot;
-await access(resolve(snapshot), constants.R_OK);
+const profile = manifest.profiles["render-v1"];
+const snapshotPath = resolve(profile.snapshot);
+await access(snapshotPath, constants.R_OK);
 
-console.log(`Render v1 contract manifest is valid: ${snapshot}`);
+const snapshot = await readFile(snapshotPath);
+const snapshotHash = createHash("sha256").update(snapshot).digest("hex");
+
+if (snapshotHash !== profile.sha256) {
+  throw new Error("The Render v1 snapshot hash does not match the contract manifest.");
+}
+
+const response = await fetch(profile.source, {
+  headers: { Accept: "application/json" },
+  signal: AbortSignal.timeout(30_000)
+});
+
+if (!response.ok) {
+  throw new Error(`Render schema request failed with HTTP ${response.status}.`);
+}
+
+const publishedSchema = await response.json();
+const schemaErrors = validatePublishedSchema(profile, publishedSchema);
+
+if (schemaErrors.length > 0) {
+  throw new Error(validationMessage(schemaErrors));
+}
+
+console.log(`Render v1 contract verified: ${profile.snapshot}`);

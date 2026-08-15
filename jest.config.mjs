@@ -6,7 +6,11 @@ const createJestConfig = nextJest({
 
 export default createJestConfig({
   clearMocks: true,
-  collectCoverageFrom: ["src/**/*.{js,jsx}", "!src/app/layout.js"],
+  collectCoverageFrom: [
+    "src/**/*.{js,jsx}",
+    "!src/app/layout.js",
+    "scripts/contract/**/*.cjs"
+  ],
   coverageThreshold: {
     global: {
       branches: 80,
