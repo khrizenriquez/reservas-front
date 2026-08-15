@@ -16,10 +16,9 @@ Ejecutar validaciones de forma repetible para proteger contrato, comportamiento 
 
 1. Validar contrato: `npm run contract`.
 2. Ejecutar gate base: `npm run check`.
-3. Ejecutar E2E mock: `npm run test:e2e:mock` cuando aplique.
-4. Ejecutar PWA: `npm run test:pwa` cuando aplique.
-5. Ejecutar seeded/cross-client solo con credenciales y stack real (`test:e2e:seeded`, `test:e2e:cross-client`).
-6. Guardar reportes y enlazarlos al commit/PR.
+3. Ejecutar `npm run test:jest` y comprobar la cobertura global superior a 80%.
+4. Ejecutar pruebas E2E, PWA o de accesibilidad cuando el ítem las requiera.
+5. Guardar reportes y enlazarlos al commit/PR.
 
 ## Politica de fallo
 

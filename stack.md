@@ -7,7 +7,7 @@
 - Language: JavaScript
 - Styling: Bulma CSS
 - HTTP client strategy: Native `fetch` + `async/await` (no Axios)
-- API contract format: OpenAPI 3 (`specs/contracts/legacy-openapi.yaml`)
+- API contract format: OpenAPI 3 (`specs/contracts/render-v1-openapi.yaml`)
 - Contract manifest: `specs/api-contract.json`
 - Container runtime target: Podman
 - Container orchestration target: Podman Compose

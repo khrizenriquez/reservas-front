@@ -14,12 +14,10 @@ Validar que `docs/` represente fielmente el estado real del proyecto y distingui
 ## Fuentes canonicas verificadas
 
 - `specs/product-design.md`
-- `specs/acceptance/LEG-WEB.feature`
-- `specs/traceability.md`
-- `specs/contracts/legacy-openapi.yaml`
+- `specs/acceptance/HU-018-web-client.feature`
+- `specs/constraints-traceability.md`
+- `specs/contracts/render-v1-openapi.yaml`
 - `specs/api-contract.json`
-- `scripts/verify-api-contract.mjs`
-- `package.json` scripts `contract`, `check`, `check:full`
 
 ## Alineaciones confirmadas
 
@@ -31,7 +29,7 @@ Validar que `docs/` represente fielmente el estado real del proyecto y distingui
 ## Delimitacion importante
 
 - `docs/requirements/*` es plantilla base para iniciar otro proyecto.
-- La trazabilidad normativa del proyecto actual permanece en `specs/traceability.md` con IDs `LEG-WEB-*`, `ERR-001`, `LEG-INT-001`.
+- La trazabilidad normativa del proyecto actual permanece en `specs/constraints-traceability.md` y los escenarios HU-018.
 
 ## No conformidades criticas
 
@@ -43,4 +41,4 @@ Al crear el nuevo repo, copiar `docs/` y luego:
 
 1. Reemplazar plantillas de `docs/requirements/*` por historias/criterios finales del nuevo alcance.
 2. Crear/actualizar ADRs desde 0001 segun decisiones del nuevo contexto.
-3. Implementar scripts equivalentes a `contract`, `check`, `check:full` y documentarlos en `docs/harness`.
+3. Implementar scripts `contract`, `check` y `test:jest`, y documentarlos en `docs/harness`.

@@ -47,7 +47,7 @@ Este baseline se alinea con estos artefactos existentes:
 - specs/product-design.md
 - specs/acceptance/HU-018-web-client.feature
 - specs/api-contract.json
-- specs/contracts/legacy-openapi.yaml
+- specs/contracts/render-v1-openapi.yaml
 - specs/containerization-spec.md
 - specs/constraints-traceability.md
 - specs/deployment-hosting-spec.md
@@ -60,7 +60,7 @@ Para evitar ambiguedad, en este proyecto la verdad normativa es:
 - Producto y limites: `specs/product-design.md`
 - Aceptacion: `specs/acceptance/HU-018-web-client.feature`
 - Diseno e interacciones: `design.md`
-- Contrato: `specs/contracts/legacy-openapi.yaml` + `specs/api-contract.json`
+- Contrato: schema Render v1 + `specs/contracts/render-v1-openapi.yaml` + `specs/api-contract.json`
 - Contenedores: `specs/containerization-spec.md` + `docs/podman-runbook.md`
 - Hosting gratuito: `specs/deployment-hosting-spec.md` + `docs/deployment-free-hosting.md`
 - Restricciones y mapeo: `specs/constraints-traceability.md`

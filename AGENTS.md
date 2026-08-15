@@ -7,7 +7,7 @@ Use a strict trunk-based workflow to build this project from a clean baseline wh
 ## Source systems
 
 - Primary API reference: https://umg-api-django.onrender.com/api/docs/
-- Local verified contract baseline: `specs/api-contract.json`
+- Local verified Render v1 contract baseline: `specs/api-contract.json`
 - Product and acceptance specs: `specs/`
 
 ## Technical baseline
