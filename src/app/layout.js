@@ -1,5 +1,6 @@
 import "./globals.css";
 import Script from "next/script";
+import { LanguageProvider } from "@/components/LanguageProvider";
 
 export const metadata = {
   title: "Reservas UMG",
@@ -11,7 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body>
         <Script src="/runtime-config.js" strategy="beforeInteractive" />
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

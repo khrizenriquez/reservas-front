@@ -5,6 +5,8 @@
   --academic-navy: #17355f;
   --paper: #f4f1e8;
   --ink: #1d2a36;
+  --surface: #fff;
+  --border: #d8dfe5;
 }
 
 html {
@@ -17,6 +19,12 @@ body {
   background: var(--paper);
   color: var(--ink);
 }
+
+.language-selector { display: inline-flex; gap: .5rem; align-items: center; color: var(--academic-navy); font-weight: 700; }
+.language-selector select { min-height: 44px; border: 1px solid var(--border); border-radius: .4rem; background: var(--surface); color: var(--ink); padding: .4rem; }
+.notification button { margin-top: .75rem; }
+@media (prefers-reduced-motion: no-preference) { .notification { animation: reveal .2s ease-out; } }
+@keyframes reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 *:focus-visible {
   outline: 3px solid #2376a8;
