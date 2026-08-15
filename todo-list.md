@@ -8,7 +8,7 @@ Rebuild the project from scratch using spec-driven development, trunk-based work
 
 - [ ] Validate source of truth files:
   - `specs/product-design.md`
-  - `specs/acceptance/LEG-WEB.feature`
+  - `specs/acceptance/HU-018-web-client.feature`
   - `specs/api-contract.json`
   - `specs/contracts/legacy-openapi.yaml`
 - [ ] Confirm branch/commit conventions in `AGENTS.md`.
@@ -44,6 +44,7 @@ Rebuild the project from scratch using spec-driven development, trunk-based work
 - [ ] Enforce Jest global coverage > 80%.
 - [ ] Add route/service unit tests.
 - [ ] Add acceptance-level checks mapped to `LEG-WEB` scenarios.
+- [ ] Add acceptance-level checks mapped to `HU-018` scenarios.
 
 ## Phase 5: Containerization with Podman
 

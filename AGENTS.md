@@ -16,6 +16,31 @@ Use a strict trunk-based workflow to build this project from a clean baseline wh
 - React
 - JavaScript
 - Bulma CSS
+- REST-first API integration
+- Native `fetch` + `async/await` (do not use Axios)
+
+## Design baseline
+
+- Dashboard/forms visual direction inspired by Vuexy-style admin UX.
+- Landing page visual direction inspired by Crafto-style composition.
+- Implement original components and styles; do not copy proprietary template source.
+- Use approved institutional imagery from:
+  - https://umg.edu.gt/img/admisiones/guatemala.webp
+  - https://umg.edu.gt/img/admisiones/Edificio_medicina-odontologia.webp
+  - https://umg.edu.gt/img/cu/centros-universitarios-t.webp
+
+## UX constraints
+
+- API 4xx/5xx must render friendly user-facing messages.
+- Language selector must support Spanish (default) and English.
+- Error and validation states must be accessible and localized.
+
+## Dependency and patterns policy
+
+- Keep dependency count low; prefer native APIs.
+- `zustand` is optional and only when cross-route shared client state needs it.
+- `zod` is optional and recommended for complex runtime input/payload validation.
+- Any new dependency must be justified and mapped to acceptance criteria.
 
 ## Hosting baseline
 

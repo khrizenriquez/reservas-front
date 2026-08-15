@@ -1,26 +1,35 @@
-# Acceptance Criteria Base
+# Acceptance Criteria Mapped
 
-## Reglas
+## Canonical source
 
-- Cada historia tiene escenarios verificables.
-- Cada escenario tiene identificador estable (ej. AC-001-S01).
-- Todo escenario debe mapear a pruebas automatizadas o checklist manual controlado.
+- `specs/acceptance/HU-018-web-client.feature`
 
-## Estructura
+## Scenario inventory
 
-- Historia: US-XXX
-- Escenario: AC-XXX-SYY
-- Given / When / Then
-- Evidencia esperada: prueba, reporte o checklist
+- `HU-018-S01`: Understand service from landing
+- `HU-018-S02`: Start secure web session
+- `HU-018-S03`: Search availability accessibly
+- `HU-018-S04`: Create reservation with idempotency
+- `HU-018-S05`: Manage owned future reservation
+- `HU-018-S06`: Use role-aware administration
+- `HU-018-S07`: Keep offline behavior safe
+- `HU-018-S08`: Complete journeys with assistive technology
 
-## Plantilla
+## Constraint mapping rule
 
-Historia: US-000
+Cada escenario debe estar mapeado a restricciones tecnicas en:
 
-Escenario: AC-000-S01
-- Given contexto inicial
-- When accion
-- Then resultado observable
+- `specs/constraints-traceability.md`
 
-Evidencia esperada:
-- test-id o ruta del reporte
+Especialmente para:
+
+- CORS y sesiones con credenciales
+- REST y contrato OpenAPI
+- `fetch` + `async/await` nativo
+- Politica de dependencias (`axios` no permitido)
+- Uso opcional de `zustand` y `zod` con justificacion
+
+## Evidence rule
+
+Un criterio solo se considera cumplido cuando existe evidencia verificable de pruebas
+automatizadas o checklist controlado, enlazada al commit correspondiente.
