@@ -48,6 +48,22 @@ The target flow is:
 
 Architecture and sequence diagrams are documented in `docs/architecture-flow.md`.
 
+## Frontend routes
+
+| Route | Access | Purpose |
+|---|---|---|
+| `/` | Public | Institutional landing page, laboratory overview, reservation process, FAQ, language selector, and access call to action. |
+| `/acceso` | Public | Accessible login form using only `POST /api/auth/login/`. |
+| `/portal` | Authenticated | Portal home and role-aware navigation shell. |
+| `/portal/perfil` | Authenticated | Current in-memory session profile. |
+| `/portal/disponibilidad` | Authenticated | Laboratory availability search for a selected date and interval. |
+| `/portal/reservas` | Authenticated | Reservation list, filters, detail, create, modify, and cancel flows permitted by Render v1. |
+| `/portal/administracion` | Administrator | Contract-backed management of laboratories, conditions, users, and audit records. |
+| `/_not-found` | Public | Framework-generated fallback for unmatched routes. |
+
+Authenticated routes require the successful Render login response held in memory.
+The client does not persist tokens, create a proxy, or use unverified API paths.
+
 ## API endpoint inventory (Render v1 contract)
 
 | Operation | Method | Path |
