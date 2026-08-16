@@ -35,5 +35,16 @@ We follow trunk-based development with rigorous security quality gates in our CI
 - Dependency vulnerability scan passes before release.
 - Deployment preview is validated before promoting to production.
 
+## Current Render CORS Evidence
+
+On 2026-08-15, a safe `OPTIONS /api/auth/login/` request from an unapproved test
+origin received `Access-Control-Allow-Origin: *` and no
+`Access-Control-Allow-Credentials: true`. That response is incompatible with this
+client's credentialed `fetch` calls. The frontend cannot correct this server-side
+policy. The Render owner must replace the wildcard with explicit Netlify preview
+and production origins and enable credentials only for those origins. Validate each
+deployed URL with `CORS_ORIGIN=https://<exact-url> npm run cors:check` before
+release promotion.
+
 ## Reporting a Security Vulnerability
 If you discover any security vulnerability, please do NOT create a public discussion or issue. Report it immediately by emailing the security team or raising a confidential advisory to ensure coordinated disclosure.

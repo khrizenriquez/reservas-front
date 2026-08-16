@@ -30,6 +30,10 @@ No item is complete without tests, traceability, and passing quality gates.
 - **Known product gaps:** reports and notifications remain non-data-backed until
   Render publishes matching operations. Reservation idempotency must be verified
   with Render before HU-018-S04 can be marked complete.
+- **Release blocker:** Render's observed preflight response uses wildcard CORS and
+  omits credential approval. Netlify preview/production cannot be accepted until
+  Render allows each exact origin with credentials; see
+  `docs/harness/release-evidence-netlify.md`.
 - **Required closure:** every completed item has its own merged PR; quality gates
   remain contract, lint, Jest coverage over 80%, and production build.
 
@@ -49,4 +53,4 @@ No item is complete without tests, traceability, and passing quality gates.
 - [x] **12 — `feature/reservation-management`: manage owned future bookings.** Reservations are loaded from Render and cancellation requires explicit browser confirmation before its published PATCH operation. Full ownership/future-state enforcement remains dependent on the response data supplied by Render.
 - [x] **13 — `feature/admin-render`: implement contract-backed administration.** The administration surface reads labs, conditions, users and audit through published Render operations. Reports and notifications remain excluded because Render exposes no matching operations.
 - [x] **14 — `feature/pwa-offline`: add safe PWA behavior.** The public-shell manifest and service worker cache only the public route; an accessible localized offline notice is shown, reservations revalidate on reconnect, and create/cancel controls are hard-disabled offline. Tests prove no mutation is queued or sent while offline. Maps HU-018-S07.
-- [ ] **15 — `feature/netlify-release`: deploy and close evidence.** Configure Netlify previews/production, environment isolation, security headers, and CORS validation with Render. Run full contract/check/Jest gates, verify coverage >80%, execute required accessibility/acceptance checks, complete the traceability matrix and release evidence, then validate production from `main`.
+- [ ] **15 — `feature/netlify-release`: deploy and close evidence.** Netlify build/header configuration, environment instructions, CORS validator, traceability matrix, and release-evidence template are prepared. It remains open until a real preview and production deploy pass CORS, accessibility/PWA walkthroughs, and Render's credentialed-origin configuration.
