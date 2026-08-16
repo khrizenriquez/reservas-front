@@ -15,6 +15,11 @@
 - [x] `npm run release:check` — committed Netlify configuration verified.
 - [x] `npm run build` — Next.js production build passes.
 - [x] `npm audit --omit=dev --audit-level=high` — 0 vulnerabilities reported.
+- [x] Local public/access/unauthenticated-portal routes return HTTP 200 under
+  `npm run dev`; the portal visibly requires access without an in-memory session.
+- [ ] Credentialed local Render flow — blocked by Render CORS; run
+  `CORS_ORIGIN=http://127.0.0.1:3000 npm run cors:check` after Render allows the
+  exact local origin.
 
 ## Required external evidence
 
@@ -35,6 +40,8 @@
   on 2026-08-15 and failed with `Access-Control-Allow-Origin: *` and no
   `Access-Control-Allow-Credentials`; this is evidence of the blocker, not a
   passed release check.
+- `CORS_ORIGIN=http://127.0.0.1:3000 npm run cors:check` also fails with the
+  same wildcard/no-credentials policy, so the issue precedes Netlify.
 - Render does not publish idempotency-key support, so HU-018-S04 remains partial.
 - Deploy URLs, reviewer identity and timestamps must be recorded here only after
   real Netlify deployments; they must not be fabricated from local build output.
