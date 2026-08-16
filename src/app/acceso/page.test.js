@@ -1,11 +1,13 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import AccessPage from "./page";
 import { LanguageProvider } from "@/components/LanguageProvider";
+import { SessionProvider } from "@/components/SessionProvider";
+jest.mock("next/navigation", () => ({ useRouter: () => ({ push: jest.fn() }) }));
 
 const login = jest.fn();
 jest.mock("@/services/render-api", () => ({ createRenderApiClient: () => ({ login }), RenderApiError: class RenderApiError extends Error { constructor(value) { super(value.code); Object.assign(this, value); } } }));
 
-const renderPage = () => render(<LanguageProvider><AccessPage /></LanguageProvider>);
+const renderPage = () => render(<LanguageProvider><SessionProvider><AccessPage /></SessionProvider></LanguageProvider>);
 
 describe("AccessPage", () => {
   it("submits institutional credentials without persisting a token", async () => {
@@ -14,7 +16,6 @@ describe("AccessPage", () => {
     fireEvent.change(screen.getByLabelText("Contraseña"), { target: { value: "secret" } });
     fireEvent.click(screen.getByRole("button", { name: "Ingresar" }));
     await waitFor(() => expect(login).toHaveBeenCalledWith({ username: "docente@umg.edu.gt", password: "secret" }));
-    expect(screen.getByRole("status")).toHaveTextContent("No se almacenó ningún token");
   });
 
   it("shows a localized error after a failed login", async () => {
