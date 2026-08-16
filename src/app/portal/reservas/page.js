@@ -1,0 +1,5 @@
+"use client";
+import {useState} from "react";
+import {createRenderApiClient} from "@/services/render-api";
+import {useSession} from "@/components/SessionProvider";
+export default function ReservationsPage(){const {session}=useSession();const [status,setStatus]=useState("idle");const submit=async(e)=>{e.preventDefault();const f=new FormData(e.currentTarget);setStatus("loading");await createRenderApiClient().createReservation({userId:session?.id,labId:Number(f.get("labId")),date:f.get("date"),startTime:f.get("startTime"),endTime:f.get("endTime"),reason:f.get("reason")});setStatus("success");};return <section><h1>Crear reserva</h1><form onSubmit={submit}><label>Laboratorio<input name="labId" type="number" required/></label><label>Fecha<input name="date" type="date" required/></label><label>Inicio<input name="startTime" type="time" required/></label><label>Fin<input name="endTime" type="time" required/></label><label>Motivo<textarea name="reason" required/></label><button className="button is-primary" disabled={status==="loading"}>Confirmar reserva</button></form>{status==="success"?<p role="status">Reserva creada.</p>:null}</section>}
