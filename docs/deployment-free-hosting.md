@@ -51,7 +51,9 @@ both files and must be configured in Vercel.
 1. Import the Git repository as a Vercel project.
 2. Keep the framework preset as Next.js and set the production branch to `main`.
 3. Do not replace the committed build command in the Vercel UI.
-4. Configure these public build-time variables for both Preview and Production:
+4. Keep Node.js on 22.x. `package.json` pins that supported major version so
+   Vercel does not automatically choose a newer major runtime.
+5. Configure these public build-time variables for both Preview and Production:
 
 | Scope | `NEXT_PUBLIC_API_BASE_URL` | `NEXT_PUBLIC_API_PROFILE` |
 |---|---|---|

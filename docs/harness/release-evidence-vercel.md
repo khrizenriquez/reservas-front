@@ -49,4 +49,7 @@
   command made a live Render schema request that timed out. The deterministic
   correction is included in this branch. The first Preview then reached Jest and
   exposed Vercel's `NODE_ENV=production` default; `test:jest` now explicitly
-  uses the React test runtime and is awaiting a green Preview redeploy.
+  uses the React test runtime. That Preview completed all gates and `next build`,
+  but Vercel's finalizer running Node 24 could not find its generated
+  `next-server.js.nft.json` manifest. The branch now pins Node 22.x, which is
+  the successful local build runtime, and is awaiting a green Preview redeploy.

@@ -44,7 +44,9 @@ published schema and reports failures. Release documentation, traceability, and
 the evidence checklist will record both gates and the Vercel build will retain
 the deterministic one. The Jest script will explicitly use `NODE_ENV=test` so
 Vercel's production build environment cannot load React's production test
-runtime.
+runtime. `package.json` will pin Node 22.x so Vercel uses the same supported
+major runtime as the validated local build rather than automatically moving to a
+newer major.
 
 ## Acceptance Criteria
 
@@ -58,3 +60,4 @@ runtime.
    Render v1 origin and anonymous credential policy.
 5. Jest passes when invoked from `NODE_ENV=production`, proving the host build
    environment cannot disable React test utilities.
+6. Vercel uses Node 22.x for Preview and Production builds.
