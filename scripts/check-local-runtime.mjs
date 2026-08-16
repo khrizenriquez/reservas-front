@@ -1,5 +1,5 @@
 const baseUrl = process.env.LOCAL_APP_URL ?? "http://127.0.0.1:3000";
-const routes = ["/", "/acceso", "/portal"];
+const routes = ["/", "/acceso", "/portal", "/runtime-config.js"];
 
 for (const route of routes) {
   const response = await fetch(`${baseUrl}${route}`, { redirect: "manual" });
