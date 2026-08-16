@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
 import { constants } from "node:fs";
 import { createRequire } from "node:module";
@@ -7,7 +6,7 @@ import { resolve } from "node:path";
 const require = createRequire(import.meta.url);
 const {
   validateManifest,
-  validatePublishedSchema,
+  validateSnapshot,
   validationMessage
 } = require("./contract/validate.cjs");
 
@@ -24,26 +23,10 @@ const snapshotPath = resolve(profile.snapshot);
 await access(snapshotPath, constants.R_OK);
 
 const snapshot = await readFile(snapshotPath);
-const snapshotHash = createHash("sha256").update(snapshot).digest("hex");
+const snapshotErrors = validateSnapshot(profile, snapshot);
 
-if (snapshotHash !== profile.sha256) {
-  throw new Error("The Render v1 snapshot hash does not match the contract manifest.");
+if (snapshotErrors.length > 0) {
+  throw new Error(validationMessage(snapshotErrors));
 }
 
-const response = await fetch(profile.source, {
-  headers: { Accept: "application/json" },
-  signal: AbortSignal.timeout(30_000)
-});
-
-if (!response.ok) {
-  throw new Error(`Render schema request failed with HTTP ${response.status}.`);
-}
-
-const publishedSchema = await response.json();
-const schemaErrors = validatePublishedSchema(profile, publishedSchema);
-
-if (schemaErrors.length > 0) {
-  throw new Error(validationMessage(schemaErrors));
-}
-
-console.log(`Render v1 contract verified: ${profile.snapshot}`);
+console.log(`Render v1 snapshot contract verified: ${profile.snapshot}`);

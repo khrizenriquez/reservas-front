@@ -17,11 +17,17 @@ Vercel as the sole hosting target.
 Before opening a deploy PR, start the application with `npm run dev` and run:
 
 ```sh
+npm run contract
+npm run contract:live
 npm run local:smoke
 CORS_ORIGIN=http://127.0.0.1:3000 npm run cors:check
 ```
 
-The smoke command verifies local route serving. The CORS command is mandatory for
+`contract` verifies the immutable Render v1 snapshot and is the deterministic
+Vercel build gate. `contract:live` verifies the current published Render schema
+as release evidence; it is intentionally outside the Vercel build command so a
+transient Render timeout cannot make the frontend deployment unavailable. The
+smoke command verifies local route serving. The CORS command is mandatory for
 the Render flows: the verified API contract permits anonymous use and the client
 uses `credentials: "omit"`, so Render's published wildcard response is valid.
 Do not replace Render with a local proxy or an invented frontend endpoint.
@@ -65,6 +71,7 @@ they must never contain passwords, tokens, cookies, or API keys.
 ## Quality gates before promotion
 
 - Contract validation passes.
+- Live Render schema validation is recorded as release evidence.
 - Lint and static checks pass.
 - Unit tests pass.
 - Coverage remains above 80%.

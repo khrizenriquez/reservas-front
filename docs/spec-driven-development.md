@@ -42,6 +42,7 @@ Ningun requisito se considera cerrado sin evidencia automatizada o checklist man
 ## Gates minimos obligatorios en este repo
 
 - `npm run contract`
+- `npm run contract:live` como evidencia de release fuera del build determinista
 - `npm run check`
 - `npm run test:jest` con cobertura global superior a 80%
 

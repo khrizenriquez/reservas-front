@@ -11,6 +11,7 @@
     "start": "next start",
     "lint": "eslint .",
     "contract": "node scripts/verify-api-contract.mjs",
+    "contract:live": "node scripts/verify-live-api-contract.mjs",
     "test:jest": "jest --coverage",
     "check": "npm run lint && npm run test:jest",
     "release:check": "node scripts/verify-release-config.mjs",
