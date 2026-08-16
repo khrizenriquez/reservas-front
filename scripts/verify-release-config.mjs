@@ -1,11 +1,32 @@
 import { readFile } from "node:fs/promises";
 
-const config = await readFile("netlify.toml", "utf8");
-const requiredSnippets = [
-  'command = "npm run contract && npm run check && npm run release:check && npm run build"',
-  'publish = ".next"',
-  'NODE_VERSION = "22"',
-  'NEXT_PUBLIC_API_PROFILE = "render-v1"',
+const requiredBuildCommand =
+  "npm run contract && npm run check && npm run release:check && npm run build";
+
+const [vercelConfigText, nextConfigText] = await Promise.all([
+  readFile("vercel.json", "utf8"),
+  readFile("next.config.mjs", "utf8")
+]);
+
+const vercelConfig = JSON.parse(vercelConfigText);
+const missing = [];
+
+if (vercelConfig.framework !== "nextjs") {
+  missing.push('Vercel framework "nextjs"');
+}
+
+if (vercelConfig.buildCommand !== requiredBuildCommand) {
+  missing.push("Vercel build quality gates");
+}
+
+if (
+  vercelConfigText.includes("NEXT_PUBLIC_API_BASE_URL") ||
+  vercelConfigText.includes("NEXT_PUBLIC_API_PROFILE")
+) {
+  missing.push("environment values must remain outside vercel.json");
+}
+
+const requiredNextConfigSnippets = [
   "Content-Security-Policy",
   "connect-src 'self' https://umg-api-django.onrender.com",
   "Permissions-Policy",
@@ -13,17 +34,20 @@ const requiredSnippets = [
   "Strict-Transport-Security",
   "X-Content-Type-Options",
   "X-Frame-Options",
-  'for = "/sw.js"',
-  "Cache-Control = \"no-cache, no-store, must-revalidate\""
+  'source: "/sw.js"',
+  "no-cache, no-store, must-revalidate"
 ];
 
-const missing = requiredSnippets.filter((snippet) => !config.includes(snippet));
+for (const snippet of requiredNextConfigSnippets) {
+  if (!nextConfigText.includes(snippet)) {
+    missing.push(`Next.js security header: ${snippet}`);
+  }
+}
+
 if (missing.length > 0) {
-  throw new Error(`Netlify release configuration is missing:\n${missing.map((item) => `- ${item}`).join("\n")}`);
+  throw new Error(
+    `Vercel release configuration is incomplete: ${missing.join(", ")}`
+  );
 }
 
-if (config.includes("NEXT_PUBLIC_API_BASE_URL =")) {
-  throw new Error("NEXT_PUBLIC_API_BASE_URL must be managed in Netlify, not committed to netlify.toml.");
-}
-
-console.log("Netlify release configuration verified.");
+console.log("Vercel release configuration verified.");

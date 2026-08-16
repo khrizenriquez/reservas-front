@@ -32,7 +32,7 @@ Implementation code, build files, and runtime folders will be recreated in contr
 - Language: JavaScript
 - CSS framework: Bulma
 - Container runtime target: Podman
-- Free hosting target: Netlify (primary), with equivalent free static/node hosting as fallback
+- Free hosting target: Vercel (sole target)
 
 This project is not a pure React-only baseline.
 
@@ -117,13 +117,13 @@ Detailed container spec and runbook:
 - `specs/containerization-spec.md`
 - `docs/podman-runbook.md`
 
-## Free hosting plan (Netlify-first)
+## Free hosting plan (Vercel-first)
 
-The frontend must be deployable to a free hosting service, with Netlify as the default target.
+The frontend must be deployable to Vercel as its only hosting target.
 
 Deployment expectations:
 
-- Production build must be compatible with Netlify build/runtime constraints.
+- Production build must be compatible with Vercel build/runtime constraints.
 - All environment variables must be managed in hosting settings (never committed).
 - Preview deployments must be enabled per branch/PR.
 - API base URL must be configurable per environment (preview/production).
@@ -138,7 +138,7 @@ Readiness gate before first production publish:
 1. Contract, lint, and tests are green.
 2. Jest coverage remains above 80%.
 3. Security policy checks for secrets and headers are satisfied.
-4. Netlify preview and production deployment both succeed.
+4. Vercel Preview and Production deployments both succeed.
 
 ## Start here
 

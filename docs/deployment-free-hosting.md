@@ -1,14 +1,16 @@
-# Free Hosting Deployment Guide (Netlify-first)
+# Free Hosting Deployment Guide (Vercel-first)
 
 ## Objective
 
-Provide a safe and repeatable deployment path for the frontend using free hosting, with Netlify as the primary target.
+Provide a safe, repeatable free-hosting deployment path for the frontend with
+Vercel as the sole hosting target.
 
-## Primary target
+## Deployment model
 
-- Platform: Netlify
+- Platform: Vercel
 - Deployment mode: Git-based continuous deployment
-- Environments: Preview (per PR/branch) and Production
+- Preview: every non-`main` branch/PR
+- Production: `main`
 
 ## Local-first validation
 
@@ -26,26 +28,25 @@ Do not replace Render with a local proxy or an invented frontend endpoint.
 
 ## Committed deployment configuration
 
-`netlify.toml` is the canonical build configuration. It pins Node 22, runs the
-contract/lint/Jest/release gates before `next build`, uses the standard Next.js
-`.next` publish directory, and sets security headers. Netlify detects the Next.js
-App Router runtime automatically; no Netlify plugin or extra dependency is needed.
+`vercel.json` is the canonical Vercel configuration. It runs the contract,
+lint/Jest, release-configuration, and production-build gates. Vercel detects the
+Next.js App Router project without an adapter or an additional dependency.
 
-The file deliberately does not commit `NEXT_PUBLIC_API_BASE_URL`: it is a public
-configuration value, but it must be managed by the hosting environment so preview
-and production scopes can be controlled independently.
+`next.config.mjs` provides CSP, HSTS, frame, MIME, referrer, permissions, and
+service-worker cache headers. Environment values are deliberately excluded from
+both files and must be configured in Vercel.
 
-## Required Netlify settings
+## Required Vercel settings
 
-Connect this repository with continuous deployment enabled. Keep the build values
-from `netlify.toml`; do not replace its command in the Netlify UI.
-
-Set these environment variables in Netlify site settings (never in source control):
+1. Import the Git repository as a Vercel project.
+2. Keep the framework preset as Next.js and set the production branch to `main`.
+3. Do not replace the committed build command in the Vercel UI.
+4. Configure these public build-time variables for both Preview and Production:
 
 | Scope | `NEXT_PUBLIC_API_BASE_URL` | `NEXT_PUBLIC_API_PROFILE` |
 |---|---|---|
 | Production (`main`) | `https://umg-api-django.onrender.com` | `render-v1` |
-| Deploy preview | `https://umg-api-django.onrender.com` | `render-v1` |
+| Preview (non-`main` branches) | `https://umg-api-django.onrender.com` | `render-v1` |
 
 No other profile or backend URL is valid. These names are public build-time values;
 they must never contain passwords, tokens, cookies, or API keys.
@@ -53,13 +54,13 @@ they must never contain passwords, tokens, cookies, or API keys.
 ## Baseline deployment flow
 
 1. Pass the local-first validation above.
-2. Push feature/fix branch and open its PR.
-3. Link the repository to Netlify; Netlify creates a deploy preview for the PR.
+2. Push the feature/fix branch and open its PR.
+3. Confirm Vercel created a Preview deployment for that branch.
 4. Run `CORS_ORIGIN=https://<preview-url> npm run cors:check`.
 5. Review the preview, build log, headers, and required quality gates.
-6. Merge to `main`; Netlify creates the production deploy.
+6. Merge to `main`; Vercel creates the Production deployment.
 7. Run `CORS_ORIGIN=https://<production-url> npm run cors:check`.
-8. Record both URLs and results in `docs/harness/release-evidence-netlify.md`.
+8. Record both URLs and results in `docs/harness/release-evidence-vercel.md`.
 
 ## Quality gates before promotion
 
@@ -67,13 +68,14 @@ they must never contain passwords, tokens, cookies, or API keys.
 - Lint and static checks pass.
 - Unit tests pass.
 - Coverage remains above 80%.
+- Vercel Preview deployment is green.
 
 ## Security checklist
 
 - No secrets committed in repository.
 - No sensitive values logged during build/deploy.
-- Preview and production variables are isolated.
-- `netlify.toml` provides CSP, HSTS, frame, MIME, referrer and permissions headers.
+- Preview and Production variables are isolated in Vercel.
+- `next.config.mjs` provides the required security headers.
 - `sw.js` is served with `no-cache` so an updated offline policy activates promptly.
 
 ## Render CORS validation
@@ -81,14 +83,6 @@ they must never contain passwords, tokens, cookies, or API keys.
 On 2026-08-15, Render returned `Access-Control-Allow-Origin: *`, allowed `POST`,
 and allowed `Content-Type` for `http://127.0.0.1:3000`. This is compatible with
 the published anonymous Render v1 contract because the client omits browser
-credentials. Run `cors:check` for each local, preview and production URL as a
+credentials. Run `cors:check` for each local, Preview, and Production URL as a
 release gate; do not introduce a cookie/credential flow unless Render publishes
 its explicit contract and CORS changes with it.
-
-## Fallback providers
-
-Other free providers are acceptable only if they preserve:
-
-- Branch preview workflow
-- Environment variable isolation
-- Equivalent security and quality gates

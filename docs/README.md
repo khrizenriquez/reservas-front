@@ -16,7 +16,7 @@ Este directorio centraliza el modelo de trabajo para iniciar proyectos desde cer
 - construction-kickoff.md: pasos iniciales, restricciones y reglas de construccion.
 - architecture-flow.md: diagramas de arquitectura, flujo y secuencia cliente-API.
 - podman-runbook.md: ejecucion local con Podman y compose.
-- deployment-free-hosting.md: guia de despliegue en servicios gratuitos (Netlify-first).
+- deployment-free-hosting.md: guia de despliegue en servicios gratuitos (Vercel-first).
 - adr/: decisiones de arquitectura (ADRs) versionadas.
 - requirements/: historias de usuario, criterios de aceptacion y matriz.
 - harness/: guias para ejecutar pruebas y recolectar evidencia.

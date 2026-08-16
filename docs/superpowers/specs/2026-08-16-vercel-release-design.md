@@ -8,7 +8,7 @@ each non-`main` branch and deploys production only from `main`. Render v1
 remains the sole backend and every browser request continues to use its
 published `/api/*` contract directly with `credentials: "omit"`.
 
-Netlify is removed as an active target. The repository will have no duplicate
+The prior hosting target is removed. The repository will have no duplicate
 provider configuration, deployment evidence, or provider-specific release
 checks.
 

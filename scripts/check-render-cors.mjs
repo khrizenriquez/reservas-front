@@ -2,7 +2,7 @@ const origin = process.env.CORS_ORIGIN;
 const endpoint = "https://umg-api-django.onrender.com/api/auth/login/";
 
 if (!origin) {
-  throw new Error("Set CORS_ORIGIN to the exact Netlify preview or production URL before validating CORS.");
+  throw new Error("Set CORS_ORIGIN to the exact Vercel preview or production URL before validating CORS.");
 }
 
 const response = await fetch(endpoint, {

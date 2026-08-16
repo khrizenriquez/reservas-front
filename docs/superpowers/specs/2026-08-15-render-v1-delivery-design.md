@@ -36,7 +36,7 @@ when green, delete the branch, and begin the next item from `main`.
 The dependency order is: governance and contract evidence, Next scaffold and
 quality harness, API client, local container runtime, shared accessible/i18n
 UI, public/login entry, portal and availability, reservation creation and
-management, administration, offline behavior, Netlify deployment, then release
+management, administration, offline behavior, Vercel deployment, then release
 evidence.
 
 ## Error handling and verification
