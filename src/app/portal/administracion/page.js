@@ -1,0 +1,4 @@
+"use client";
+import {useEffect,useState} from "react";
+import {createRenderApiClient} from "@/services/render-api";
+export default function AdminPage(){const [data,setData]=useState(null);useEffect(()=>{const api=createRenderApiClient();Promise.all([api.listLabs(),api.listLabConditions(),api.listUsers(),api.listAuditLogs()]).then(([labs,conditions,users,logs])=>setData({labs,conditions,users,logs})).catch(()=>setData({labs:[],conditions:[],users:[],logs:[]}));},[]);if(!data)return <p role="status">Cargando administración…</p>;return <section><h1>Administración</h1><p>Información obtenida exclusivamente desde Render.</p>{[["Laboratorios",data.labs],["Condiciones",data.conditions],["Usuarios",data.users],["Auditoría",data.logs]].map(([name,items])=><div key={name}><h2>{name}</h2><p>{items.length} registros</p></div>)}</section>}
