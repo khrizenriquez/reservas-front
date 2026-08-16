@@ -1,0 +1,27 @@
+[build]
+  command = "npm run contract && npm run check && npm run release:check && npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[context.production.environment]
+  NEXT_PUBLIC_API_PROFILE = "render-v1"
+
+[context.deploy-preview.environment]
+  NEXT_PUBLIC_API_PROFILE = "render-v1"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; connect-src 'self' https://umg-api-django.onrender.com; form-action 'self'; frame-ancestors 'none'; img-src 'self' data: https://umg.edu.gt; manifest-src 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; worker-src 'self'"
+    Permissions-Policy = "camera=(), geolocation=(), microphone=()"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
