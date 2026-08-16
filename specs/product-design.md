@@ -87,11 +87,11 @@ Approved baseline imagery references:
 | `/acceso` | Optional | Diagnostic login operation; direct portal entry remains available |
 | `/portal` | Direct | Operational summary from published Render data |
 | `/portal/disponibilidad` | Direct | Search free labs and begin a reservation |
-| `/portal/reservas` | Direct | List, filter, inspect, modify, and cancel |
+| `/portal/reservas` | Direct | Paginated list, filter, inspect, create, modify, and cancel in dialogs |
 | `/portal/notificaciones` | Unavailable | No Render v1 operation is published for this surface |
 | `/portal/reportes` | Unavailable | No Render v1 operation is published for this surface |
-| `/portal/administracion` | Direct | Labs, conditions, users, roles, and audit as published by Render |
-| `/portal/logs` | Direct | Visible audit log list from `GET /api/logs/` |
+| `/portal/administracion` | Direct | Paginated labs, conditions, users, and audit as published by Render, with modal workflows |
+| `/portal/logs` | Direct | Audit dashboard and paginated list from `GET /api/logs/?UMG_User_ID=<value>` |
 | `/portal/perfil` | Direct | Explains that no current identity/profile is published |
 
 ## Visual system
@@ -108,15 +108,18 @@ Approved baseline imagery references:
 - Border `#D8DFE5`: structural separation.
 - Danger `#B74343`: destructive and error states.
 
-Color is always paired with text, iconography, or shape. The light theme is the first
-release; tokens already reserve a dark theme without making it a release blocker.
+Color is always paired with text, iconography, or shape. Light and dark are both
+supported releases: dark uses near-black blue canvas, layered blue surfaces, elevated
+cards and high-contrast text rather than a simple inverted palette.
 
 ### Depth and surfaces
 
 The system uses borders and restrained shadows. Navigation is a solid navy plane;
 work areas use paper and white surfaces. Panels are grouped by hierarchy, not by
 placing every paragraph in a card. Floating effects are limited to menus, dialogs,
-and the sticky reservation summary.
+cards and the sticky reservation summary. Changes in theme, hover elevation and
+dialog reveal use transform, opacity, shadow and color with a restrained spring-like
+curve; they reduce to effectively no motion for `prefers-reduced-motion`.
 
 ### Typography and spacing
 
@@ -144,6 +147,10 @@ mobile theme. It conveys the product domain without decorative illustration.
 - Loading, empty, error, offline, forbidden, and success states are designed for each
   data surface.
 - API 4xx/5xx failures must resolve to friendly user copy (not raw backend detail text).
+- Client-side collections show 10 records by default and let people choose 10, 20 or
+  50 per page. The active page must remain valid when data changes.
+- Dialogs use `role="dialog"`, `aria-modal`, a visible heading, `Escape`, backdrop
+  dismissal when safe, focus restoration and localized close/cancel controls.
 
 ## Responsive behavior
 

@@ -106,6 +106,6 @@ export function createRenderApiClient({ baseUrl = runtimeBaseUrl() || process.en
     getReservation: operation(({ id }) => `/api/reservas/${id}/`, "GET"),
     updateReservation: operation(({ id }) => `/api/reservas/${id}/modificar/`, "PUT", reservationPayload),
     cancelReservation: operation(({ id }) => `/api/reservas/${id}/cancelar/`, "PATCH", ({ requesterId }) => requesterId === undefined ? undefined : { UMG_Solicitante_ID: requesterId }),
-    listAuditLogs: operation("/api/logs/", "GET")
+    listAuditLogs: ({ userId } = {}) => request("/api/logs/", { query: { UMG_User_ID: userId } })
   };
 }

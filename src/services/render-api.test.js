@@ -26,6 +26,13 @@ describe("Render API client", () => {
     expect(options).toEqual(expect.objectContaining({ method: "GET", credentials: "omit" }));
   });
 
+  it("sends the published audit user query and never fabricates an identity", async () => {
+    const fetchImpl = jest.fn().mockResolvedValue(response(200, []));
+    const client = createRenderApiClient({ baseUrl: "https://render.test", fetchImpl });
+    await client.listAuditLogs({ userId: 1 });
+    expect(fetchImpl.mock.calls[0][0].toString()).toBe("https://render.test/api/logs/?UMG_User_ID=1");
+  });
+
   it("uses friendly error keys for API and network failures", async () => {
     const client = createRenderApiClient({ baseUrl: "https://render.test", fetchImpl: jest.fn().mockResolvedValue(response(403, { detail: "no" })) });
     await expect(client.listLabs()).rejects.toMatchObject({ name: "RenderApiError", code: "api.forbidden", status: 403 });
@@ -38,7 +45,7 @@ describe("Render API client", () => {
     const client = createRenderApiClient({ baseUrl: "https://render.test", fetchImpl });
     await client.changePassword({ userId: 1, newPassword: "x" }); await client.listUsers(); await client.createUser({}); await client.deactivateUser({ id: 1 }); await client.resetUserPassword({ id: 1 });
     await client.listLabs(); await client.createLab({}); await client.updateLab({ id: 1 }); await client.listLabConditions(); await client.createLabCondition({}); await client.updateLabCondition({ id: 1 });
-    await client.listReservations(); await client.createReservation({}); await client.getReservation({ id: 1 }); await client.updateReservation({ id: 1 }); await client.cancelReservation({ id: 1 }); await client.listAuditLogs();
+    await client.listReservations(); await client.createReservation({}); await client.getReservation({ id: 1 }); await client.updateReservation({ id: 1 }); await client.cancelReservation({ id: 1 }); await client.listAuditLogs({ userId: 1 });
     expect(fetchImpl).toHaveBeenCalledTimes(17);
   });
 

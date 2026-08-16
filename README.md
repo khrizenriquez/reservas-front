@@ -57,14 +57,23 @@ Architecture and sequence diagrams are documented in `docs/architecture-flow.md`
 | `/portal` | Direct | Portal home and navigation shell using the published anonymous Render v1 contract. |
 | `/portal/perfil` | Direct | Explains that Render v1 does not publish a current-profile operation. |
 | `/portal/disponibilidad` | Direct | Laboratory availability search for a selected date and interval. |
-| `/portal/reservas` | Direct | Reservation list, filters, detail, create, modify, and cancel flows permitted by Render v1. |
-| `/portal/administracion` | Direct | Contract-backed management of laboratories, conditions, users, and audit records. |
-| `/portal/logs` | Direct | Visible Render v1 audit-log view using `GET /api/logs/`. |
+| `/portal/reservas` | Direct | Paginated reservation list plus modal detail, create, modify, and cancel flows permitted by Render v1. |
+| `/portal/administracion` | Direct | Paginated contract-backed management of laboratories, conditions, users, and audit records using modal workflows. |
+| `/portal/logs` | Direct | Audit dashboard and paginated Render v1 log view using `GET /api/logs/?UMG_User_ID=<value>`. |
 | `/_not-found` | Public | Framework-generated fallback for unmatched routes. |
 
 The client includes localized ES/EN interface copy, accessible loading states,
-route-level lazy loading and a persisted light/dark theme. Database values and
-URLs remain unchanged when the language changes.
+route-level lazy loading, 10/20/50 client-side pagination, accessible dialogs and
+a persisted premium light/dark theme. Database values and URLs remain unchanged
+when the language changes.
+
+### Audit logs and dashboard
+
+The live Render endpoint currently requires the published `UMG_User_ID` query
+parameter even though the captured schema marks it optional. The Logs route keeps
+that value visible and editable; it sends no fabricated identity, token, or extra
+endpoint. Its cards (total records, module count, leading action, module totals and
+recent daily activity) are calculated locally from the returned records.
 
 All portal routes are directly accessible because Render v1 publishes an anonymous
 security alternative. The client does not persist tokens, create a proxy, invent a
@@ -98,7 +107,7 @@ local identity or use unverified API paths.
 | getReservation | GET | /api/reservas/{id}/ |
 | updateReservation | PUT | /api/reservas/{id}/modificar/ |
 | cancelReservation | PATCH | /api/reservas/{id}/cancelar/ |
-| listAuditLogs | GET | /api/logs/ |
+| listAuditLogs | GET | /api/logs/?UMG_User_ID={userId} |
 
 ## Trunk-based workflow
 
