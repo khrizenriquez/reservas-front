@@ -26,5 +26,6 @@ Define deployment requirements for free hosting with Netlify as the primary targ
 - Preview deploy URL is generated for active branch/PR.
 - Production deploy is successful from `main`.
 - App can call the configured API base URL after deployment.
-- Credentialed cross-origin flows succeed only for approved origins.
+- Published Render v1 cross-origin calls succeed without browser credentials; any
+  future credentialed contract must use explicit approved origins.
 - Deployment and security checks are documented in `docs/deployment-free-hosting.md` and `SECURITY.md`.

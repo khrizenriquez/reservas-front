@@ -17,12 +17,14 @@ We follow trunk-based development with rigorous security quality gates in our CI
 
 ## API and CORS Security Controls
 
-- **CORS allowlist only:** Allow only approved origins per environment.
-- **No wildcard with credentials:** If credentials/cookies are enabled, `Access-Control-Allow-Origin` must never be `*`.
-- **Credential policy:** `Access-Control-Allow-Credentials` must be enabled only for approved origins.
-- **Method/header controls:** Restrict allowed methods/headers to those required by the REST contract.
-- **Preflight integrity:** OPTIONS/preflight handling must be validated for protected routes.
-- **Origin rejection:** Unknown origins must fail closed.
+- **Published Render mode:** Render v1 permits anonymous requests, so the client
+  explicitly uses `credentials: "omit"` and does not send cookies or tokens.
+- **Wildcard safety:** `Access-Control-Allow-Origin: *` is acceptable only while
+  browser credentials are omitted. A future credentialed contract must use exact
+  origins and `Access-Control-Allow-Credentials: true`.
+- **Method/header controls:** Restrict client methods/headers to those published by
+  the REST contract.
+- **Preflight integrity:** OPTIONS/preflight handling is validated for JSON POST.
 
 ## Client Security Architecture
 
@@ -37,14 +39,12 @@ We follow trunk-based development with rigorous security quality gates in our CI
 
 ## Current Render CORS Evidence
 
-On 2026-08-15, a safe `OPTIONS /api/auth/login/` request from an unapproved test
-origin received `Access-Control-Allow-Origin: *` and no
-`Access-Control-Allow-Credentials: true`. That response is incompatible with this
-client's credentialed `fetch` calls. The frontend cannot correct this server-side
-policy. The Render owner must replace the wildcard with explicit Netlify preview
-and production origins and enable credentials only for those origins. Validate each
-deployed URL with `CORS_ORIGIN=https://<exact-url> npm run cors:check` before
-release promotion.
+On 2026-08-15, a safe `OPTIONS /api/auth/login/` request returned
+`Access-Control-Allow-Origin: *`, allowed `POST`, and allowed `Content-Type`.
+Because the published contract permits anonymous access and the client omits
+credentials, that response supports local, preview and production requests.
+Validate each application URL with `CORS_ORIGIN=<exact-url> npm run cors:check`
+before release promotion.
 
 ## Reporting a Security Vulnerability
 If you discover any security vulnerability, please do NOT create a public discussion or issue. Report it immediately by emailing the security team or raising a confidential advisory to ensure coordinated disclosure.

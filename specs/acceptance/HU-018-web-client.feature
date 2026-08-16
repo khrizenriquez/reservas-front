@@ -11,8 +11,8 @@ Feature: Use the public landing and accessible web PWA
   Scenario: Start a secure web session
     Given an active institutional user
     When the user signs in with the web client
-    Then the refresh credential remains in an HttpOnly API cookie
-    And the access token is kept only in memory
+    Then the verified Render login response remains only in memory
+    And the client does not assume a refresh cookie, access token, or unpublished auth endpoint
 
   @HU-018-S03 @HU-003
   Scenario: Search availability accessibly
@@ -49,4 +49,3 @@ Feature: Use the public landing and accessible web PWA
     Given a keyboard or screen-reader user
     Then landing login availability and reservation controls have logical focus
     And errors and state changes are announced without relying only on color
-

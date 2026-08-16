@@ -7,7 +7,7 @@ describe("Render API client", () => {
     const fetchImpl = jest.fn().mockResolvedValue(response(200, [{ UMG_ID: 1, UMG_Nombre: "A1", UMG_Estado: 1 }]));
     const client = createRenderApiClient({ baseUrl: "https://render.test", fetchImpl });
     await expect(client.login({ username: "docente@umg.edu.gt", password: "secret" })).resolves.toEqual([expect.objectContaining({ id: 1, name: "A1" })]);
-    expect(fetchImpl).toHaveBeenCalledWith(expect.objectContaining({ pathname: "/api/auth/login/" }), expect.objectContaining({ method: "POST", credentials: "include", body: JSON.stringify({ UMG_Usuario: "docente@umg.edu.gt", UMG_Contrasena: "secret" }) }));
+    expect(fetchImpl).toHaveBeenCalledWith(expect.objectContaining({ pathname: "/api/auth/login/" }), expect.objectContaining({ method: "POST", credentials: "omit", body: JSON.stringify({ UMG_Usuario: "docente@umg.edu.gt", UMG_Contrasena: "secret" }) }));
   });
 
   it("maps availability query parameters and contract paths", async () => {

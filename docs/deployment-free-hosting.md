@@ -10,6 +10,20 @@ Provide a safe and repeatable deployment path for the frontend using free hostin
 - Deployment mode: Git-based continuous deployment
 - Environments: Preview (per PR/branch) and Production
 
+## Local-first validation
+
+Before opening a deploy PR, start the application with `npm run dev` and run:
+
+```sh
+npm run local:smoke
+CORS_ORIGIN=http://127.0.0.1:3000 npm run cors:check
+```
+
+The smoke command verifies local route serving. The CORS command is mandatory for
+the Render flows: the verified API contract permits anonymous use and the client
+uses `credentials: "omit"`, so Render's published wildcard response is valid.
+Do not replace Render with a local proxy or an invented frontend endpoint.
+
 ## Committed deployment configuration
 
 `netlify.toml` is the canonical build configuration. It pins Node 22, runs the
@@ -31,22 +45,21 @@ Set these environment variables in Netlify site settings (never in source contro
 | Scope | `NEXT_PUBLIC_API_BASE_URL` | `NEXT_PUBLIC_API_PROFILE` |
 |---|---|---|
 | Production (`main`) | `https://umg-api-django.onrender.com` | `render-v1` |
-| Deploy preview | `https://umg-api-django.onrender.com` only after its exact preview origin is allowlisted in Render | `render-v1` |
+| Deploy preview | `https://umg-api-django.onrender.com` | `render-v1` |
 
 No other profile or backend URL is valid. These names are public build-time values;
 they must never contain passwords, tokens, cookies, or API keys.
 
 ## Baseline deployment flow
 
-1. Push feature/fix branch and open its PR.
-2. Link the repository to Netlify; Netlify creates a deploy preview for the PR.
-3. Add the exact preview URL to Render's credentialed CORS allowlist and run
-   `CORS_ORIGIN=https://<preview-url> npm run cors:check`.
-4. Review the preview, build log, headers, and required quality gates.
-5. Merge to `main`; Netlify creates the production deploy.
-6. Add the exact production URL to the same Render allowlist and run
-   `CORS_ORIGIN=https://<production-url> npm run cors:check`.
-7. Record both URLs and results in `docs/harness/release-evidence-netlify.md`.
+1. Pass the local-first validation above.
+2. Push feature/fix branch and open its PR.
+3. Link the repository to Netlify; Netlify creates a deploy preview for the PR.
+4. Run `CORS_ORIGIN=https://<preview-url> npm run cors:check`.
+5. Review the preview, build log, headers, and required quality gates.
+6. Merge to `main`; Netlify creates the production deploy.
+7. Run `CORS_ORIGIN=https://<production-url> npm run cors:check`.
+8. Record both URLs and results in `docs/harness/release-evidence-netlify.md`.
 
 ## Quality gates before promotion
 
@@ -63,14 +76,14 @@ they must never contain passwords, tokens, cookies, or API keys.
 - `netlify.toml` provides CSP, HSTS, frame, MIME, referrer and permissions headers.
 - `sw.js` is served with `no-cache` so an updated offline policy activates promptly.
 
-## Render CORS release blocker
+## Render CORS validation
 
-On 2026-08-15, an unauthenticated preflight to Render using an unapproved origin
-returned `Access-Control-Allow-Origin: *` and did not return
-`Access-Control-Allow-Credentials: true`. This cannot support the application's
-`credentials: "include"` requests. Do not approve preview or production until the
-Render owner configures explicit preview/production origins, enables credentials
-only for those origins, and the `cors:check` command succeeds for each URL.
+On 2026-08-15, Render returned `Access-Control-Allow-Origin: *`, allowed `POST`,
+and allowed `Content-Type` for `http://127.0.0.1:3000`. This is compatible with
+the published anonymous Render v1 contract because the client omits browser
+credentials. Run `cors:check` for each local, preview and production URL as a
+release gate; do not introduce a cookie/credential flow unless Render publishes
+its explicit contract and CORS changes with it.
 
 ## Fallback providers
 

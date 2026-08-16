@@ -1,3 +1,4 @@
-import {render} from "@testing-library/react";
+import {render,waitFor} from "@testing-library/react";
 import {ServiceWorker} from "./ServiceWorker";
 it("registers the public service worker",()=>{const register=jest.fn();Object.defineProperty(window.navigator,"serviceWorker",{value:{register},configurable:true});render(<ServiceWorker/>);expect(register).toHaveBeenCalledWith("/sw.js");});it("does nothing when service workers are unavailable",()=>{Object.defineProperty(window.navigator,"serviceWorker",{value:undefined,configurable:true});expect(()=>render(<ServiceWorker/>)).not.toThrow();});
+it("degrades when service worker registration is rejected",async()=>{const register=jest.fn().mockRejectedValue(new Error("unsupported"));Object.defineProperty(window.navigator,"serviceWorker",{value:{register},configurable:true});render(<ServiceWorker/>);await waitFor(()=>expect(register).toHaveBeenCalledWith("/sw.js"));});
