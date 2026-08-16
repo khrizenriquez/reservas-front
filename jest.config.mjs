@@ -20,6 +20,7 @@ export default createJestConfig({
     }
   },
   modulePathIgnorePatterns: ["<rootDir>/.next/"],
+  moduleNameMapper: { "^@/(.*)$": "<rootDir>/src/$1" },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   testEnvironment: "jest-environment-jsdom"
 });

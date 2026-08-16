@@ -31,3 +31,5 @@ body {
   outline: 3px solid #2376a8;
   outline-offset: 3px;
 }
+
+.access-page{display:grid;min-height:80vh;place-items:center}.access-panel{width:min(100%,30rem);border-top:5px solid var(--academic-navy);background:var(--surface);padding:2rem;box-shadow:0 1rem 2.5rem rgba(23,53,95,.12)}.access-panel label{display:block;margin:1rem 0;font-weight:700}.access-panel input{width:100%;min-height:44px;margin-top:.35rem;border:1px solid var(--border);padding:.5rem}
