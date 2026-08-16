@@ -3,7 +3,7 @@
 | Scenario | Contract / constraint | Implementation | Automated evidence | Release status |
 |---|---|---|---|---|
 | HU-018-S01 | CST-006, CST-012 | `src/app/page.js` | `src/app/page.test.js` | Code evidence ready; needs Netlify preview review. |
-| HU-018-S02 | `POST /api/auth/login/`; CST-001, CST-003, CST-004, CST-010 | `src/app/acceso/page.js`, `SessionProvider.js` | `src/app/acceso/page.test.js`, API client tests | Blocked on Render credentialed CORS validation for an exact deployed origin. |
+| HU-018-S02 | `POST /api/auth/login/`; CST-001, CST-003, CST-004, CST-010 | `src/app/acceso/page.js`, `SessionProvider.js` | `src/app/acceso/page.test.js`, API client tests and `cors:check` | Render v1 anonymous CORS validated; requires an authorized test account for end-to-end login. |
 | HU-018-S03 | `GET /api/labs/disponibles/`; CST-001, CST-002, CST-011 | `src/app/portal/disponibilidad/page.js` | `src/app/portal/disponibilidad/page.test.js` | Code evidence ready; needs deployed API validation. |
 | HU-018-S04 | `POST /api/reservas/`; CST-001, CST-002, CST-011 | `src/app/portal/reservas/page.js` | `src/app/portal/reservas/page.test.js` | Partial: Render does not publish idempotency-key support. |
 | HU-018-S05 | `GET/PATCH /api/reservas/`; CST-001, CST-011 | `src/app/portal/reservas/page.js` | `src/app/portal/reservas/page.test.js` | Partial: cancellation is covered; modification/ownership and future-state enforcement require Render response support. |

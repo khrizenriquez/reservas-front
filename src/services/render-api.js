@@ -43,7 +43,7 @@ export function createRenderApiClient({ baseUrl = runtimeBaseUrl() || process.en
     });
     let response;
     try {
-      response = await fetchImpl(url, { method, credentials: "include", headers: body ? { "Content-Type": "application/json" } : undefined, body: body ? JSON.stringify(body) : undefined });
+      response = await fetchImpl(url, { method, credentials: "omit", headers: body ? { "Content-Type": "application/json" } : undefined, body: body ? JSON.stringify(body) : undefined });
     } catch {
       throw new RenderApiError({ code: "api.network" });
     }

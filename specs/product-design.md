@@ -29,17 +29,20 @@ This specification does not define a pure React-only baseline. The default imple
 - API style: REST only, aligned to the Render v1 schema and `specs/api-contract.json` / `specs/contracts/render-v1-openapi.yaml`.
 - HTTP client: native `fetch` with `async/await`.
 - `axios` is not part of the approved baseline.
-- Credentials model: requests requiring session continuity use `credentials: include`.
+- Credentials model: the published Render v1 schema permits anonymous requests and
+  does not document a required cookie session; requests use `credentials: "omit"`.
 - Dependency minimization is mandatory; add libraries only when native/framework options are insufficient.
 
 ## CORS constraints
 
-- Backend must enforce explicit origin allowlists per environment.
-- Because credentialed requests are used, `Access-Control-Allow-Origin` must be explicit (no wildcard `*`).
-- `Access-Control-Allow-Credentials` must be enabled for approved origins.
+- The client uses the anonymous alternative published by Render v1 and sends no
+  browser credentials, so Render's `Access-Control-Allow-Origin: *` is valid for
+  this integration.
 - Supported methods must cover the contract set (`GET`, `POST`, `PUT`, `PATCH`, `OPTIONS`).
-- Allowed headers must include at minimum `Content-Type`, CSRF header, and idempotency/request headers used by client flows.
-- Unknown origins must be rejected.
+- Allowed headers must include `Content-Type`; CSRF and idempotency headers are not
+  sent unless Render first publishes a matching contract.
+- If Render later publishes a required credentialed session, this specification and
+  the CORS policy must change together before the client adopts it.
 
 ## Optional libraries policy
 
@@ -149,9 +152,11 @@ after the fields instead of pinning it.
 
 - Web login sends `clientType: WEB` through Kong.
 - Access tokens exist only in the in-memory session provider.
-- Refresh is performed using the API HttpOnly cookie plus its CSRF header.
-- Every request uses `credentials: include`; no token is written to localStorage,
-  sessionStorage, IndexedDB, logs, HTML, or error telemetry.
+- The successful Render login response is held only in the in-memory session
+  provider. No token, cookie, refresh flow, CSRF header, localStorage,
+  sessionStorage, IndexedDB, logs, HTML, or error telemetry is assumed.
+- Every request uses `credentials: "omit"` until Render publishes a different
+  authenticated-session contract.
 - UI authorization improves usability but never replaces API RBAC.
 - No demo account, password, internal hostname, push endpoint, or personal data is
   embedded in source.

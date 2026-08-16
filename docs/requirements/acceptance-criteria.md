@@ -23,7 +23,7 @@ Cada escenario debe estar mapeado a restricciones tecnicas en:
 
 Especialmente para:
 
-- CORS y sesiones con credenciales
+- CORS y el modelo de sesion publicado por Render v1
 - REST y contrato OpenAPI
 - `fetch` + `async/await` nativo
 - Politica de dependencias (`axios` no permitido)

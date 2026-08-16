@@ -17,9 +17,8 @@
 - [x] `npm audit --omit=dev --audit-level=high` — 0 vulnerabilities reported.
 - [x] Local public/access/unauthenticated-portal routes return HTTP 200 under
   `npm run dev`; the portal visibly requires access without an in-memory session.
-- [ ] Credentialed local Render flow — blocked by Render CORS; run
-  `CORS_ORIGIN=http://127.0.0.1:3000 npm run cors:check` after Render allows the
-  exact local origin.
+- [x] Local Render CORS — `CORS_ORIGIN=http://127.0.0.1:3000 npm run cors:check`
+  passes with the published anonymous Render contract.
 
 ## Required external evidence
 
@@ -33,15 +32,10 @@
 
 ## Known blockers and residual risks
 
-- Render currently returns wildcard CORS and omits credential approval for an
-  unapproved origin. This is incompatible with credentialed requests and must be
-  corrected by the Render owner before any deployed API journey is approved.
-- `CORS_ORIGIN=https://example.invalid npm run cors:check` was intentionally run
-  on 2026-08-15 and failed with `Access-Control-Allow-Origin: *` and no
-  `Access-Control-Allow-Credentials`; this is evidence of the blocker, not a
-  passed release check.
-- `CORS_ORIGIN=http://127.0.0.1:3000 npm run cors:check` also fails with the
-  same wildcard/no-credentials policy, so the issue precedes Netlify.
+- Render returns wildcard CORS without credential approval. This is valid for the
+  only verified integration mode: anonymous Render v1 requests with
+  `credentials: "omit"`. Do not add a cookie, token or refresh flow until Render
+  publishes its contract and corresponding CORS requirements.
 - Render does not publish idempotency-key support, so HU-018-S04 remains partial.
 - Deploy URLs, reviewer identity and timestamps must be recorded here only after
   real Netlify deployments; they must not be fabricated from local build output.

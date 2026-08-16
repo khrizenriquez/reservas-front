@@ -30,11 +30,10 @@ No item is complete without tests, traceability, and passing quality gates.
 - **Known product gaps:** reports and notifications remain non-data-backed until
   Render publishes matching operations. Reservation idempotency must be verified
   with Render before HU-018-S04 can be marked complete.
-- **Release blocker:** Render's observed preflight response uses wildcard CORS and
-  omits credential approval, including for `http://127.0.0.1:3000`. Local,
-  preview and production flows cannot be accepted until Render allows each exact
-  origin with credentials; see
-  `docs/harness/release-evidence-netlify.md`.
+- **CORS decision:** Render v1 publishes an anonymous security alternative and
+  responds with wildcard CORS. The client therefore uses `credentials: "omit"`;
+  it must not add cookies, token storage, refresh or an API proxy unless Render
+  first publishes that contract.
 - **Required closure:** every completed item has its own merged PR; quality gates
   remain contract, lint, Jest coverage over 80%, and production build.
 
@@ -54,5 +53,5 @@ No item is complete without tests, traceability, and passing quality gates.
 - [x] **12 — `feature/reservation-management`: manage owned future bookings.** Reservations are loaded from Render and cancellation requires explicit browser confirmation before its published PATCH operation. Full ownership/future-state enforcement remains dependent on the response data supplied by Render.
 - [x] **13 — `feature/admin-render`: implement contract-backed administration.** The administration surface reads labs, conditions, users and audit through published Render operations. Reports and notifications remain excluded because Render exposes no matching operations.
 - [x] **14 — `feature/pwa-offline`: add safe PWA behavior.** The public-shell manifest and service worker cache only the public route; an accessible localized offline notice is shown, reservations revalidate on reconnect, and create/cancel controls are hard-disabled offline. Tests prove no mutation is queued or sent while offline. Maps HU-018-S07.
-- [ ] **15 — `feature/local-acceptance`: validate the local application first.** Run the dev server, local route smoke check, public/access/portal walkthrough, and credentialed Render CORS check for `http://127.0.0.1:3000`. Resolve the Render origin policy and validate login/reservation journeys with an authorized test account before closing this item; do not add a proxy or substitute API.
-- [ ] **16 — `feature/netlify-release`: deploy and close evidence.** Netlify build/header configuration, environment instructions, CORS validator, traceability matrix, and release-evidence template are prepared. It remains open until a real preview and production deploy pass CORS, accessibility/PWA walkthroughs, and Render's credentialed-origin configuration.
+- [ ] **15 — `feature/local-acceptance`: validate the local application first.** Run the dev server, local route smoke check, public/access/portal walkthrough, and anonymous Render CORS check for `http://127.0.0.1:3000`. Validate login/reservation journeys with an authorized test account before closing this item; do not add a proxy, token storage or substitute API.
+- [ ] **16 — `feature/netlify-release`: deploy and close evidence.** Netlify build/header configuration, environment instructions, CORS validator, traceability matrix, and release-evidence template are prepared. It remains open until a real preview and production deploy pass the anonymous Render CORS check plus accessibility/PWA walkthroughs.

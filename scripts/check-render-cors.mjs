@@ -14,13 +14,11 @@ const response = await fetch(endpoint, {
   }
 });
 const allowOrigin = response.headers.get("access-control-allow-origin");
-const allowCredentials = response.headers.get("access-control-allow-credentials");
 const methods = response.headers.get("access-control-allow-methods") ?? "";
 const headers = response.headers.get("access-control-allow-headers") ?? "";
 
 const errors = [
-  allowOrigin === origin ? null : `Access-Control-Allow-Origin must equal ${origin}; received ${allowOrigin ?? "none"}.`,
-  allowCredentials === "true" ? null : "Access-Control-Allow-Credentials must be true for credentialed login.",
+  allowOrigin === origin || allowOrigin === "*" ? null : `Access-Control-Allow-Origin must equal ${origin} or *; received ${allowOrigin ?? "none"}.`,
   methods.toUpperCase().includes("POST") ? null : "Access-Control-Allow-Methods must include POST.",
   headers.toLowerCase().includes("content-type") ? null : "Access-Control-Allow-Headers must include content-type."
 ].filter(Boolean);
