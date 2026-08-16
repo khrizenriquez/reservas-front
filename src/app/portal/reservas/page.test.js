@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import Page from "./page";
 import { LanguageProvider } from "@/components/LanguageProvider";
 
@@ -42,6 +42,7 @@ it("lists Render reservations directly and filters them", async () => {
 it("creates a reservation with the Render v1 fields and reloads the list", async () => {
   renderPage();
   await screen.findByText("No hay reservas para los filtros seleccionados.");
+  fireEvent.click(screen.getByRole("button", { name: "Nueva reserva" }));
   completeForm();
   fireEvent.click(screen.getByRole("button", { name: "Confirmar reserva" }));
   await waitFor(() => expect(api.createReservation).toHaveBeenCalledWith({ userId: 7, labId: 2, date: "2099-08-15", startTime: "08:00", endTime: "09:00", reason: "Clase" }));
@@ -70,8 +71,8 @@ it("exposes mutation actions for future published reservations and confirms canc
   await screen.findAllByText("A1");
   expect(screen.getAllByRole("button", { name: "Modificar" })).toHaveLength(2);
   fireEvent.click(screen.getAllByRole("button", { name: "Cancelar" })[0]);
+  fireEvent.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Cancelar", exact: true }));
   await waitFor(() => expect(api.cancelReservation).toHaveBeenCalledWith({ id: 3, requesterId: 7 }));
-  expect(window.confirm).toHaveBeenCalled();
   expect(await screen.findByText("Reserva cancelada.")).toBeInTheDocument();
 });
 
@@ -79,6 +80,7 @@ it("shows a friendly failure and hard-disables mutations while offline", async (
   api.createReservation.mockRejectedValue({ code: "api.validation" });
   renderPage();
   await screen.findByText("No hay reservas para los filtros seleccionados.");
+  fireEvent.click(screen.getByRole("button", { name: "Nueva reserva" }));
   completeForm();
   fireEvent.click(screen.getByRole("button", { name: "Confirmar reserva" }));
   expect(await screen.findByRole("alert")).toHaveTextContent("Revisa los datos ingresados.");
@@ -100,10 +102,10 @@ it("handles list and detail failures without exposing backend data", async () =>
   expect(await screen.findByRole("alert")).toHaveTextContent("No encontramos la información solicitada.");
 });
 
-it("does not cancel when the user rejects the confirmation", async () => {
+it("does not cancel when the user closes the confirmation dialog", async () => {
   api.listReservations.mockResolvedValue([futureReservation]);
-  window.confirm = jest.fn().mockReturnValue(false);
   renderPage();
   fireEvent.click(await screen.findByRole("button", { name: "Cancelar" }));
+  fireEvent.click(within(screen.getByRole("dialog")).getAllByRole("button", { name: "Cerrar", exact: true })[1]);
   expect(api.cancelReservation).not.toHaveBeenCalled();
 });

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import Page from "./page";
 import { LanguageProvider } from "@/components/LanguageProvider";
 
@@ -44,8 +44,9 @@ it("creates and updates a laboratory with published fields", async () => {
   api.updateLab.mockResolvedValue({});
   renderPage();
   await screen.findByText("Laboratorio A");
-  fireEvent.change(screen.getByLabelText("Nombre de laboratorio"), { target: { value: "Laboratorio B" } });
   fireEvent.click(screen.getByRole("button", { name: "Crear laboratorio" }));
+  fireEvent.change(screen.getByLabelText("Nombre de laboratorio"), { target: { value: "Laboratorio B" } });
+  fireEvent.click(screen.getAllByRole("button", { name: "Crear laboratorio" })[1]);
   await waitFor(() => expect(api.createLab).toHaveBeenCalledWith({ name: "Laboratorio B" }));
   fireEvent.click(screen.getByRole("button", { name: "Editar laboratorio" }));
   fireEvent.change(screen.getByLabelText("Nombre de laboratorio"), { target: { value: "Laboratorio A2" } });
@@ -58,13 +59,14 @@ it("creates and updates a condition using only documented fields", async () => {
   api.updateLabCondition.mockResolvedValue({});
   renderPage();
   await screen.findByText("Mantenimiento");
+  fireEvent.click(screen.getByRole("button", { name: "Crear condición" }));
   fireEvent.change(screen.getByLabelText("Laboratorio", { selector: "input[name='conditionLabId']" }), { target: { value: "1" } });
   fireEvent.change(screen.getByLabelText("Fecha", { selector: "input[name='conditionDate']" }), { target: { value: "2099-08-16" } });
   fireEvent.change(screen.getByLabelText("Inicio", { selector: "input[name='conditionStart']" }), { target: { value: "10:00" } });
   fireEvent.change(screen.getByLabelText("Fin", { selector: "input[name='conditionEnd']" }), { target: { value: "11:00" } });
   fireEvent.change(screen.getByLabelText("Tipo"), { target: { value: "Clase" } });
   fireEvent.change(screen.getByLabelText("Motivo"), { target: { value: "Práctica" } });
-  fireEvent.click(screen.getByRole("button", { name: "Crear condición" }));
+  fireEvent.click(screen.getAllByRole("button", { name: "Crear condición" })[1]);
   await waitFor(() => expect(api.createLabCondition).toHaveBeenCalledWith({ labId: 1, date: "2099-08-16", startTime: "10:00", endTime: "11:00", type: "Clase", reason: "Práctica" }));
   fireEvent.click(screen.getByRole("button", { name: "Editar condición" }));
   fireEvent.change(screen.getByLabelText("Motivo"), { target: { value: "Actualizada" } });
@@ -76,21 +78,22 @@ it("creates, resets, and inactivates a user through published operations", async
   api.createUser.mockResolvedValue({});
   api.resetUserPassword.mockResolvedValue({});
   api.deactivateUser.mockResolvedValue({});
-  window.confirm = jest.fn().mockReturnValue(true);
   renderPage();
   await screen.findByText("ana@umg.edu.gt · Docente");
+  fireEvent.click(screen.getByRole("button", { name: "Crear usuario" }));
   fireEvent.change(screen.getByLabelText("Correo institucional"), { target: { value: "nuevo@umg.edu.gt" } });
   fireEvent.change(screen.getByLabelText("Contraseña"), { target: { value: "Cambiar123" } });
   fireEvent.change(screen.getByLabelText("Nombres"), { target: { value: "Nuevo" } });
   fireEvent.change(screen.getByLabelText("Apellidos"), { target: { value: "Usuario" } });
   fireEvent.change(screen.getByLabelText("ID de rol"), { target: { value: "2" } });
-  fireEvent.click(screen.getByRole("button", { name: "Crear usuario" }));
+  fireEvent.click(screen.getAllByRole("button", { name: "Crear usuario" })[1]);
   await waitFor(() => expect(api.createUser).toHaveBeenCalledWith({ username: "nuevo@umg.edu.gt", password: "Cambiar123", name: "Nuevo", lastName: "Usuario", roleId: 2 }));
   fireEvent.click(screen.getByRole("button", { name: "Restablecer contraseña" }));
   fireEvent.change(screen.getByLabelText("Contraseña temporal"), { target: { value: "Temporal123" } });
   fireEvent.click(screen.getByRole("button", { name: "Guardar contraseña temporal" }));
   await waitFor(() => expect(api.resetUserPassword).toHaveBeenCalledWith({ id: 3, temporaryPassword: "Temporal123" }));
   fireEvent.click(screen.getByRole("button", { name: "Inactivar usuario" }));
+  fireEvent.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Inactivar usuario", exact: true }));
   await waitFor(() => expect(api.deactivateUser).toHaveBeenCalledWith({ id: 3 }));
 });
 

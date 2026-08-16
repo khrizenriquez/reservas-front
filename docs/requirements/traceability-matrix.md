@@ -7,12 +7,14 @@
 | HU-018-S03 | `GET /api/labs/disponibles/`; CST-001, CST-002, CST-011 | `src/app/portal/disponibilidad/page.js` | `src/app/portal/disponibilidad/page.test.js` | Code evidence ready; needs deployed API validation. |
 | HU-018-S04 | `POST /api/reservas/`; CST-001, CST-002, CST-011 | `src/app/portal/reservas/page.js` | `src/app/portal/reservas/page.test.js` | Partial: Render does not publish idempotency-key support. |
 | HU-018-S05 | `GET/PATCH /api/reservas/`; CST-001, CST-010, CST-011 | `src/app/portal/reservas/page.js` | `src/app/portal/reservas/page.test.js` | Direct future-reservation actions are covered. Backend ownership enforcement is an explicit security TODO. |
-| HU-018-S06 | Render labs, conditions, users and logs operations; CST-001, CST-010 | `src/app/portal/administracion/page.js` | `src/app/portal/administracion/page.test.js` | Direct administration is covered; backend authentication/authorization is an explicit security TODO. |
+| HU-018-S06 | Render labs, conditions, users and logs operations; CST-001, CST-010 | `src/app/portal/administracion/page.js` | `src/app/portal/administracion/page.test.js` | Direct administration, paginated collections and accessible modal workflows are covered; backend authentication/authorization is an explicit security TODO. |
 | HU-018-S07 | CST-006, CST-011 | service worker, `OfflineNotice`, reservations page | `ServiceWorker.test.js`, `OfflineNotice.test.js`, reservation tests | Code evidence ready; needs installed-PWA preview walkthrough. |
 | HU-018-S08 | CST-011, CST-012 | shared status, language and focus styles | `ui-foundation.test.js` and route tests | Partial: automated component evidence exists; keyboard/screen-reader walkthrough remains required. |
 
-`/portal/logs` consumes the published `GET /api/logs/` operation through
-`listAuditLogs()`. It is a direct route and its raw API values are not translated.
+`/portal/logs` consumes the published `GET /api/logs/?UMG_User_ID=<value>`
+operation through `listAuditLogs({ userId })`. It presents local-only audit metrics
+and 10/20/50 pagination; no analytics endpoint, current identity, or server
+pagination is invented. Its raw API values are not translated.
 
 ## Closure rule
 
