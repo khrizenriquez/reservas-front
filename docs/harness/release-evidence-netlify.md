@@ -9,16 +9,16 @@
 
 ## Local evidence
 
-- [x] `npm run contract` — Render v1 schema verified on 2026-08-15.
-- [x] `npm run check` — lint and 34 Jest tests pass; branch coverage 83.68%.
-- [x] `npm run test:jest` — 34 tests pass; all global coverage thresholds pass.
+- [x] `npm run contract` — Render v1 schema verified on 2026-08-16.
+- [x] `npm run check` — lint and 48 Jest tests pass; global branch coverage is 80.16%.
+- [x] `npm run test:jest` — 48 tests pass; all global coverage thresholds pass.
 - [x] `npm run release:check` — committed Netlify configuration verified.
 - [x] `npm run build` — Next.js production build passes.
-- [x] `npm audit --omit=dev --audit-level=high` — 0 vulnerabilities reported.
+- [x] `npm audit --omit=dev --audit-level=high` — 0 vulnerabilities reported on 2026-08-16.
 - [x] Local public/access/unauthenticated-portal routes return HTTP 200 under
   `npm run dev`; the portal visibly requires access without an in-memory session.
 - [x] Local Render CORS — `CORS_ORIGIN=http://127.0.0.1:3000 npm run cors:check`
-  passes with the published anonymous Render contract.
+  passes with the published anonymous Render contract on 2026-08-16.
 
 ## Required external evidence
 
@@ -39,3 +39,6 @@
 - Render does not publish idempotency-key support, so HU-018-S04 remains partial.
 - Deploy URLs, reviewer identity and timestamps must be recorded here only after
   real Netlify deployments; they must not be fabricated from local build output.
+- This workspace has no linked Netlify site or deployment credential. The repository
+  owner must link the Git repository in Netlify and configure the documented public
+  Render environment values before a preview or production URL can exist.
