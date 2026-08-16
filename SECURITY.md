@@ -7,11 +7,11 @@ We follow trunk-based development with rigorous security quality gates in our CI
 - **Code Reviews:** Peer reviews of pull requests act as a gateway to prevent insecure patterns.
 - **Feature Flags:** Large security improvements are toggled and rolled out of production safely.
 
-## Hosting Security (Netlify and Free Services)
+## Hosting Security (Vercel and Free Services)
 
 - **No secrets in source:** API tokens, keys, and credentials must be stored only in hosting environment variables.
 - **Environment isolation:** Preview and production environments must use separate variable sets.
-- **Header policy:** Enforce baseline security headers (for example: frame, content-type, and referrer protections) via hosting configuration.
+- **Header policy:** Enforce baseline security headers (for example: frame, content-type, and referrer protections) through `next.config.mjs` on Vercel.
 - **Least privilege:** Do not expose admin-only UI paths without server-side authorization checks.
 - **Artifact review:** Verify build logs and deployment artifacts do not leak sensitive values.
 

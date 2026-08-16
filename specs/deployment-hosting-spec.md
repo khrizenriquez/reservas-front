@@ -2,11 +2,11 @@
 
 ## Scope
 
-Define deployment requirements for free hosting with Netlify as the primary target.
+Define deployment requirements for free hosting with Vercel as the sole target.
 
 ## Requirements
 
-1. The frontend must deploy successfully on Netlify free tier.
+1. The frontend must deploy successfully on Vercel free tier.
 2. Branch/PR preview deployments must be available before merge.
 3. Production deployment must be triggered from the stable `main` branch.
 4. Runtime environment variables must be configured in hosting settings.

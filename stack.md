@@ -11,7 +11,7 @@
 - Contract manifest: `specs/api-contract.json`
 - Container runtime target: Podman
 - Container orchestration target: Podman Compose
-- Hosting target: Netlify (free tier) primary
+- Hosting target: Vercel (free tier) primary
 - i18n baseline: Spanish default, English selectable
 
 ## Delivery and governance stack

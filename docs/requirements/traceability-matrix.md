@@ -2,7 +2,7 @@
 
 | Scenario | Contract / constraint | Implementation | Automated evidence | Release status |
 |---|---|---|---|---|
-| HU-018-S01 | CST-006, CST-012 | `src/app/page.js` | `src/app/page.test.js` | Code evidence ready; needs Netlify preview review. |
+| HU-018-S01 | CST-006, CST-012 | `src/app/page.js` | `src/app/page.test.js` | Code evidence ready; needs Vercel preview review. |
 | HU-018-S02 | `POST /api/auth/login/`; CST-001, CST-003, CST-004, CST-010 | `src/app/acceso/page.js`, `SessionProvider.js` | `src/app/acceso/page.test.js`, API client tests and `cors:check` | Render v1 anonymous CORS validated; requires an authorized test account for end-to-end login. |
 | HU-018-S03 | `GET /api/labs/disponibles/`; CST-001, CST-002, CST-011 | `src/app/portal/disponibilidad/page.js` | `src/app/portal/disponibilidad/page.test.js` | Code evidence ready; needs deployed API validation. |
 | HU-018-S04 | `POST /api/reservas/`; CST-001, CST-002, CST-011 | `src/app/portal/reservas/page.js` | `src/app/portal/reservas/page.test.js` | Partial: Render does not publish idempotency-key support. |
@@ -14,5 +14,5 @@
 ## Closure rule
 
 The checked runtime gates and configuration evidence are recorded in
-`docs/harness/release-evidence-netlify.md`. No row marked blocked or partial may
+`docs/harness/release-evidence-vercel.md`. No row marked blocked or partial may
 be presented as production-accepted.

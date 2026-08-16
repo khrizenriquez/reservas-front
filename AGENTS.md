@@ -44,7 +44,7 @@ Use a strict trunk-based workflow to build this project from a clean baseline wh
 
 ## Hosting baseline
 
-- Primary free hosting target: Netlify
+- Primary free hosting target: Vercel
 - Secondary free hosting options are allowed only if they preserve the same security and quality gates.
 
 ## Required workflow
