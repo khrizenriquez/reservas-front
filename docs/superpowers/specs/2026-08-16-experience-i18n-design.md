@@ -4,7 +4,7 @@
 
 **Rama:** `feature/experience-i18n`
 
-**Estado:** pendiente de revisión del usuario
+**Estado:** implementado; quality gates locales aprobados
 
 ## Objetivo
 
@@ -85,6 +85,10 @@ conserva el idioma durante la pestaña actual.
   cadena fija de UI queda fuera de `i18n.js`.
 - Ejecutar `npm run contract`, `npm run check`, `npm run test:jest`,
   `npm run release:check`, `npm run build` y una comprobación local de rutas.
+
+Evidencia de implementación (2026-08-16): contrato, lint, `test:jest` (13 suites,
+54 pruebas; 95.88 % statements y 81.37 % branches), configuración de release y
+build de producción aprobados.
 
 ## No objetivos
 
