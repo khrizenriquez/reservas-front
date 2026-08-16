@@ -14,11 +14,12 @@ Ejecutar validaciones de forma repetible para proteger contrato, comportamiento 
 
 ## Secuencia minima
 
-1. Validar contrato: `npm run contract`.
-2. Ejecutar gate base: `npm run check`.
-3. Ejecutar `npm run test:jest` y comprobar la cobertura global superior a 80%.
-4. Ejecutar pruebas E2E, PWA o de accesibilidad cuando el ítem las requiera.
-5. Guardar reportes y enlazarlos al commit/PR.
+1. Validar el snapshot de contrato: `npm run contract`.
+2. Validar el esquema vivo de Render y registrar el resultado: `npm run contract:live`.
+3. Ejecutar gate base: `npm run check`.
+4. Ejecutar `npm run test:jest` y comprobar la cobertura global superior a 80%.
+5. Ejecutar pruebas E2E, PWA o de accesibilidad cuando el ítem las requiera.
+6. Guardar reportes y enlazarlos al commit/PR.
 
 ## Politica de fallo
 

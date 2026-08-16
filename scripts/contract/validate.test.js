@@ -1,3 +1,4 @@
+const { createHash } = require("node:crypto");
 const {
   renderV1Manifest,
   renderV1Profile,
@@ -6,6 +7,7 @@ const {
 const {
   validateManifest,
   validatePublishedSchema,
+  validateSnapshot,
   validationMessage
 } = require("./validate.cjs");
 
@@ -82,5 +84,40 @@ describe("Render v1 contract validation", () => {
         renderV1Schema
       )
     ).toEqual(["Render schema is missing required path /api/usuarios/."]);
+  });
+
+  it("validates the versioned snapshot without a live Render request", () => {
+    const snapshot = [
+      "openapi: 3.0.3",
+      "paths:",
+      "  /api/auth/login/:",
+      "    post:",
+      "  /api/labs/:",
+      "    get:",
+      "    post:",
+      "components:",
+      "  schemas: {}"
+    ].join("\n");
+    const profile = {
+      ...renderV1Profile,
+      sha256: createHash("sha256").update(snapshot).digest("hex")
+    };
+
+    expect(validateSnapshot(profile, snapshot)).toEqual([]);
+  });
+
+  it("reports drifted hashes and missing operations in the versioned snapshot", () => {
+    const snapshot = ["openapi: 3.0.3", "paths:", "  /api/auth/login/:", "    post:"].join(
+      "\n"
+    );
+    const profile = {
+      ...renderV1Profile,
+      sha256: "0".repeat(64)
+    };
+
+    expect(validateSnapshot(profile, snapshot)).toEqual([
+      "The Render v1 snapshot hash does not match the contract manifest.",
+      "Render schema is missing required path /api/labs/."
+    ]);
   });
 });

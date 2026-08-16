@@ -1,3 +1,5 @@
+const { createHash } = require("node:crypto");
+
 const RENDER_V1_PROFILE = "render-v1";
 
 function validateManifest(manifest) {
@@ -65,6 +67,46 @@ function validatePublishedSchema(profile, schema) {
   return errors;
 }
 
+function validateSnapshot(profile, snapshot) {
+  const errors = [];
+  const snapshotHash = createHash("sha256").update(snapshot).digest("hex");
+
+  if (snapshotHash !== profile.sha256) {
+    errors.push("The Render v1 snapshot hash does not match the contract manifest.");
+  }
+
+  const paths = {};
+  let inPaths = false;
+  let currentPath = null;
+
+  for (const line of snapshot.toString().split(/\r?\n/)) {
+    if (line === "paths:") {
+      inPaths = true;
+      continue;
+    }
+
+    if (inPaths && line.length > 0 && !line.startsWith(" ")) {
+      break;
+    }
+
+    if (!inPaths) continue;
+
+    const pathMatch = line.match(/^  (\/[^:]+):\s*$/);
+    if (pathMatch) {
+      currentPath = pathMatch[1];
+      paths[currentPath] = {};
+      continue;
+    }
+
+    const methodMatch = line.match(/^    (get|post|put|patch|delete|head|options):\s*$/i);
+    if (currentPath && methodMatch) {
+      paths[currentPath][methodMatch[1].toLowerCase()] = {};
+    }
+  }
+
+  return [...errors, ...validatePublishedSchema(profile, { paths })];
+}
+
 function validationMessage(errors) {
   return [`Render v1 contract validation failed:`, ...errors.map((error) => `- ${error}`)].join("\n");
 }
@@ -72,5 +114,6 @@ function validationMessage(errors) {
 module.exports = {
   validateManifest,
   validatePublishedSchema,
+  validateSnapshot,
   validationMessage
 };

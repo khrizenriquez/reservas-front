@@ -85,6 +85,8 @@ Minimum required before merge:
 ## Deployment gates
 
 - Preview deployment must pass before merge.
+- Run `npm run contract:live` and record its result as release evidence; it is
+  intentionally outside the deterministic Vercel build gate.
 - Production deployment must use environment variables managed by hosting.
 - No secrets in repository, commit history, or build logs.
 

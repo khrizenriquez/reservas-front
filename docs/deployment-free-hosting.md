@@ -17,14 +17,24 @@ Vercel as the sole hosting target.
 Before opening a deploy PR, start the application with `npm run dev` and run:
 
 ```sh
+npm run contract
+npm run contract:live
 npm run local:smoke
 CORS_ORIGIN=http://127.0.0.1:3000 npm run cors:check
 ```
 
-The smoke command verifies local route serving. The CORS command is mandatory for
+`contract` verifies the immutable Render v1 snapshot and is the deterministic
+Vercel build gate. `contract:live` verifies the current published Render schema
+as release evidence; it is intentionally outside the Vercel build command so a
+transient Render timeout cannot make the frontend deployment unavailable. The
+smoke command verifies local route serving. The CORS command is mandatory for
 the Render flows: the verified API contract permits anonymous use and the client
 uses `credentials: "omit"`, so Render's published wildcard response is valid.
 Do not replace Render with a local proxy or an invented frontend endpoint.
+
+Vercel builds with a production environment, while React component tests require
+the React test runtime. The committed `test:jest` script therefore explicitly
+sets `NODE_ENV=test`; this affects Jest only, not the production `next build`.
 
 ## Committed deployment configuration
 
@@ -34,14 +44,18 @@ Next.js App Router project without an adapter or an additional dependency.
 
 `next.config.mjs` provides CSP, HSTS, frame, MIME, referrer, permissions, and
 service-worker cache headers. Environment values are deliberately excluded from
-both files and must be configured in Vercel.
+both files and must be configured in Vercel. The Next.js standalone output is
+enabled only for the Podman image; Vercel uses its native Next.js adapter and
+therefore receives the standard Next.js build output.
 
 ## Required Vercel settings
 
 1. Import the Git repository as a Vercel project.
 2. Keep the framework preset as Next.js and set the production branch to `main`.
 3. Do not replace the committed build command in the Vercel UI.
-4. Configure these public build-time variables for both Preview and Production:
+4. Keep Node.js on 22.x. `package.json` pins that supported major version so
+   Vercel does not automatically choose a newer major runtime.
+5. Configure these public build-time variables for both Preview and Production:
 
 | Scope | `NEXT_PUBLIC_API_BASE_URL` | `NEXT_PUBLIC_API_PROFILE` |
 |---|---|---|
@@ -65,6 +79,7 @@ they must never contain passwords, tokens, cookies, or API keys.
 ## Quality gates before promotion
 
 - Contract validation passes.
+- Live Render schema validation is recorded as release evidence.
 - Lint and static checks pass.
 - Unit tests pass.
 - Coverage remains above 80%.
