@@ -50,6 +50,7 @@
   correction is included in this branch. The first Preview then reached Jest and
   exposed Vercel's `NODE_ENV=production` default; `test:jest` now explicitly
   uses the React test runtime. That Preview completed all gates and `next build`,
-  but Vercel's finalizer running Node 24 could not find its generated
-  `next-server.js.nft.json` manifest. The branch now pins Node 22.x, which is
-  the successful local build runtime, and is awaiting a green Preview redeploy.
+  but Vercel's finalizer could not process the standalone output manifest. The
+  branch now retains standalone output for Podman only and uses Vercel's native
+  Next.js adapter in Preview and Production; it is awaiting a green Preview
+  redeploy.

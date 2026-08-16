@@ -1,5 +1,5 @@
 const nextConfig = {
-  output: "standalone",
+  ...(process.env.VERCEL ? {} : { output: "standalone" }),
   poweredByHeader: false,
   reactStrictMode: true,
   async headers() {

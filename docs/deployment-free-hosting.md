@@ -44,7 +44,9 @@ Next.js App Router project without an adapter or an additional dependency.
 
 `next.config.mjs` provides CSP, HSTS, frame, MIME, referrer, permissions, and
 service-worker cache headers. Environment values are deliberately excluded from
-both files and must be configured in Vercel.
+both files and must be configured in Vercel. The Next.js standalone output is
+enabled only for the Podman image; Vercel uses its native Next.js adapter and
+therefore receives the standard Next.js build output.
 
 ## Required Vercel settings
 

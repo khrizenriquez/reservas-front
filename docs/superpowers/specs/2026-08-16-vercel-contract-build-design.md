@@ -46,7 +46,8 @@ the deterministic one. The Jest script will explicitly use `NODE_ENV=test` so
 Vercel's production build environment cannot load React's production test
 runtime. `package.json` will pin Node 22.x so Vercel uses the same supported
 major runtime as the validated local build rather than automatically moving to a
-newer major.
+newer major. `next.config.mjs` will enable standalone output for Podman only;
+Vercel will use its native Next.js adapter and standard build output.
 
 ## Acceptance Criteria
 
@@ -61,3 +62,5 @@ newer major.
 5. Jest passes when invoked from `NODE_ENV=production`, proving the host build
    environment cannot disable React test utilities.
 6. Vercel uses Node 22.x for Preview and Production builds.
+7. Podman retains its standalone output while Vercel Preview uses the native
+   Next.js adapter without a standalone manifest finalization failure.
