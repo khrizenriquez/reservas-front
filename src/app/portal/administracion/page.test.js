@@ -1,7 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Page from "./page";
 import { LanguageProvider } from "@/components/LanguageProvider";
-import { SessionProvider } from "@/components/SessionProvider";
 
 const api = {
   listLabs: jest.fn(), listLabConditions: jest.fn(), listUsers: jest.fn(), listAuditLogs: jest.fn(), createLab: jest.fn(), updateLab: jest.fn(), createLabCondition: jest.fn(), updateLabCondition: jest.fn(), createUser: jest.fn(), deactivateUser: jest.fn(), resetUserPassword: jest.fn()
@@ -12,7 +11,7 @@ const lab = { id: 1, name: "Laboratorio A", status: 1 };
 const condition = { id: 2, labId: 1, labName: "Laboratorio A", date: "2099-08-15", startTime: "08:00", endTime: "09:00", type: "Mantenimiento", reason: "Limpieza", status: 1 };
 const user = { id: 3, name: "Ana", email: "ana@umg.edu.gt", roleName: "Docente", status: 1 };
 const log = { id: 4, raw: { umg_accion: "CREAR", umg_modulo: "RESERVAS", umg_descripcion: "Reserva creada" }, createdAt: "2099-08-01T08:00:00Z" };
-const renderPage = (session = { roleName: "Administrador" }) => render(<LanguageProvider><SessionProvider initialSession={session}><Page /></SessionProvider></LanguageProvider>);
+const renderPage = () => render(<LanguageProvider><Page /></LanguageProvider>);
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -25,10 +24,10 @@ beforeEach(() => {
   });
 });
 
-it("keeps administration hidden from a non-administrator", () => {
-  renderPage({ roleName: "Docente" });
-  expect(screen.getByRole("alert")).toHaveTextContent("No tienes acceso a esta acción.");
-  expect(api.listLabs).not.toHaveBeenCalled();
+it("loads administration directly without a client role", async () => {
+  renderPage();
+  expect(await screen.findByText("Laboratorio A")).toBeInTheDocument();
+  expect(api.listLabs).toHaveBeenCalledTimes(1);
 });
 
 it("lists Render labs, conditions, users, and audit records", async () => {

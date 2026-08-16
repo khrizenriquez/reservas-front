@@ -31,6 +31,10 @@ smoke command verifies local route serving. The CORS command is mandatory for
 the Render flows: the verified API contract permits anonymous use and the client
 uses `credentials: "omit"`, so Render's published wildcard response is valid.
 Do not replace Render with a local proxy or an invented frontend endpoint.
+The anonymous contract also means a successful deployment does not make backend
+authorization safe: login and role gates are intentionally absent from portal
+routes until Render publishes and enforces a mandatory authentication/permission
+contract.
 
 Vercel builds with a production environment, while React component tests require
 the React test runtime. The committed `test:jest` script therefore explicitly

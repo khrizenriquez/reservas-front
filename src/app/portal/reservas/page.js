@@ -3,15 +3,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { createRenderApiClient } from "@/services/render-api";
 import { StatusMessage } from "@/components/StatusMessage";
-import { useSession } from "@/components/SessionProvider";
 import { useOnlineStatus } from "@/components/useOnlineStatus";
 
 const asList = (value) => Array.isArray(value) ? value : value ? [value] : [];
 const today = () => new Date().toISOString().slice(0, 10);
 
 export default function ReservationsPage() {
-  const { session } = useSession() ?? {};
-  const sessionId = session?.id;
   const online = useOnlineStatus();
   const [prefill] = useState(() => {
     if (typeof window === "undefined") return {};
@@ -27,11 +24,11 @@ export default function ReservationsPage() {
 
   const requestReservations = useCallback((nextFilters) => {
     if (!online) return Promise.resolve(null);
-    const query = { userId: sessionId };
+    const query = {};
     if (nextFilters.labId) query.labId = nextFilters.labId;
     if (nextFilters.fecha) query.fecha = nextFilters.fecha;
     return createRenderApiClient().listReservations(query);
-  }, [online, sessionId]);
+  }, [online]);
 
   const load = useCallback(async (nextFilters = filters) => {
     try {
@@ -59,7 +56,7 @@ export default function ReservationsPage() {
   }, [filters, requestReservations]);
 
   const formPayload = (form) => ({
-    userId: session?.id,
+    userId: Number(form.get("userId")),
     labId: Number(form.get("labId")),
     date: form.get("date"),
     startTime: form.get("startTime"),
@@ -76,7 +73,7 @@ export default function ReservationsPage() {
     setError(null);
     try {
       const api = createRenderApiClient();
-      if (editing) await api.updateReservation({ id: editing.id, ...formPayload(form), requesterId: session?.id });
+      if (editing) await api.updateReservation({ id: editing.id, ...formPayload(form), requesterId: Number(form.get("userId")) });
       else await api.createReservation(formPayload(form));
       formElement.reset();
       setEditing(null);
@@ -92,7 +89,7 @@ export default function ReservationsPage() {
     if (!online || !window.confirm("¿Cancelar esta reserva?")) return;
     setError(null);
     try {
-      await createRenderApiClient().cancelReservation({ id, requesterId: session?.id });
+      await createRenderApiClient().cancelReservation({ id, requesterId: reservations.find((reservation) => reservation.id === id)?.userId });
       setStatus("cancelled");
       await load();
     } catch (caught) {
@@ -114,10 +111,10 @@ export default function ReservationsPage() {
     load(next);
   };
 
-  const canManage = (reservation) => String(reservation.userId) === String(session?.id) && reservation.date >= today();
+  const canManage = (reservation) => reservation.date >= today();
 
   return <section className="workflow-page">
-    <header className="page-heading"><p className="eyebrow">Operación académica</p><h1>Reservas</h1><p>Consulta, crea y administra tus reservas activas.</p></header>
+    <header className="page-heading"><p className="eyebrow">Operación académica</p><h1>Reservas</h1><p>Consulta y opera reservas directamente con Render v1. La API no aplica inicio de sesión.</p></header>
     <form className="workflow-filter" onSubmit={applyFilters} aria-label="Filtrar reservas">
       <label>Laboratorio para filtrar<input name="filterLabId" type="number" value={filters.labId} onChange={(event) => setFilters((current) => ({ ...current, labId: event.target.value }))} /></label>
       <label>Fecha para filtrar<input name="filterDate" type="date" value={filters.fecha} onChange={(event) => setFilters((current) => ({ ...current, fecha: event.target.value }))} /></label>
@@ -125,7 +122,7 @@ export default function ReservationsPage() {
     </form>
     {error ? <StatusMessage code={error} onRetry={() => load()} /> : null}
     <section aria-labelledby="reservation-list-title" className="data-panel">
-      <h2 id="reservation-list-title">Mis reservas</h2>
+      <h2 id="reservation-list-title">Reservas publicadas</h2>
       {!error && reservations.length === 0 ? <p role="status">No hay reservas para los filtros seleccionados.</p> : null}
       <ul className="record-list">{reservations.map((item) => <li key={item.id} className="record-card">
         <div><strong>{item.labName ?? item.name ?? "Laboratorio"}</strong><p>{item.date} · {item.startTime}–{item.endTime}</p><p>{item.reason ?? "Sin motivo registrado"}</p><span className="status-tag">{item.status ?? "Pendiente"}</span></div>
@@ -136,6 +133,7 @@ export default function ReservationsPage() {
     <section className="data-panel" aria-labelledby="reservation-form-title">
       <h2 id="reservation-form-title">{editing ? "Modificar reserva" : "Crear reserva"}</h2>
       <form onSubmit={submit} className="workflow-form" key={editing?.id ?? "new"}>
+        <label>ID de usuario solicitante<input name="userId" type="number" defaultValue={editing?.userId ?? ""} required /></label>
         <label>Laboratorio<input name="labId" type="number" defaultValue={editing?.labId ?? prefill.labId} required /></label>
         <label>Fecha<input name="date" type="date" defaultValue={editing?.date ?? prefill.date} required /></label>
         <label>Inicio<input name="startTime" type="time" defaultValue={editing?.startTime ?? prefill.startTime} required /></label>

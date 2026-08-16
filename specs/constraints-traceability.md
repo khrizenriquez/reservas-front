@@ -21,9 +21,9 @@ Define and map implementation constraints to user stories and acceptance scenari
 | CST-007 | Optional Zustand usage rule | `zustand` allowed only for cross-route client state that cannot be cleanly solved with local/context state. | HU-018-S05, HU-018-S06 | ADR/PR justification + tests |
 | CST-008 | Optional Zod usage rule | `zod` allowed for complex runtime schema validation at API/form boundaries. | HU-018-S03, HU-018-S04, HU-018-S05 | Validation tests |
 | CST-009 | Vercel deployment readiness | `vercel.json` runs deterministic release gates, `next.config.mjs` provides the security headers and isolates Podman-only standalone output from Vercel's native Next.js adapter, and `package.json` pins Node 22.x; `contract:live`, preview/production connectivity, and CORS evidence use the same Render-only anonymous contract outside the build's external-network boundary. | HU-018-S01..HU-018-S08 | `npm run release:check`, `contract:live`, deploy URLs, `cors:check`, and release evidence. |
-| CST-010 | Security and storage restrictions | Access token in memory only; no token in localStorage/sessionStorage/IndexedDB/logs. | HU-018-S02 | Security tests + code review |
+| CST-010 | Direct-access and storage restrictions | No token, cookie, local role gate or fabricated user identity. `/acceso` is optional and Render v1 calls use `credentials: "omit"`. **Backend TODO:** publish and enforce mandatory auth, identity and permissions before reintroducing an authenticated portal. | HU-018-S02, HU-018-S05, HU-018-S06 | Route/API tests assert direct rendering and omitted credentials; security review verifies the explicit backend debt. |
 | CST-011 | Friendly API error UX | API 4xx/5xx responses map to friendly user-facing localized messages in forms and page-level status blocks. | HU-018-S03, HU-018-S04, HU-018-S05, HU-018-S08 | UI/error handling tests + accessibility checks |
-| CST-012 | i18n baseline | Spanish default and English selectable across public and authenticated surfaces. | HU-018-S01..HU-018-S08 | Localization tests + UX walkthrough |
+| CST-012 | i18n baseline | Spanish default and English selectable across public and direct portal surfaces. | HU-018-S01..HU-018-S08 | Localization tests + UX walkthrough |
 
 ## Working rules
 

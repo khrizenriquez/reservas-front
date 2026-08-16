@@ -3,14 +3,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { createRenderApiClient } from "@/services/render-api";
 import { StatusMessage } from "@/components/StatusMessage";
-import { useSession } from "@/components/SessionProvider";
 
 const asList = (value) => Array.isArray(value) ? value : value ? [value] : [];
 const field = (item, name) => item.raw?.[name] ?? item[name] ?? "";
-const isAdministrator = (session) => /admin/i.test(session?.roleName ?? session?.raw?.UMG_Rol_Nombre ?? "");
 
 export default function AdminPage() {
-  const { session } = useSession() ?? {};
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState(null);
@@ -33,7 +30,6 @@ export default function AdminPage() {
   }, [fetchData]);
 
   useEffect(() => {
-    if (!isAdministrator(session)) return;
     let active = true;
     fetchData().then((next) => {
       if (!active) return;
@@ -41,7 +37,7 @@ export default function AdminPage() {
       setError(next.error);
     });
     return () => { active = false; };
-  }, [fetchData, session]);
+  }, [fetchData]);
 
   const run = async (work, success) => {
     setError(null);
@@ -50,7 +46,6 @@ export default function AdminPage() {
     catch (caught) { setError(caught?.code ?? "api.network"); }
   };
 
-  if (!isAdministrator(session)) return <section className="workflow-page"><h1>Administración</h1><StatusMessage code="api.forbidden" /></section>;
   if (!data) return <p role="status">Cargando administración…</p>;
 
   const submitLab = (event) => {

@@ -19,8 +19,9 @@
 - [x] `npm run release:check` — committed Vercel configuration verified.
 - [x] `npm run build` — Next.js production build passes.
 - [x] `npm audit --omit=dev --audit-level=high` — 0 vulnerabilities reported on 2026-08-16.
-- [x] Local public/access/unauthenticated-portal routes return HTTP 200 under
-  `npm run dev`; the portal visibly requires access without an in-memory session.
+- [x] Local public/access/direct-portal routes return HTTP 200 under `npm run dev`;
+  `/`, `/acceso`, and all implemented `/portal` routes were checked without an
+  in-memory session on 2026-08-16.
 - [x] Local Render CORS — `CORS_ORIGIN=http://127.0.0.1:3000 npm run cors:check`
   passes with the published anonymous Render contract on 2026-08-16.
 - [x] Local security headers — CSP, permissions, referrer, HSTS, frame/MIME, and
@@ -43,6 +44,9 @@
   `credentials: "omit"`. Do not add a cookie, token, or refresh flow until Render
   publishes its contract and corresponding CORS requirements.
 - Render does not publish idempotency-key support, so HU-018-S04 remains partial.
+- Render currently publishes anonymous calls, including administrative operations.
+  The client intentionally has no local login/role gate; mandatory backend auth,
+  current identity and per-operation authorization remain a security TODO.
 - Deploy URLs, reviewer identity, and timestamps must be recorded here only after
   real Vercel deployments; they must not be fabricated from local build output.
 - The first Vercel Production build failed only because the former `contract`

@@ -26,6 +26,10 @@ flowchart TB
 
 ## Request sequence
 
+Portal routes call Render v1 directly; login is an optional diagnostic operation,
+not a prerequisite or client-side authorization boundary. Requests omit browser
+credentials because the published contract permits anonymous access.
+
 ```mermaid
 sequenceDiagram
   actor User
@@ -34,7 +38,7 @@ sequenceDiagram
   participant CLI as API Client
   participant API as Django API (Render)
 
-  User->>UI: Trigger action (login/reservation/...)
+  User->>UI: Open route or trigger action (reservation/...)
   UI->>SVC: Execute use case
   SVC->>CLI: Call operation by contract
   CLI->>API: HTTP request (method/path from OpenAPI)

@@ -53,16 +53,23 @@ Architecture and sequence diagrams are documented in `docs/architecture-flow.md`
 | Route | Access | Purpose |
 |---|---|---|
 | `/` | Public | Institutional landing page, laboratory overview, reservation process, FAQ, language selector, and access call to action. |
-| `/acceso` | Public | Accessible login form using only `POST /api/auth/login/`. |
-| `/portal` | Authenticated | Portal home and role-aware navigation shell. |
-| `/portal/perfil` | Authenticated | Current in-memory session profile. |
-| `/portal/disponibilidad` | Authenticated | Laboratory availability search for a selected date and interval. |
-| `/portal/reservas` | Authenticated | Reservation list, filters, detail, create, modify, and cancel flows permitted by Render v1. |
-| `/portal/administracion` | Administrator | Contract-backed management of laboratories, conditions, users, and audit records. |
+| `/acceso` | Optional | Diagnostic login form using only `POST /api/auth/login/`; it is not required to enter the portal. |
+| `/portal` | Direct | Portal home and navigation shell using the published anonymous Render v1 contract. |
+| `/portal/perfil` | Direct | Explains that Render v1 does not publish a current-profile operation. |
+| `/portal/disponibilidad` | Direct | Laboratory availability search for a selected date and interval. |
+| `/portal/reservas` | Direct | Reservation list, filters, detail, create, modify, and cancel flows permitted by Render v1. |
+| `/portal/administracion` | Direct | Contract-backed management of laboratories, conditions, users, and audit records. |
 | `/_not-found` | Public | Framework-generated fallback for unmatched routes. |
 
-Authenticated routes require the successful Render login response held in memory.
-The client does not persist tokens, create a proxy, or use unverified API paths.
+All portal routes are directly accessible because Render v1 publishes an anonymous
+security alternative. The client does not persist tokens, create a proxy, invent a
+local identity or use unverified API paths.
+
+> **Security TODO (backend):** the published Render v1 contract currently permits
+> anonymous requests, including potentially administrative operations. The frontend
+> cannot make this safe with hidden links or local role checks. Render must publish
+> and enforce required authentication, a current-identity operation and per-action
+> authorization before the client reintroduces login as a prerequisite.
 
 ## API endpoint inventory (Render v1 contract)
 
