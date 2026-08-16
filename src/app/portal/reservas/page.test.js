@@ -1,0 +1,5 @@
+import {fireEvent,render,screen,waitFor} from "@testing-library/react";
+import Page from "./page";
+import {SessionProvider} from "@/components/SessionProvider";
+const createReservation=jest.fn();jest.mock("@/services/render-api",()=>({createRenderApiClient:()=>({createReservation})}));
+it("creates a reservation with Render fields",async()=>{createReservation.mockResolvedValue({});render(<SessionProvider initialSession={{id:7}}><Page/></SessionProvider>);fireEvent.change(screen.getByLabelText("Laboratorio"),{target:{value:"2"}});fireEvent.change(screen.getByLabelText("Fecha"),{target:{value:"2026-08-15"}});fireEvent.change(screen.getByLabelText("Inicio"),{target:{value:"08:00"}});fireEvent.change(screen.getByLabelText("Fin"),{target:{value:"09:00"}});fireEvent.change(screen.getByLabelText("Motivo"),{target:{value:"Clase"}});fireEvent.click(screen.getByRole("button"));await waitFor(()=>expect(createReservation).toHaveBeenCalledWith({userId:7,labId:2,date:"2026-08-15",startTime:"08:00",endTime:"09:00",reason:"Clase"}));expect(screen.getByRole("status")).toHaveTextContent("Reserva creada");});
