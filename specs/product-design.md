@@ -91,6 +91,7 @@ Approved baseline imagery references:
 | `/portal/notificaciones` | Unavailable | No Render v1 operation is published for this surface |
 | `/portal/reportes` | Unavailable | No Render v1 operation is published for this surface |
 | `/portal/administracion` | Direct | Labs, conditions, users, roles, and audit as published by Render |
+| `/portal/logs` | Direct | Visible audit log list from `GET /api/logs/` |
 | `/portal/perfil` | Direct | Explains that no current identity/profile is published |
 
 ## Visual system
@@ -186,3 +187,8 @@ Reconnection triggers revalidation.
 - Default language is Spanish.
 - English must be selectable through visible language controls.
 - Error, validation, and status messages must be localized.
+- All static interface copy, including labels, buttons, loading states and ARIA
+  text, lives in the ES/EN i18n configuration. API/database values and URLs are
+  intentionally not translated.
+- The interface supports a persistent light/dark theme; the first visit follows
+  the browser preference and every async route/data flow announces loading.

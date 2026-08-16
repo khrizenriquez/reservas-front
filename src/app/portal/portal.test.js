@@ -3,11 +3,12 @@ import PortalLayout from "./layout";
 import PortalPage from "./page";
 import ProfilePage from "./perfil/page";
 import { LanguageProvider } from "@/components/LanguageProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const listReservations = jest.fn();
 jest.mock("@/services/render-api", () => ({ createRenderApiClient: () => ({ listReservations }) }));
 
-const wrap = (children) => render(<LanguageProvider>{children}</LanguageProvider>);
+const wrap = (children) => render(<ThemeProvider><LanguageProvider>{children}</LanguageProvider></ThemeProvider>);
 
 describe("portal shell", () => {
   beforeEach(() => { jest.clearAllMocks(); listReservations.mockResolvedValue([]); });

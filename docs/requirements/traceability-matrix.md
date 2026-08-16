@@ -11,6 +11,9 @@
 | HU-018-S07 | CST-006, CST-011 | service worker, `OfflineNotice`, reservations page | `ServiceWorker.test.js`, `OfflineNotice.test.js`, reservation tests | Code evidence ready; needs installed-PWA preview walkthrough. |
 | HU-018-S08 | CST-011, CST-012 | shared status, language and focus styles | `ui-foundation.test.js` and route tests | Partial: automated component evidence exists; keyboard/screen-reader walkthrough remains required. |
 
+`/portal/logs` consumes the published `GET /api/logs/` operation through
+`listAuditLogs()`. It is a direct route and its raw API values are not translated.
+
 ## Closure rule
 
 The checked runtime gates and configuration evidence are recorded in

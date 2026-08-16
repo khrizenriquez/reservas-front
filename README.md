@@ -59,7 +59,12 @@ Architecture and sequence diagrams are documented in `docs/architecture-flow.md`
 | `/portal/disponibilidad` | Direct | Laboratory availability search for a selected date and interval. |
 | `/portal/reservas` | Direct | Reservation list, filters, detail, create, modify, and cancel flows permitted by Render v1. |
 | `/portal/administracion` | Direct | Contract-backed management of laboratories, conditions, users, and audit records. |
+| `/portal/logs` | Direct | Visible Render v1 audit-log view using `GET /api/logs/`. |
 | `/_not-found` | Public | Framework-generated fallback for unmatched routes. |
+
+The client includes localized ES/EN interface copy, accessible loading states,
+route-level lazy loading and a persisted light/dark theme. Database values and
+URLs remain unchanged when the language changes.
 
 All portal routes are directly accessible because Render v1 publishes an anonymous
 security alternative. The client does not persist tokens, create a proxy, invent a

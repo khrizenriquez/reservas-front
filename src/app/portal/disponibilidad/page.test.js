@@ -16,7 +16,7 @@ beforeEach(() => jest.clearAllMocks());
 
 it("queries Render with date and interval and transfers the selected lab to reservations", async () => {
   getLabAvailability.mockResolvedValue([{ id: 1, name: "A1" }]);
-  render(<Page />);
+  render(<LanguageProvider><Page /></LanguageProvider>);
   await search();
   await waitFor(() => expect(getLabAvailability).toHaveBeenCalledWith({ fecha: "2099-08-15", hora_inicio: "08:00", hora_fin: "09:00" }));
   expect(screen.getByLabelText("Laboratorios disponibles")).toHaveTextContent("A1");
@@ -25,9 +25,9 @@ it("queries Render with date and interval and transfers the selected lab to rese
 
 it("shows an empty state", async () => {
   getLabAvailability.mockResolvedValue([]);
-  render(<Page />);
+  render(<LanguageProvider><Page /></LanguageProvider>);
   await search();
-  expect(await screen.findByRole("status")).toHaveTextContent("No hay laboratorios");
+  expect(await screen.findByText("No hay laboratorios disponibles para ese horario.")).toBeInTheDocument();
 });
 
 it("shows a localized network error", async () => {
