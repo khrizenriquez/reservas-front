@@ -14,6 +14,8 @@
 - [x] `npm run contract:live` — published Render v1 schema verified on 2026-08-16; its result is release evidence, not a Vercel build dependency.
 - [x] `npm run check` — lint and 50 Jest tests pass; global branch coverage is 80.81%.
 - [x] `npm run test:jest` — 50 tests and all global coverage thresholds pass.
+- [x] Vercel-environment simulation — the exact build command passes with
+  `NODE_ENV=production`; Jest switches only its own process to `NODE_ENV=test`.
 - [x] `npm run release:check` — committed Vercel configuration verified.
 - [x] `npm run build` — Next.js production build passes.
 - [x] `npm audit --omit=dev --audit-level=high` — 0 vulnerabilities reported on 2026-08-16.
@@ -45,4 +47,6 @@
   real Vercel deployments; they must not be fabricated from local build output.
 - The first Vercel Production build failed only because the former `contract`
   command made a live Render schema request that timed out. The deterministic
-  correction is awaiting a green Vercel Preview deployment.
+  correction is included in this branch. The first Preview then reached Jest and
+  exposed Vercel's `NODE_ENV=production` default; `test:jest` now explicitly
+  uses the React test runtime and is awaiting a green Preview redeploy.

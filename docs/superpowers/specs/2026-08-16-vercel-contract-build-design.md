@@ -42,7 +42,9 @@ explicit. Jest tests will cover that the deterministic gate validates the local
 snapshot without calling `fetch`, while the live gate still validates a supplied
 published schema and reports failures. Release documentation, traceability, and
 the evidence checklist will record both gates and the Vercel build will retain
-the deterministic one.
+the deterministic one. The Jest script will explicitly use `NODE_ENV=test` so
+Vercel's production build environment cannot load React's production test
+runtime.
 
 ## Acceptance Criteria
 
@@ -54,3 +56,5 @@ the deterministic one.
    Jest coverage, release configuration verification, and `next build`.
 4. Local and Vercel Preview/Production CORS checks continue to use only the
    Render v1 origin and anonymous credential policy.
+5. Jest passes when invoked from `NODE_ENV=production`, proving the host build
+   environment cannot disable React test utilities.

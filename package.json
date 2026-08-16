@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "contract": "node scripts/verify-api-contract.mjs",
     "contract:live": "node scripts/verify-live-api-contract.mjs",
-    "test:jest": "jest --coverage",
+    "test:jest": "NODE_ENV=test jest --coverage",
     "check": "npm run lint && npm run test:jest",
     "release:check": "node scripts/verify-release-config.mjs",
     "cors:check": "node scripts/check-render-cors.mjs",

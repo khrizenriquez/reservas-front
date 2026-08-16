@@ -32,6 +32,10 @@ the Render flows: the verified API contract permits anonymous use and the client
 uses `credentials: "omit"`, so Render's published wildcard response is valid.
 Do not replace Render with a local proxy or an invented frontend endpoint.
 
+Vercel builds with a production environment, while React component tests require
+the React test runtime. The committed `test:jest` script therefore explicitly
+sets `NODE_ENV=test`; this affects Jest only, not the production `next build`.
+
 ## Committed deployment configuration
 
 `vercel.json` is the canonical Vercel configuration. It runs the contract,
