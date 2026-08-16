@@ -22,7 +22,7 @@ No item is complete without tests, traceability, and passing quality gates.
 
 ## Current status and important notes
 
-- **Completed:** 15 of 16 delivery items; the active item is the Netlify release.
+- **Completed:** 16 of 17 delivery items; the active item is the Netlify release.
 - **Backend boundary:** Render v1 is the only supported API. No client flow may
   depend on endpoints that its published schema does not expose.
 - **Runtime configuration:** Podman creates `runtime-config.js` at startup;
@@ -36,6 +36,10 @@ No item is complete without tests, traceability, and passing quality gates.
   first publishes that contract.
 - **Required closure:** every completed item has its own merged PR; quality gates
   remain contract, lint, Jest coverage over 80%, and production build.
+- **Local workflow evidence:** `feature/local-full-workflow` verifies the rendered
+  flows through local `fetch` interception. This is not a substitute API and does
+  not create, change, or cancel records on Render; a live mutation run still
+  requires an explicitly authorized test account and disposable records.
 
 ## Ordered delivery steps
 
@@ -54,4 +58,5 @@ No item is complete without tests, traceability, and passing quality gates.
 - [x] **13 — `feature/admin-render`: implement contract-backed administration.** The administration surface reads labs, conditions, users and audit through published Render operations. Reports and notifications remain excluded because Render exposes no matching operations.
 - [x] **14 — `feature/pwa-offline`: add safe PWA behavior.** The public-shell manifest and service worker cache only the public route; an accessible localized offline notice is shown, reservations revalidate on reconnect, and create/cancel controls are hard-disabled offline. Tests prove no mutation is queued or sent while offline. Maps HU-018-S07.
 - [x] **15 — `feature/local-acceptance`: validate the local application first.** The local runtime now serves its config and public/access/portal routes, the Render CORS check passes for `http://127.0.0.1:3000`, and contract/lint/Jest/build gates pass. The client uses Render's anonymous published contract with `credentials: "omit"`; a reviewer can exercise a real institutional account without adding a proxy, token storage or substitute API.
-- [ ] **16 — `feature/netlify-release`: deploy and close evidence.** Netlify build/header configuration, environment instructions, CORS validator, traceability matrix, and release-evidence template are prepared. It remains open until a real preview and production deploy pass the anonymous Render CORS check plus accessibility/PWA walkthroughs.
+- [x] **16 — `feature/local-full-workflow`: complete locally verifiable Render v1 workflows.** The API client now maps every published mutation to its documented body; availability transfers an available lab and its selected interval to the reservation form; reservations list/filter/inspect/create/modify/cancel only the active user's future records; and administration lists and manages labs, conditions, users, and audit data for an administrator. Jest covers the rendered operations, errors, confirmation and offline safety with global coverage above 80%; `contract`, `check`, and production `build` pass. Tests intercept `fetch` locally and production requests remain direct Render v1 calls.
+- [ ] **17 — `feature/netlify-release`: deploy and close evidence.** Netlify build/header configuration, environment instructions, CORS validator, traceability matrix, and release-evidence template are prepared. It remains open until a real preview and production deploy pass the anonymous Render CORS check plus accessibility/PWA walkthroughs.
