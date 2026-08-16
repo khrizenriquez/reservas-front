@@ -1,3 +1,2 @@
 "use client";
-import { useSession } from "@/components/SessionProvider";
-export default function ProfilePage(){const {session}=useSession();return <section><h1>Perfil</h1><p>{session?.name||"Usuario institucional"}</p><p>Esta sesión existe solo en memoria del navegador.</p></section>}
+export default function ProfilePage(){return <section className="workflow-page"><h1>Perfil</h1><p>Acceso directo a Render v1.</p><p>La API publicada no expone un perfil actual ni aplica una sesión en el cliente.</p></section>}

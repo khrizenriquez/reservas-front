@@ -31,6 +31,9 @@ This specification does not define a pure React-only baseline. The default imple
 - `axios` is not part of the approved baseline.
 - Credentials model: the published Render v1 schema permits anonymous requests and
   does not document a required cookie session; requests use `credentials: "omit"`.
+- Portal access model: `/portal` and all currently implemented child routes are
+  direct. The frontend must not introduce a login or role prerequisite while the
+  only published backend contract permits anonymous calls.
 - Dependency minimization is mandatory; add libraries only when native/framework options are insufficient.
 
 ## CORS constraints
@@ -81,14 +84,14 @@ Approved baseline imagery references:
 | Route | Audience | Purpose |
 |---|---|---|
 | `/` | Public | Value, three laboratories, process, FAQ, and access CTA |
-| `/acceso` | Public | Institutional sign-in |
-| `/portal` | Authenticated | Role-aware operational summary |
-| `/portal/disponibilidad` | Authenticated | Search free labs and begin a reservation |
-| `/portal/reservas` | Authenticated | List, filter, inspect, modify, and cancel |
-| `/portal/notificaciones` | Authenticated | Inbox and unread state |
-| `/portal/reportes` | Administrator | Summary, exports, and schedules |
-| `/portal/administracion` | Administrator | Labs, conditions, users, roles, and audit |
-| `/portal/perfil` | Authenticated | Identity, sessions, and sign-out controls |
+| `/acceso` | Optional | Diagnostic login operation; direct portal entry remains available |
+| `/portal` | Direct | Operational summary from published Render data |
+| `/portal/disponibilidad` | Direct | Search free labs and begin a reservation |
+| `/portal/reservas` | Direct | List, filter, inspect, modify, and cancel |
+| `/portal/notificaciones` | Unavailable | No Render v1 operation is published for this surface |
+| `/portal/reportes` | Unavailable | No Render v1 operation is published for this surface |
+| `/portal/administracion` | Direct | Labs, conditions, users, roles, and audit as published by Render |
+| `/portal/perfil` | Direct | Explains that no current identity/profile is published |
 
 ## Visual system
 
@@ -150,14 +153,15 @@ after the fields instead of pinning it.
 
 ## Security and privacy
 
-- Web login sends `clientType: WEB` through Kong.
-- Access tokens exist only in the in-memory session provider.
-- The successful Render login response is held only in the in-memory session
-  provider. No token, cookie, refresh flow, CSRF header, localStorage,
-  sessionStorage, IndexedDB, logs, HTML, or error telemetry is assumed.
+- `/acceso` may call the published login operation, but its result is not retained
+  or required by portal routes.
+- No token, cookie, refresh flow, CSRF header, localStorage, sessionStorage,
+  IndexedDB, logs, HTML, or error telemetry is assumed.
 - Every request uses `credentials: "omit"` until Render publishes a different
   authenticated-session contract.
-- UI authorization improves usability but never replaces API RBAC.
+- **Security TODO:** Render v1 must publish and enforce mandatory authentication,
+  identity and per-operation authorization. Until then, hiding routes or checking
+  a client role would be only cosmetic and is prohibited as a security control.
 - No demo account, password, internal hostname, push endpoint, or personal data is
   embedded in source.
 

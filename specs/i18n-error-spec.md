@@ -9,7 +9,7 @@ Define localization and visual error handling requirements for all user-facing r
 1. Default language is Spanish.
 2. English must be selectable by users.
 3. Language selection must persist during the active session.
-4. Public and authenticated surfaces must use the selected language consistently.
+4. Public and direct portal surfaces must use the selected language consistently.
 
 ## Error handling requirements
 

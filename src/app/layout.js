@@ -2,7 +2,6 @@ import "./globals.css";
 import Script from "next/script";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { OfflineNotice } from "@/components/OfflineNotice";
-import { SessionProvider } from "@/components/SessionProvider";
 import { ServiceWorker } from "@/components/ServiceWorker";
 
 export const metadata = {
@@ -16,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body>
         <Script src="/runtime-config.js" strategy="beforeInteractive" />
-        <LanguageProvider><SessionProvider><ServiceWorker /><OfflineNotice />{children}</SessionProvider></LanguageProvider>
+        <LanguageProvider><ServiceWorker /><OfflineNotice />{children}</LanguageProvider>
       </body>
     </html>
   );

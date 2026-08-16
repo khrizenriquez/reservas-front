@@ -17,6 +17,15 @@ describe("Render API client", () => {
     expect(fetchImpl.mock.calls[0][0].toString()).toContain("/api/labs/disponibles/?fecha=2026-08-15&hora_inicio=08%3A00&hora_fin=09%3A00");
   });
 
+  it("lists reservations directly without identity, cookies, or query filters", async () => {
+    const fetchImpl = jest.fn().mockResolvedValue(response(200, []));
+    const client = createRenderApiClient({ baseUrl: "https://render.test", fetchImpl });
+    await client.listReservations();
+    const [url, options] = fetchImpl.mock.calls[0];
+    expect(url.toString()).toBe("https://render.test/api/reservas/");
+    expect(options).toEqual(expect.objectContaining({ method: "GET", credentials: "omit" }));
+  });
+
   it("uses friendly error keys for API and network failures", async () => {
     const client = createRenderApiClient({ baseUrl: "https://render.test", fetchImpl: jest.fn().mockResolvedValue(response(403, { detail: "no" })) });
     await expect(client.listLabs()).rejects.toMatchObject({ name: "RenderApiError", code: "api.forbidden", status: 403 });

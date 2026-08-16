@@ -12,7 +12,9 @@ We follow trunk-based development with rigorous security quality gates in our CI
 - **No secrets in source:** API tokens, keys, and credentials must be stored only in hosting environment variables.
 - **Environment isolation:** Preview and production environments must use separate variable sets.
 - **Header policy:** Enforce baseline security headers (for example: frame, content-type, and referrer protections) through `next.config.mjs` on Vercel.
-- **Least privilege:** Do not expose admin-only UI paths without server-side authorization checks.
+- **Authorization boundary:** UI visibility is not authorization. Render v1 currently
+  publishes anonymous access, including administrative operations, so the client
+  exposes those routes directly and must not claim to enforce roles locally.
 - **Artifact review:** Verify build logs and deployment artifacts do not leak sensitive values.
 
 ## API and CORS Security Controls
@@ -30,6 +32,9 @@ We follow trunk-based development with rigorous security quality gates in our CI
 
 - Use native `fetch` + `async/await` for HTTP integration.
 - Avoid unnecessary third-party transport/state dependencies unless justified and reviewed.
+- **Backend security TODO:** publish and enforce a mandatory authentication scheme,
+  current identity and operation-level permissions in Render v1. Only then may the
+  client make login or role-based access a prerequisite.
 
 ## Deployment Security Checks
 

@@ -3,7 +3,7 @@
 **Fecha:** 2026-08-16
 
 **Rama:** `fix/anonymous-render-access`
-**Estado:** pendiente de revisión del usuario
+**Estado:** implementado; quality gates locales aprobados
 
 ## Contexto y evidencia
 
@@ -53,6 +53,11 @@ interpretación de un supuesto perfil v2.
   endpoints inventados.
 - Ejecutar `npm run contract`, `npm run check` y `npm run test:jest`; la cobertura
   global debe permanecer por encima de 80 %.
+
+Evidencia de implementación (2026-08-16): `npm run contract`, `npm run check`
+(11 suites, 50 pruebas; cobertura global 95.75 % statements y 81.92 % branches),
+`npm run build` y la comprobación HTTP local de todas las rutas implementadas
+pasaron.
 
 ## Deuda de seguridad explícita
 

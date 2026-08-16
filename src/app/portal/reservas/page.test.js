@@ -1,7 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Page from "./page";
 import { LanguageProvider } from "@/components/LanguageProvider";
-import { SessionProvider } from "@/components/SessionProvider";
 
 const api = {
   createReservation: jest.fn(), listReservations: jest.fn(), updateReservation: jest.fn(), cancelReservation: jest.fn(), getReservation: jest.fn()
@@ -9,8 +8,9 @@ const api = {
 jest.mock("@/services/render-api", () => ({ createRenderApiClient: () => api }));
 
 const futureReservation = { id: 3, name: "A1", labName: "A1", labId: 2, userId: 7, date: "2099-08-15", startTime: "08:00", endTime: "09:00", reason: "Clase", status: "Activa" };
-const renderPage = () => render(<LanguageProvider><SessionProvider initialSession={{ id: 7 }}><Page /></SessionProvider></LanguageProvider>);
+const renderPage = () => render(<LanguageProvider><Page /></LanguageProvider>);
 const completeForm = (reason = "Clase") => {
+  fireEvent.change(screen.getByLabelText("ID de usuario solicitante"), { target: { value: "7" } });
   fireEvent.change(screen.getByLabelText("Laboratorio"), { target: { value: "2" } });
   fireEvent.change(screen.getByLabelText("Fecha"), { target: { value: "2099-08-15" } });
   fireEvent.change(screen.getByLabelText("Inicio"), { target: { value: "08:00" } });
@@ -28,15 +28,15 @@ beforeEach(() => {
   Object.defineProperty(window.navigator, "onLine", { configurable: true, value: true });
 });
 
-it("lists the authenticated user's Render reservations and filters them", async () => {
+it("lists Render reservations directly and filters them", async () => {
   api.listReservations.mockResolvedValue([futureReservation]);
   renderPage();
   expect(await screen.findByText("A1")).toBeInTheDocument();
-  expect(api.listReservations).toHaveBeenCalledWith({ userId: 7 });
+  expect(api.listReservations).toHaveBeenCalledWith({});
   fireEvent.change(screen.getByLabelText("Laboratorio para filtrar"), { target: { value: "2" } });
   fireEvent.change(screen.getByLabelText("Fecha para filtrar"), { target: { value: "2099-08-15" } });
   fireEvent.click(screen.getByRole("button", { name: "Filtrar" }));
-  await waitFor(() => expect(api.listReservations).toHaveBeenCalledWith({ userId: 7, labId: "2", fecha: "2099-08-15" }));
+  await waitFor(() => expect(api.listReservations).toHaveBeenCalledWith({ labId: "2", fecha: "2099-08-15" }));
 });
 
 it("creates a reservation with the Render v1 fields and reloads the list", async () => {
@@ -49,7 +49,7 @@ it("creates a reservation with the Render v1 fields and reloads the list", async
   expect(api.listReservations.mock.calls.length).toBeGreaterThan(1);
 });
 
-it("opens the published detail operation and modifies an owned future reservation", async () => {
+it("opens the published detail operation and modifies a future reservation directly", async () => {
   api.listReservations.mockResolvedValue([futureReservation]);
   renderPage();
   fireEvent.click(await screen.findByRole("button", { name: "Ver detalle" }));
@@ -63,13 +63,13 @@ it("opens the published detail operation and modifies an owned future reservatio
   expect(await screen.findByText("Reserva modificada.")).toBeInTheDocument();
 });
 
-it("only exposes mutation actions for an owned future reservation and confirms cancellation", async () => {
+it("exposes mutation actions for future published reservations and confirms cancellation", async () => {
   api.listReservations.mockResolvedValue([{ ...futureReservation }, { ...futureReservation, id: 4, userId: 9 }]);
   window.confirm = jest.fn().mockReturnValue(true);
   renderPage();
   await screen.findAllByText("A1");
-  expect(screen.getAllByRole("button", { name: "Modificar" })).toHaveLength(1);
-  fireEvent.click(screen.getByRole("button", { name: "Cancelar" }));
+  expect(screen.getAllByRole("button", { name: "Modificar" })).toHaveLength(2);
+  fireEvent.click(screen.getAllByRole("button", { name: "Cancelar" })[0]);
   await waitFor(() => expect(api.cancelReservation).toHaveBeenCalledWith({ id: 3, requesterId: 7 }));
   expect(window.confirm).toHaveBeenCalled();
   expect(await screen.findByText("Reserva cancelada.")).toBeInTheDocument();
