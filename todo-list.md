@@ -22,7 +22,7 @@ No item is complete without tests, traceability, and passing quality gates.
 
 ## Current status and important notes
 
-- **Completed:** 6 of 15 delivery items; the next item is the public landing.
+- **Completed:** 14 of 15 delivery items; the next item is the Netlify release and closure evidence.
 - **Backend boundary:** Render v1 is the only supported API. No client flow may
   depend on endpoints that its published schema does not expose.
 - **Runtime configuration:** Podman creates `runtime-config.js` at startup;
@@ -48,5 +48,5 @@ No item is complete without tests, traceability, and passing quality gates.
 - [x] **11 — `feature/reservation-create`: create reservations safely.** `/portal/reservas` sends only the documented Render payload and has a tested confirmation state. Render does not publish idempotency-key support, so duplicate prevention and full HU-018-S04 acceptance remain a documented backend contract gap.
 - [x] **12 — `feature/reservation-management`: manage owned future bookings.** Reservations are loaded from Render and cancellation requires explicit browser confirmation before its published PATCH operation. Full ownership/future-state enforcement remains dependent on the response data supplied by Render.
 - [x] **13 — `feature/admin-render`: implement contract-backed administration.** The administration surface reads labs, conditions, users and audit through published Render operations. Reports and notifications remain excluded because Render exposes no matching operations.
-- [ ] **14 — `feature/pwa-offline`: add safe PWA behavior.** Add a public-shell manifest/service worker, stale/offline indication, revalidation on reconnect, and hard-disable every reservation mutation offline. Test HU-018-S07; never queue mutations.
+- [x] **14 — `feature/pwa-offline`: add safe PWA behavior.** The public-shell manifest and service worker cache only the public route; an accessible localized offline notice is shown, reservations revalidate on reconnect, and create/cancel controls are hard-disabled offline. Tests prove no mutation is queued or sent while offline. Maps HU-018-S07.
 - [ ] **15 — `feature/netlify-release`: deploy and close evidence.** Configure Netlify previews/production, environment isolation, security headers, and CORS validation with Render. Run full contract/check/Jest gates, verify coverage >80%, execute required accessibility/acceptance checks, complete the traceability matrix and release evidence, then validate production from `main`.
