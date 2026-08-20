@@ -1,0 +1,25 @@
+"use client";
+
+import { IconActivity, IconChartBar, IconFingerprint } from "@tabler/icons-react";
+
+const chartPoints = (entries, width = 560, height = 150) => {
+  const maximum = Math.max(...entries.map(([, count]) => count), 1);
+  const step = entries.length > 1 ? width / (entries.length - 1) : width;
+  return entries.map(([, count], index) => `${index * step},${height - ((count / maximum) * (height - 18)) - 9}`).join(" ");
+};
+
+export function AuditTrend({ entries, label }) {
+  const points = chartPoints(entries);
+  return <div className="audit-chart" role="img" aria-label={label}><svg viewBox="0 0 560 150" preserveAspectRatio="none" aria-hidden="true"><path className="audit-chart-grid" d="M0 25H560M0 75H560M0 125H560" /><polyline className="audit-chart-line" points={points} /><polyline className="audit-chart-area" points={`0,150 ${points} 560,150`} /></svg><div className="audit-chart-labels">{entries.map(([day, count]) => <span key={day}><small>{day}</small><strong>{count}</strong></span>)}</div></div>;
+}
+
+export function ModuleBars({ entries, label }) {
+  const maximum = Math.max(...entries.map(([, count]) => count), 1);
+  return <div className="audit-bars" role="img" aria-label={label}>{entries.map(([module, count]) => <div className="audit-bar-row" key={module}><span>{module}</span><div aria-hidden="true"><i style={{ width: `${(count / maximum) * 100}%` }} /></div><strong>{count}</strong></div>)}</div>;
+}
+
+export function AuditMetric({ icon: Icon, label, value }) {
+  return <article className="audit-metric"><span className="audit-metric-icon" aria-hidden="true"><Icon size={20} stroke={1.8} /></span><span>{label}</span><strong>{value}</strong></article>;
+}
+
+export const auditIcons = { total: IconActivity, modules: IconChartBar, action: IconFingerprint };

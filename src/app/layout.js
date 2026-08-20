@@ -4,6 +4,7 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { OfflineNotice } from "@/components/OfflineNotice";
 import { ServiceWorker } from "@/components/ServiceWorker";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { AuthProvider } from "@/components/AuthProvider";
 import { messages } from "@/lib/i18n";
 
 export const metadata = {
@@ -17,7 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body>
         <Script src="/runtime-config.js" strategy="beforeInteractive" />
-        <ThemeProvider><LanguageProvider><ServiceWorker /><OfflineNotice />{children}</LanguageProvider></ThemeProvider>
+        <ThemeProvider><LanguageProvider><AuthProvider><ServiceWorker /><OfflineNotice />{children}</AuthProvider></LanguageProvider></ThemeProvider>
       </body>
     </html>
   );

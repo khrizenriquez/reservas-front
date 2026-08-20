@@ -29,11 +29,12 @@ This specification does not define a pure React-only baseline. The default imple
 - API style: REST only, aligned to the Render v1 schema and `specs/api-contract.json` / `specs/contracts/render-v1-openapi.yaml`.
 - HTTP client: native `fetch` with `async/await`.
 - `axios` is not part of the approved baseline.
-- Credentials model: the published Render v1 schema permits anonymous requests and
-  does not document a required cookie session; requests use `credentials: "omit"`.
-- Portal access model: `/portal` and all currently implemented child routes are
-  direct. The frontend must not introduce a login or role prerequisite while the
-  only published backend contract permits anonymous calls.
+- Credentials model: `/acceso` validates credentials only through the published
+  `POST /api/auth/login/` operation. The UI keeps a normalized identity in
+  tab-scoped `sessionStorage`; no password, token, cookie, or refresh flow is kept.
+- Portal access model: `/portal` and its implemented child routes require that UI
+  session. There is no public registration or password-recovery journey. The UI
+  role gate is an experience control, not a replacement for Render authorization.
 - Dependency minimization is mandatory; add libraries only when native/framework options are insufficient.
 
 ## CORS constraints
@@ -84,15 +85,15 @@ Approved baseline imagery references:
 | Route | Audience | Purpose |
 |---|---|---|
 | `/` | Public | Value, three laboratories, process, FAQ, and access CTA |
-| `/acceso` | Optional | Diagnostic login operation; direct portal entry remains available |
-| `/portal` | Direct | Operational summary from published Render data |
-| `/portal/disponibilidad` | Direct | Search free labs and begin a reservation |
-| `/portal/reservas` | Direct | Paginated list, filter, inspect, create, modify, and cancel in dialogs |
+| `/acceso` | Public | Required Render login; no public registration or password recovery |
+| `/portal` | Authenticated UI | Operational summary from published Render data |
+| `/portal/disponibilidad` | Authenticated UI | Search free labs and begin a reservation |
+| `/portal/reservas` | Authenticated UI | Paginated list, filter, inspect, create, modify, and cancel; professors only mutate their own future reservations |
 | `/portal/notificaciones` | Unavailable | No Render v1 operation is published for this surface |
 | `/portal/reportes` | Unavailable | No Render v1 operation is published for this surface |
-| `/portal/administracion` | Direct | Paginated labs, conditions, users, and audit as published by Render, with modal workflows |
-| `/portal/logs` | Direct | Audit dashboard and paginated list from `GET /api/logs/?UMG_User_ID=<value>` |
-| `/portal/perfil` | Direct | Explains that no current identity/profile is published |
+| `/portal/administracion` | Authenticated UI | All users read records; only administrators create/edit labs or conditions and create/reset/inactivate users |
+| `/portal/logs` | Authenticated UI | Audit dashboard and paginated list from `GET /api/logs/?UMG_User_ID=<value>`; defaults to the signed-in ID |
+| `/portal/perfil` | Authenticated UI | Shows the session identity and changes only its own password |
 
 ## Visual system
 
@@ -161,15 +162,15 @@ after the fields instead of pinning it.
 
 ## Security and privacy
 
-- `/acceso` may call the published login operation, but its result is not retained
-  or required by portal routes.
-- No token, cookie, refresh flow, CSRF header, localStorage, sessionStorage,
-  IndexedDB, logs, HTML, or error telemetry is assumed.
+- `/acceso` requires the published login operation before portal navigation. Its
+  session holds only identity metadata in `sessionStorage` for the current tab.
+- No password, token, cookie, refresh flow, CSRF header, localStorage, IndexedDB,
+  logs, HTML, or error telemetry is assumed.
 - Every request uses `credentials: "omit"` until Render publishes a different
   authenticated-session contract.
-- **Security TODO:** Render v1 must publish and enforce mandatory authentication,
-  identity and per-operation authorization. Until then, hiding routes or checking
-  a client role would be only cosmetic and is prohibited as a security control.
+- **Security TODO:** Render v1 must enforce identity and per-operation
+  authorization. The login/session and client role rules improve the UI but are not
+  a security control while Render still accepts anonymous calls.
 - No demo account, password, internal hostname, push endpoint, or personal data is
   embedded in source.
 

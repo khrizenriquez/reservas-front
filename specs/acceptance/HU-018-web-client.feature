@@ -8,21 +8,22 @@ Feature: Use the public landing and accessible web PWA
     And an institutional access action is visible
 
   @HU-018-S02 @HU-011
-  Scenario: Optionally check login without gating the portal
+  Scenario: Sign in before entering the portal
     Given an active institutional user
     When the user signs in with the web client
     Then the client calls only the published Render login operation
-    And the portal remains accessible without that login response, cookie, token, or unpublished auth endpoint
+    And the portal opens only after a normalized tab-scoped identity is available
+    And no password, token, cookie, registration, recovery, or unpublished auth endpoint is used
 
   @HU-018-S03 @HU-003
   Scenario: Search availability accessibly
-    Given a direct portal visitor provides a valid date and interval
+    Given an authenticated portal user provides a valid date and interval
     When availability is requested
     Then only free laboratories are presented with text and visual state
 
   @HU-018-S04 @HU-001
   Scenario: Create a reservation from an available laboratory
-    Given an available laboratory, documented user ID and valid reason
+    Given an authenticated user, an available laboratory and valid reason
     When the teacher confirms the summary
     Then the reservation is sent only with documented Render fields
     And no idempotency key is invented because Render does not publish one
@@ -30,13 +31,16 @@ Feature: Use the public landing and accessible web PWA
   @HU-018-S05 @HU-007 @HU-008
   Scenario: Manage a published future reservation
     Given a published future reservation
-    Then modification and cancellation actions are available
+    Then an administrator can modify or cancel it
+    And a professor can modify or cancel only a reservation with their own user ID
     And destructive cancellation requires confirmation
 
   @HU-018-S06 @HU-012 @HU-013 @HU-015 @HU-017
-  Scenario: Use directly published administration
-    Given a direct portal visitor
+  Scenario: Use role-aware published administration
+    Given an authenticated portal user
     Then administration and audit navigation is visible
+    And an administrator can create users and inactivate another active user
+    And a professor can read resources but cannot create, edit, reset, or inactivate them
     And the client reports any backend rejection with a friendly localized message
 
   @HU-018-S07

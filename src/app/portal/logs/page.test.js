@@ -4,15 +4,22 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 
 const listAuditLogs = jest.fn();
 jest.mock("@/services/render-api", () => ({ createRenderApiClient: () => ({ listAuditLogs }) }));
+const useAuth = jest.fn();
+jest.mock("@/components/AuthProvider", () => ({ useAuth: () => useAuth() }));
 
 describe("LogsPage", () => {
-  beforeEach(() => jest.clearAllMocks());
+  beforeEach(() => {
+    jest.clearAllMocks();
+    useAuth.mockReturnValue({ identity: { id: 18, name: "Chris", email: "chris@umg.edu.gt" }, isAdmin: true });
+  });
   it("renders raw published logs through the documented client operation", async () => {
     listAuditLogs.mockResolvedValue(Array.from({ length: 12 }, (_, index) => ({ id: index + 1, createdAt: "2099-08-01", raw: { umg_accion: `CREAR-${index + 1}`, umg_modulo: "RESERVAS", umg_descripcion: "Reserva creada" } })));
     render(<LanguageProvider><Page /></LanguageProvider>);
     expect((await screen.findAllByText("CREAR-1")).length).toBeGreaterThan(1);
     expect(screen.queryByText("CREAR-11")).not.toBeInTheDocument();
-    expect(listAuditLogs).toHaveBeenCalledWith({ userId: "1" });
+    expect(listAuditLogs).toHaveBeenCalledWith({ userId: "18" });
+    expect(screen.getByRole("img", { name: "Tendencia de actividad diaria" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Distribución de actividad por módulo" })).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Siguiente" }));
     expect((await screen.findAllByText("CREAR-11")).length).toBeGreaterThan(0);
     fireEvent.change(screen.getByLabelText("Mostrar"), { target: { value: "20" } });

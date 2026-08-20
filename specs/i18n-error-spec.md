@@ -9,7 +9,7 @@ Define localization and visual error handling requirements for all user-facing r
 1. Default language is Spanish.
 2. English must be selectable by users.
 3. Language selection must persist during the active session.
-4. Public and direct portal surfaces must use the selected language consistently.
+4. Public and authenticated portal surfaces must use the selected language consistently.
 
 ## Error handling requirements
 
@@ -29,7 +29,7 @@ Define localization and visual error handling requirements for all user-facing r
 
 ## Acceptance mapping
 
-- `HU-018-S02`: session/login errors and security feedback
+- `HU-018-S02`: required session/login errors and security feedback
 - `HU-018-S03`: availability validation and API errors
 - `HU-018-S04`: reservation create errors with idempotency context
 - `HU-018-S05`: update/cancel errors and confirmations

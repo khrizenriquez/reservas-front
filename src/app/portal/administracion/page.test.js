@@ -6,6 +6,8 @@ const api = {
   listLabs: jest.fn(), listLabConditions: jest.fn(), listUsers: jest.fn(), listAuditLogs: jest.fn(), createLab: jest.fn(), updateLab: jest.fn(), createLabCondition: jest.fn(), updateLabCondition: jest.fn(), createUser: jest.fn(), deactivateUser: jest.fn(), resetUserPassword: jest.fn()
 };
 jest.mock("@/services/render-api", () => ({ createRenderApiClient: () => api }));
+const useAuth = jest.fn();
+jest.mock("@/components/AuthProvider", () => ({ useAuth: () => useAuth() }));
 
 const lab = { id: 1, name: "Laboratorio A", status: 1 };
 const condition = { id: 2, labId: 1, labName: "Laboratorio A", date: "2099-08-15", startTime: "08:00", endTime: "09:00", type: "Mantenimiento", reason: "Limpieza", status: 1 };
@@ -19,15 +21,29 @@ beforeEach(() => {
   api.listLabConditions.mockResolvedValue([condition]);
   api.listUsers.mockResolvedValue([user]);
   api.listAuditLogs.mockResolvedValue([log]);
+  useAuth.mockReturnValue({ identity: { id: 18, name: "Chris", email: "chris@umg.edu.gt" }, isAdmin: true });
   Object.values(api).filter((mock) => mock.mock).forEach((mock) => {
     if (!mock.getMockImplementation()) mock.mockResolvedValue({});
   });
 });
 
-it("loads administration directly without a client role", async () => {
+it("loads administration for an administrator", async () => {
   renderPage();
   expect(await screen.findByText("Laboratorio A")).toBeInTheDocument();
   expect(api.listLabs).toHaveBeenCalledTimes(1);
+});
+
+it("keeps records visible for a professor while hiding administrative mutations", async () => {
+  useAuth.mockReturnValue({ identity: { id: 7, name: "Docente", email: "docente@umg.edu.gt" }, isAdmin: false });
+  renderPage();
+  expect(await screen.findByText("Laboratorio A")).toBeInTheDocument();
+  expect(screen.getByText("ana@umg.edu.gt · Docente")).toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Crear laboratorio" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Editar laboratorio" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Crear condición" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Crear usuario" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Restablecer contraseña" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Inactivar usuario" })).not.toBeInTheDocument();
 });
 
 it("lists Render labs, conditions, users, and audit records", async () => {
