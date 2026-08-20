@@ -40,8 +40,15 @@ Feature: Use the public landing and accessible web PWA
     Given an authenticated portal user
     Then administration and audit navigation is visible
     And an administrator can create users and inactivate another active user
-    And a professor can read resources but cannot create, edit, reset, or inactivate them
+    And a professor cannot see the users navigation or user records and is redirected from its direct URL
     And the client reports any backend rejection with a friendly localized message
+
+  @HU-018-S09 @HU-017
+  Scenario: Understand real audit activity by period
+    Given the signed-in user loads the published audit records with the required user ID
+    Then the client shows a full-width Monday-to-Sunday chart for the newest returned week
+    And a valid date range filters only those already returned records without an undocumented API query
+    And an invalid date range keeps the last valid chart and announces localized feedback
 
   @HU-018-S07
   Scenario: Keep offline behavior safe

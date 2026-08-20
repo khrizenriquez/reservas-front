@@ -32,6 +32,10 @@ directamente y omiten credenciales del navegador. El rol local controla la UI, p
 no reemplaza autorización backend porque el contrato publicado aún permite acceso
 anónimo.
 
+La ruta de logs usa exclusivamente `GET /api/logs/?UMG_User_ID=<value>`. La
+segmentación semanal y por rango ocurre en el navegador sobre esa respuesta; no se
+envía ningún parámetro de fecha, analítica o paginación que Render v1 no publique.
+
 ```mermaid
 sequenceDiagram
   actor User

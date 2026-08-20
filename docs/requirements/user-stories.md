@@ -14,8 +14,10 @@ Este archivo lista las historias activas y su mapeo directo a criterios de acept
 	- Escenarios: `HU-018-S04`
 - Como profesor, quiero gestionar solo mis reservas futuras; como administrador, quiero gestionar todas las reservas futuras.
 	- Escenarios: `HU-018-S05`
-- Como administrador, quiero crear e inactivar usuarios y administrar recursos; como profesor, quiero consultar las superficies publicadas sin acciones administrativas.
+- Como administrador, quiero administrar usuarios en una superficie dedicada (crear, restablecer e inactivar); como profesor, no quiero ver ni acceder a la lista de usuarios.
 	- Escenarios: `HU-018-S06`
+- Como usuario autenticado, quiero entender la actividad real de auditoría por semana o rango de fechas sin depender de una consulta no publicada.
+	- Escenarios: `HU-018-S09`
 - Como usuario PWA, quiero comportamiento offline seguro para evitar mutaciones inseguras sin conectividad.
 	- Escenarios: `HU-018-S07`
 - Como usuario con tecnologia de asistencia, quiero recorridos accesibles con foco y anuncios correctos.
