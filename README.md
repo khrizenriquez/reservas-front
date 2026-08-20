@@ -85,6 +85,53 @@ local identity or use unverified API paths.
 > and enforce required authentication, a current-identity operation and per-action
 > authorization before the client reintroduces login as a prerequisite.
 
+## Production evidence and live data
+
+The production client is available at
+[reservas-front-mu.vercel.app](https://reservas-front-mu.vercel.app/portal).
+The screenshots below were captured from that deployment on 19 August 2026.
+
+| Page | Production route | Runtime data source |
+|---|---|---|
+| Summary | [`/portal`](https://reservas-front-mu.vercel.app/portal) | `GET /api/reservas/` |
+| Reservations | [`/portal/reservas`](https://reservas-front-mu.vercel.app/portal/reservas) | `GET /api/reservas/` |
+| Availability | [`/portal/disponibilidad`](https://reservas-front-mu.vercel.app/portal/disponibilidad) | `GET /api/labs/disponibles/` |
+| Audit logs | [`/portal/logs`](https://reservas-front-mu.vercel.app/portal/logs) | `GET /api/logs/?UMG_User_ID=<value>` |
+
+### Summary
+
+[![Live portal summary](docs/images/portal-resumen.png)](https://reservas-front-mu.vercel.app/portal)
+
+### Reservations
+
+[![Live reservations page](docs/images/portal-reservas.png)](https://reservas-front-mu.vercel.app/portal/reservas)
+
+### Availability
+
+[![Live availability page](docs/images/portal-disponibilidad.png)](https://reservas-front-mu.vercel.app/portal/disponibilidad)
+
+### Audit logs
+
+[![Live audit logs page](docs/images/portal-logs.png)](https://reservas-front-mu.vercel.app/portal/logs)
+
+### API verification scope
+
+On 19 August 2026, the following non-mutating Render calls were executed against
+production and returned HTTP `200`: users (17 records), laboratories (7),
+conditions (8), reservations (69), availability for the documented interval (4),
+logs for `UMG_User_ID=1` (100), and the detail for a returned reservation.
+
+Runtime pages do **not** use mock, fixture, sample, or hard-coded API records.
+Every displayed database value comes from the corresponding Render response; the
+logs dashboard only aggregates those returned records in the browser. Mocked data
+exists solely in `*.test.js` files to isolate unit tests.
+
+`POST`, `PUT`, and `PATCH` operations are represented by the verified local Render
+v1 contract and exercised through unit tests, but are intentionally not invoked
+against production by automated verification because they create or alter real
+records. A full live certification of those operations requires an explicitly
+approved disposable test account and records.
+
 ## API endpoint inventory (Render v1 contract)
 
 | Operation | Method | Path |
