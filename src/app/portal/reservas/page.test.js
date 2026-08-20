@@ -6,6 +6,8 @@ const api = {
   createReservation: jest.fn(), listReservations: jest.fn(), updateReservation: jest.fn(), cancelReservation: jest.fn(), getReservation: jest.fn()
 };
 jest.mock("@/services/render-api", () => ({ createRenderApiClient: () => api }));
+const useAuth = jest.fn();
+jest.mock("@/components/AuthProvider", () => ({ useAuth: () => useAuth() }));
 
 const futureReservation = { id: 3, name: "A1", labName: "A1", labId: 2, userId: 7, date: "2099-08-15", startTime: "08:00", endTime: "09:00", reason: "Clase", status: "Activa" };
 const renderPage = () => render(<LanguageProvider><Page /></LanguageProvider>);
@@ -25,6 +27,7 @@ beforeEach(() => {
   api.updateReservation.mockResolvedValue({});
   api.cancelReservation.mockResolvedValue({});
   api.getReservation.mockResolvedValue(futureReservation);
+  useAuth.mockReturnValue({ identity: { id: 7, name: "Admin", email: "admin@umg.edu.gt" }, isAdmin: true });
   Object.defineProperty(window.navigator, "onLine", { configurable: true, value: true });
 });
 
@@ -108,4 +111,19 @@ it("does not cancel when the user closes the confirmation dialog", async () => {
   fireEvent.click(await screen.findByRole("button", { name: "Cancelar" }));
   fireEvent.click(within(screen.getByRole("dialog")).getAllByRole("button", { name: "Cerrar", exact: true })[1]);
   expect(api.cancelReservation).not.toHaveBeenCalled();
+});
+
+it("lets a professor manage only their own future reservations", async () => {
+  useAuth.mockReturnValue({ identity: { id: 7, name: "Docente", email: "docente@umg.edu.gt" }, isAdmin: false });
+  api.listReservations.mockResolvedValue([{ ...futureReservation }, { ...futureReservation, id: 4, userId: 9 }]);
+  renderPage();
+  await screen.findAllByText("A1");
+  expect(screen.getAllByRole("button", { name: "Modificar" })).toHaveLength(1);
+  expect(screen.getAllByRole("button", { name: "Cancelar" })).toHaveLength(1);
+  fireEvent.click(screen.getByRole("button", { name: "Nueva reserva" }));
+  expect(screen.getByLabelText("ID de usuario solicitante")).toHaveValue(7);
+  expect(screen.getByLabelText("ID de usuario solicitante")).toHaveAttribute("readonly");
+  completeForm("Reserva propia");
+  fireEvent.click(screen.getByRole("button", { name: "Confirmar reserva" }));
+  await waitFor(() => expect(api.createReservation).toHaveBeenCalledWith(expect.objectContaining({ userId: 7, reason: "Reserva propia" })));
 });

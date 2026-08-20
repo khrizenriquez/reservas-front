@@ -1,34 +1,34 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import AccessPage from "./page";
 import { LanguageProvider } from "@/components/LanguageProvider";
-const mockPush = jest.fn();
-jest.mock("next/navigation", () => ({ useRouter: () => ({ push: mockPush }) }));
+const mockReplace = jest.fn();
+jest.mock("next/navigation", () => ({ useRouter: () => ({ replace: mockReplace }) }));
 
-const login = jest.fn();
-jest.mock("@/services/render-api", () => ({ createRenderApiClient: () => ({ login }), RenderApiError: class RenderApiError extends Error { constructor(value) { super(value.code); Object.assign(this, value); } } }));
+const signIn = jest.fn();
+jest.mock("@/components/AuthProvider", () => ({ useAuth: () => ({ signIn }) }));
 
 const renderPage = () => render(<LanguageProvider><AccessPage /></LanguageProvider>);
 
 describe("AccessPage", () => {
   it("submits institutional credentials without persisting a token", async () => {
-    login.mockResolvedValue({}); renderPage();
+    signIn.mockResolvedValue({ id: 18 }); renderPage();
     fireEvent.change(screen.getByLabelText("Correo institucional"), { target: { value: "docente@umg.edu.gt" } });
     fireEvent.change(screen.getByLabelText("Contraseña"), { target: { value: "secret" } });
-    fireEvent.click(screen.getByRole("button", { name: "Comprobar login" }));
-    await waitFor(() => expect(login).toHaveBeenCalledWith({ username: "docente@umg.edu.gt", password: "secret" }));
-    expect(mockPush).toHaveBeenCalledWith("/portal");
+    fireEvent.click(screen.getByRole("button", { name: "Iniciar sesión" }));
+    await waitFor(() => expect(signIn).toHaveBeenCalledWith({ username: "docente@umg.edu.gt", password: "secret" }));
+    expect(mockReplace).toHaveBeenCalledWith("/portal");
   });
 
   it("shows a localized error after a failed login", async () => {
-    login.mockRejectedValue({ code: "api.unauthorized" }); renderPage();
+    signIn.mockRejectedValue({ code: "api.unauthorized" }); renderPage();
     fireEvent.change(screen.getByLabelText("Correo institucional"), { target: { value: "docente@umg.edu.gt" } });
     fireEvent.change(screen.getByLabelText("Contraseña"), { target: { value: "wrong" } });
-    fireEvent.click(screen.getByRole("button", { name: "Comprobar login" }));
+    fireEvent.click(screen.getByRole("button", { name: "Iniciar sesión" }));
     await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("No fue posible iniciar sesión."));
   });
 
-  it("offers direct portal navigation without credentials", () => {
+  it("does not offer unauthenticated portal navigation", () => {
     renderPage();
-    expect(screen.getByRole("link", { name: "Continuar sin iniciar sesión" })).toHaveAttribute("href", "/portal");
+    expect(screen.queryByRole("link", { name: /continuar sin iniciar sesión/i })).not.toBeInTheDocument();
   });
 });

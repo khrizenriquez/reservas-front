@@ -6,15 +6,15 @@ Este archivo lista las historias activas y su mapeo directo a criterios de acept
 
 - Como visitante, quiero entender el servicio desde la landing para saber como reservar.
 	- Escenarios: `HU-018-S01`
-- Como usuario institucional, quiero comprobar opcionalmente el login publicado sin bloquear el acceso directo al portal.
+- Como usuario institucional, quiero iniciar sesión con Render antes de usar el portal sin almacenar mi contraseña.
 	- Escenarios: `HU-018-S02`
-- Como visitante directo, quiero buscar disponibilidad accesible para identificar laboratorios libres.
+- Como usuario autenticado, quiero buscar disponibilidad accesible para identificar laboratorios libres.
 	- Escenarios: `HU-018-S03`
 - Como docente, quiero crear una reserva desde disponibilidad para confirmar mi espacio de laboratorio.
 	- Escenarios: `HU-018-S04`
-- Como visitante directo, quiero gestionar una reserva futura según las operaciones que Render publica.
+- Como profesor, quiero gestionar solo mis reservas futuras; como administrador, quiero gestionar todas las reservas futuras.
 	- Escenarios: `HU-018-S05`
-- Como visitante directo, quiero usar las superficies administrativas y de auditoria que Render publica.
+- Como administrador, quiero crear e inactivar usuarios y administrar recursos; como profesor, quiero consultar las superficies publicadas sin acciones administrativas.
 	- Escenarios: `HU-018-S06`
 - Como usuario PWA, quiero comportamiento offline seguro para evitar mutaciones inseguras sin conectividad.
 	- Escenarios: `HU-018-S07`
@@ -33,8 +33,7 @@ Fuente canonica de escenarios:
 
 ## TODO de seguridad del backend
 
-Render v1 publica una alternativa anónima. El frontend no debe fingir identidad ni
-usar un guard local como sustituto de autorización. Cuando Render aplique un
-esquema obligatorio con identidad actual y permisos por operación, estas historias
-deben volver a incorporar autenticación y autorización verificables de extremo a
-extremo.
+Render v1 aún publica una alternativa anónima. El frontend usa el login publicado
+para la experiencia de sesión, pero el guard y el rol local no sustituyen la
+autorización. Render debe aplicar identidad y permisos por operación para que estas
+historias queden protegidas de extremo a extremo.

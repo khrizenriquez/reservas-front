@@ -53,13 +53,13 @@ Architecture and sequence diagrams are documented in `docs/architecture-flow.md`
 | Route | Access | Purpose |
 |---|---|---|
 | `/` | Public | Institutional landing page, laboratory overview, reservation process, FAQ, language selector, and access call to action. |
-| `/acceso` | Optional | Diagnostic login form using only `POST /api/auth/login/`; it is not required to enter the portal. |
-| `/portal` | Direct | Portal home and navigation shell using the published anonymous Render v1 contract. |
-| `/portal/perfil` | Direct | Explains that Render v1 does not publish a current-profile operation. |
-| `/portal/disponibilidad` | Direct | Laboratory availability search for a selected date and interval. |
-| `/portal/reservas` | Direct | Paginated reservation list plus modal detail, create, modify, and cancel flows permitted by Render v1. |
-| `/portal/administracion` | Direct | Paginated contract-backed management of laboratories, conditions, users, and audit records using modal workflows. |
-| `/portal/logs` | Direct | Audit dashboard and paginated Render v1 log view using `GET /api/logs/?UMG_User_ID=<value>`. |
+| `/acceso` | Public | Required login form using only `POST /api/auth/login/`; there is no public registration or password-recovery flow. |
+| `/portal` | Authenticated UI | Operational summary and navigation for the signed-in identity. |
+| `/portal/perfil` | Authenticated UI | Shows the active session identity and changes only that user’s password through the published operation. |
+| `/portal/disponibilidad` | Authenticated UI | Laboratory availability search for a selected date and interval. |
+| `/portal/reservas` | Authenticated UI | Paginated reservation list plus modal detail; administrators can manage future reservations and professors only their own. |
+| `/portal/administracion` | Authenticated UI | All users can read resources; only administrators see laboratory, condition, user creation, password-reset, and inactivation actions. |
+| `/portal/logs` | Authenticated UI | Audit dashboard and paginated Render v1 log view, initially loaded for the signed-in user ID. |
 | `/_not-found` | Public | Framework-generated fallback for unmatched routes. |
 
 The client includes localized ES/EN interface copy, accessible loading states,
@@ -69,21 +69,21 @@ when the language changes.
 
 ### Audit logs and dashboard
 
-The live Render endpoint currently requires the published `UMG_User_ID` query
-parameter even though the captured schema marks it optional. The Logs route keeps
-that value visible and editable; it sends no fabricated identity, token, or extra
-endpoint. Its cards (total records, module count, leading action, module totals and
-recent daily activity) are calculated locally from the returned records.
+The live Render endpoint requires the published `UMG_User_ID` query parameter even
+though the captured schema marks it optional. The Logs route starts from the
+signed-in ID and retains an editable query. Its cards, SVG trend, module bars and
+pagination are calculated only from records returned by Render; no mock records or
+analytics endpoint are used.
 
-All portal routes are directly accessible because Render v1 publishes an anonymous
-security alternative. The client does not persist tokens, create a proxy, invent a
-local identity or use unverified API paths.
+`/acceso` validates credentials with Render and retains only a normalized identity
+(ID, name, email and role) in `sessionStorage` for the current browser tab. It never
+stores the password, token, cookie, or a secret. The client’s Admin/Professor rules
+make the interface usable but are not backend authorization: Render v1 can still
+accept anonymous requests.
 
-> **Security TODO (backend):** the published Render v1 contract currently permits
-> anonymous requests, including potentially administrative operations. The frontend
-> cannot make this safe with hidden links or local role checks. Render must publish
-> and enforce required authentication, a current-identity operation and per-action
-> authorization before the client reintroduces login as a prerequisite.
+> **Security TODO (backend):** Render must enforce the authenticated identity and
+> per-operation permissions server-side. The UI gate must never be considered a
+> substitute for backend authorization.
 
 ## Production evidence and live data
 

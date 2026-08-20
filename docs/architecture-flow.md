@@ -26,9 +26,11 @@ flowchart TB
 
 ## Request sequence
 
-Portal routes call Render v1 directly; login is an optional diagnostic operation,
-not a prerequisite or client-side authorization boundary. Requests omit browser
-credentials because the published contract permits anonymous access.
+`/acceso` primero valida con Render v1 y preserva solo metadatos de identidad en
+`sessionStorage` para la pestaña actual. Luego las rutas del portal llaman Render v1
+directamente y omiten credenciales del navegador. El rol local controla la UI, pero
+no reemplaza autorización backend porque el contrato publicado aún permite acceso
+anónimo.
 
 ```mermaid
 sequenceDiagram
@@ -38,7 +40,11 @@ sequenceDiagram
   participant CLI as API Client
   participant API as Django API (Render)
 
-  User->>UI: Open route or trigger action (reservation/...)
+  User->>UI: Sign in or trigger portal action
+  UI->>CLI: POST /api/auth/login/ (when signing in)
+  CLI->>API: Validate published credentials
+  API-->>CLI: User record / login response
+  CLI-->>UI: Normalized tab-scoped identity (no password)
   UI->>SVC: Execute use case
   SVC->>CLI: Call operation by contract
   CLI->>API: HTTP request (method/path from OpenAPI)

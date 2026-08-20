@@ -22,9 +22,10 @@ No item is complete without tests, traceability, and passing quality gates.
 
 ## Current status and important notes
 
-- **Completed:** direct anonymous Render access and the experience/i18n increment
-  were merged in PRs #23 and #24. The Vercel production-domain assignment remains
-  an external release-evidence task; its default domain must be verified because
+- **Completed:** the anonymous-access increment and experience/i18n increment
+  were merged in PRs #23 and #24. They are superseded for portal entry and role UX
+  by item 21 below. The Vercel production-domain assignment remains an external
+  release-evidence task; its default domain must be verified because
   `reservas-front.vercel.app` currently serves an unrelated Vite application.
 - **Backend boundary:** Render v1 is the only supported API. No client flow may
   depend on endpoints that its published schema does not expose.
@@ -37,11 +38,10 @@ No item is complete without tests, traceability, and passing quality gates.
   responds with wildcard CORS. The client therefore uses `credentials: "omit"`;
   it must not add cookies, token storage, refresh or an API proxy unless Render
   first publishes that contract.
-- **Security TODO (backend):** anonymous access is a published Render v1 behavior,
-  not frontend authorization. The client must not add a local login/role gate or
-  fabricate an identity. Render must publish and enforce mandatory authentication,
-  current identity and operation-level permissions before an authenticated web flow
-  can be restored.
+- **Security TODO (backend):** Render currently accepts anonymous requests. Item 21
+  uses its published login operation and an identity-only tab session for the UI,
+  but client role checks are not authorization. Render must enforce the identity and
+  operation-level permissions server-side.
 - **Required closure:** every completed item has its own merged PR; quality gates
   remain contract, lint, Jest coverage over 80%, and production build.
 - **Local workflow evidence:** `feature/local-full-workflow` verifies the rendered
@@ -71,3 +71,4 @@ No item is complete without tests, traceability, and passing quality gates.
 - [x] **18 — `fix/anonymous-render-access`: align the client to the anonymous Render v1 contract.** Merged in PR #23. `/portal`, profile, availability, reservations and administration are reachable without login or a client-side role gate; `/acceso` remains an optional login diagnostic. Reservation mutations use only documented fields and never invent a user identity. Rendered/API tests plus README, specs and docs record the backend security TODO.
 - [x] **19 — `feature/experience-i18n`: improve feedback, theme and language coverage.** Merged in PR #24. `/portal/logs` is present, App Router/data loading is accessible and localized, route-level chunks load lazily, light/dark preference persists, and static interface copy is in ES/EN configuration. Database data and URLs remain untranslated.
 - [x] **20 — `feature/client-pagination-modals`: correct audit-log querying and reduce long client lists.** The live-required published `UMG_User_ID` query is visible and sent only from entered client input; Logs derives an audit dashboard from its returned records; all long data lists paginate client-side at 10/20/50; administration/reservations use accessible localized dialogs; and the dark theme adds elevated surfaces and reduced-motion-safe premium transitions. No API pagination, analytics, authentication, or identity endpoint was invented. Local contract, lint, 59 Jest tests (92.13 % statements / 81.77 % branches), release check, production build, live Render Logs (100 records) and production-mode interaction review passed on 2026-08-16; awaiting PR, preview and merge.
+- [ ] **21 — `feature/auth-role-dashboard`: restore login-led portal UX and role-aware operations.** `/acceso` uses only Render `POST /api/auth/login/`; the portal requires an identity-only `sessionStorage` session, never a password/token. Admin UI can create, reset and inactivate users plus manage labs/conditions and all future reservations. Professor UI can read published data, change only own password, and manage only own future reservations. Logs default to the active user ID and render real API-derived Tabler-inspired SVG/CSS charts with Bulma; no Bootstrap or mock data is used. Local evidence is green on 2026-08-19: live contract, local CORS, contract, lint, 68 Jest tests (92.17% statements / 81.53% branches), release check, production build and local runtime smoke. Commit `d113daf` is published; the item awaits the PR and Vercel Preview validation. Backend authorization remains required before the role UI can be treated as security.

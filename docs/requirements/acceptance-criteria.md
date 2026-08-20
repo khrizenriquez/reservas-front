@@ -7,7 +7,7 @@
 ## Scenario inventory
 
 - `HU-018-S01`: Understand service from landing
-- `HU-018-S02`: Optionally check login without gating the portal
+- `HU-018-S02`: Sign in before entering the portal
 - `HU-018-S03`: Search availability accessibly
 - `HU-018-S04`: Create reservation with idempotency
 - `HU-018-S05`: Manage a published future reservation
@@ -34,7 +34,6 @@ Especialmente para:
 Un criterio solo se considera cumplido cuando existe evidencia verificable de pruebas
 automatizadas o checklist controlado, enlazada al commit correspondiente.
 
-**TODO de seguridad:** mientras Render v1 permita solicitudes anónimas, los
-criterios no deben aceptar un guard de login o rol en el cliente como autorización.
-La futura autenticación obligatoria debe venir acompañada de contrato, pruebas y
-evidencia de aplicación del backend.
+**TODO de seguridad:** mientras Render v1 permita solicitudes anónimas, el guard
+de login y el rol local no constituyen autorización. La aplicación obligatoria de
+identidad y permisos debe verificarse en el backend con contrato y pruebas.
