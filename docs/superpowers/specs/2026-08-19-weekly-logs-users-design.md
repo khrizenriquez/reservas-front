@@ -1,7 +1,7 @@
 # Weekly Audit Analytics and Admin Users Design
 
 **Branch:** `feature/weekly-logs-users`  
-**Status:** proposed  
+**Status:** accepted
 **Date:** 2026-08-19
 
 ## Purpose

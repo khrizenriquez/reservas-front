@@ -25,6 +25,13 @@ describe("portal shell", () => {
   it("renders portal navigation for an authenticated identity", () => {
     wrap(<PortalLayout>child</PortalLayout>);
     expect(screen.getByRole("link", { name: "Administración" })).toHaveAttribute("href", "/portal/administracion");
+    expect(screen.getByRole("link", { name: "Usuarios" })).toHaveAttribute("href", "/portal/usuarios");
+  });
+
+  it("does not expose the users navigation item to a professor", () => {
+    useAuth.mockReturnValue({ identity: { id: 7, name: "Docente", email: "docente@umg.edu.gt", roleId: 2 }, ready: true, isAdmin: false, signOut: jest.fn() });
+    wrap(<PortalLayout>child</PortalLayout>);
+    expect(screen.queryByRole("link", { name: "Usuarios" })).not.toBeInTheDocument();
   });
 
   it("renders the authenticated Render summary and profile", async () => {

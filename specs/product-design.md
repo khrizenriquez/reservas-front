@@ -91,8 +91,9 @@ Approved baseline imagery references:
 | `/portal/reservas` | Authenticated UI | Paginated list, filter, inspect, create, modify, and cancel; professors only mutate their own future reservations |
 | `/portal/notificaciones` | Unavailable | No Render v1 operation is published for this surface |
 | `/portal/reportes` | Unavailable | No Render v1 operation is published for this surface |
-| `/portal/administracion` | Authenticated UI | All users read records; only administrators create/edit labs or conditions and create/reset/inactivate users |
-| `/portal/logs` | Authenticated UI | Audit dashboard and paginated list from `GET /api/logs/?UMG_User_ID=<value>`; defaults to the signed-in ID |
+| `/portal/administracion` | Authenticated UI | Laboratories, conditions, and audit review; only administrators create/edit laboratories or conditions |
+| `/portal/usuarios` | Administrator UI | Real user list with client pagination and documented create, reset-password, and inactivate actions; hidden from professors and direct access redirects to `/portal` |
+| `/portal/logs` | Authenticated UI | Audit dashboard and paginated list from `GET /api/logs/?UMG_User_ID=<value>`; defaults to the signed-in ID and locally groups returned records by week or a validated date range |
 | `/portal/perfil` | Authenticated UI | Shows the session identity and changes only its own password |
 
 ## Visual system

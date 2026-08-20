@@ -14,6 +14,7 @@
 - `HU-018-S06`: Use directly published administration
 - `HU-018-S07`: Keep offline behavior safe
 - `HU-018-S08`: Complete journeys with assistive technology
+- `HU-018-S09`: Understand real audit activity by period
 
 ## Constraint mapping rule
 

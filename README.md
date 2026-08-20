@@ -58,8 +58,9 @@ Architecture and sequence diagrams are documented in `docs/architecture-flow.md`
 | `/portal/perfil` | Authenticated UI | Shows the active session identity and changes only that user’s password through the published operation. |
 | `/portal/disponibilidad` | Authenticated UI | Laboratory availability search for a selected date and interval. |
 | `/portal/reservas` | Authenticated UI | Paginated reservation list plus modal detail; administrators can manage future reservations and professors only their own. |
-| `/portal/administracion` | Authenticated UI | All users can read resources; only administrators see laboratory, condition, user creation, password-reset, and inactivation actions. |
-| `/portal/logs` | Authenticated UI | Audit dashboard and paginated Render v1 log view, initially loaded for the signed-in user ID. |
+| `/portal/administracion` | Authenticated UI | Laboratories, laboratory conditions, and audit review; administrators can manage the published laboratory and condition operations. |
+| `/portal/usuarios` | Administrator UI | Dedicated user-management route: real Render users, create, password reset, and inactivate actions. It is absent for professors, who are redirected if they open it directly. |
+| `/portal/logs` | Authenticated UI | Audit dashboard and paginated Render v1 log view, initially loaded for the signed-in user ID. It groups returned records locally by default calendar week or an explicit date range. |
 | `/_not-found` | Public | Framework-generated fallback for unmatched routes. |
 
 The client includes localized ES/EN interface copy, accessible loading states,
@@ -71,9 +72,11 @@ when the language changes.
 
 The live Render endpoint requires the published `UMG_User_ID` query parameter even
 though the captured schema marks it optional. The Logs route starts from the
-signed-in ID and retains an editable query. Its cards, SVG trend, module bars and
-pagination are calculated only from records returned by Render; no mock records or
-analytics endpoint are used.
+signed-in ID and retains an editable query. Its full-width weekly chart defaults to
+the Monday-to-Sunday interval containing the newest returned record; users may also
+apply a validated local date range. Cards, chart, module bars and pagination are
+calculated only from records returned by Render; no mock records, analytics endpoint,
+or undocumented date query is used.
 
 `/acceso` validates credentials with Render and retains only a normalized identity
 (ID, name, email and role) in `sessionStorage` for the current browser tab. It never
@@ -97,6 +100,7 @@ The screenshots below were captured from that deployment on 19 August 2026.
 | Reservations | [`/portal/reservas`](https://reservas-front-mu.vercel.app/portal/reservas) | `GET /api/reservas/` |
 | Availability | [`/portal/disponibilidad`](https://reservas-front-mu.vercel.app/portal/disponibilidad) | `GET /api/labs/disponibles/` |
 | Audit logs | [`/portal/logs`](https://reservas-front-mu.vercel.app/portal/logs) | `GET /api/logs/?UMG_User_ID=<value>` |
+| User management | [`/portal/usuarios`](https://reservas-front-mu.vercel.app/portal/usuarios) | `GET/POST /api/usuarios/` plus documented administrator PATCH actions |
 
 ### Summary
 

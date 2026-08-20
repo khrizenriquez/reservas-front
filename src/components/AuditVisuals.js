@@ -22,4 +22,12 @@ export function AuditMetric({ icon: Icon, label, value }) {
   return <article className="audit-metric"><span className="audit-metric-icon" aria-hidden="true"><Icon size={20} stroke={1.8} /></span><span>{label}</span><strong>{value}</strong></article>;
 }
 
+export function WeeklyActivityChart({ entries, label }) {
+  const maximum = Math.max(...entries.map((entry) => entry.count), 1);
+  const description = entries.map((entry) => `${entry.label} ${entry.count}`).join(", ");
+  return <div className="weekly-activity-chart" role="img" aria-label={`${label}: ${description}`}>
+    <div className="weekly-activity-bars" aria-hidden="true">{entries.map((entry) => <div className={`weekly-activity-day${entry.count === maximum && entry.count > 0 ? " is-peak" : ""}`} key={entry.date}><strong>{entry.count}</strong><span><i style={{ "--activity-height": `${Math.max((entry.count / maximum) * 100, entry.count ? 10 : 2)}%` }} /></span><small>{entry.label}</small></div>)}</div>
+  </div>;
+}
+
 export const auditIcons = { total: IconActivity, modules: IconChartBar, action: IconFingerprint };
