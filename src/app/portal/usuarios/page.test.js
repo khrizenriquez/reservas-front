@@ -30,6 +30,8 @@ describe("UsersPage", () => {
     renderPage();
     expect(await screen.findByText("ana@umg.edu.gt")).toBeInTheDocument();
     expect(api.listUsers).toHaveBeenCalled();
+    expect(screen.getByRole("columnheader", { name: "ID de usuario" })).toBeInTheDocument();
+    expect(screen.getByText("18", { selector: "code" })).toBeInTheDocument();
     expect(screen.getAllByText("Activo")).toHaveLength(2);
     const deactivateButtons = screen.getAllByRole("button", { name: "Inactivar" });
     expect(deactivateButtons[0]).toBeDisabled();

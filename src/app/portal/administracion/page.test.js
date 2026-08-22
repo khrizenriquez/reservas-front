@@ -26,6 +26,8 @@ beforeEach(() => {
 it("keeps labs, conditions, and audit records in administration", async () => {
   renderPage();
   expect(await screen.findByText("Laboratorio A")).toBeInTheDocument();
+  expect(screen.getByText("ID de laboratorio:")).toBeInTheDocument();
+  expect(screen.getByText("1", { selector: "code" })).toBeInTheDocument();
   expect(screen.getByText("Mantenimiento")).toBeInTheDocument();
   expect(screen.getByText(/Reserva creada/)).toBeInTheDocument();
   expect(screen.queryByRole("heading", { name: "Usuarios" })).not.toBeInTheDocument();

@@ -1,7 +1,7 @@
 # Operational Dashboard and Entity IDs Design
 
 **Branch:** `feature/operational-dashboard`
-**Status:** proposed
+**Status:** accepted
 **Date:** 2026-08-22
 
 ## Purpose

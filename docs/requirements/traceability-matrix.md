@@ -11,6 +11,7 @@
 | HU-018-S07 | CST-006, CST-011 | service worker, `OfflineNotice`, reservations page | `ServiceWorker.test.js`, `OfflineNotice.test.js`, reservation tests | Code evidence ready; needs installed-PWA preview walkthrough. |
 | HU-018-S08 | CST-011, CST-012 | shared status, language and focus styles | `ui-foundation.test.js` and route tests | Partial: automated component evidence exists; keyboard/screen-reader walkthrough remains required. |
 | HU-018-S09 | `GET /api/logs/?UMG_User_ID=<value>`; CST-001, CST-011, CST-012 | `src/app/portal/logs/page.js`, `src/lib/audit-periods.js`, `src/components/AuditVisuals.js` | logs, audit-periods, and AuditVisuals tests | Weekly/default and local custom-range aggregation are derived only from returned Render records; no date analytics endpoint is invented. |
+| HU-018-S10 | `GET /api/labs/`, `/api/condiciones/`, `/api/reservas/`, `/api/usuarios/`; CST-001, CST-011, CST-012 | `src/app/portal/logs/page.js`, `src/lib/operational-metrics.js`, `src/components/AuditVisuals.js` | Logs, operational-metrics, and AuditVisuals tests | Admin-only project indicators are independently loaded from real Render records. CPU/RAM/server telemetry is excluded because no published operation provides it. |
 
 `/portal/logs` consumes the published `GET /api/logs/?UMG_User_ID=<value>`
 operation through `listAuditLogs({ userId })`. It begins with the signed-in user ID,

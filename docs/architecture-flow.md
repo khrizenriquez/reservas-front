@@ -35,6 +35,9 @@ anónimo.
 La ruta de logs usa exclusivamente `GET /api/logs/?UMG_User_ID=<value>`. La
 segmentación semanal y por rango ocurre en el navegador sobre esa respuesta; no se
 envía ningún parámetro de fecha, analítica o paginación que Render v1 no publique.
+Para administradores, los paneles operativos leen por separado los laboratorios,
+condiciones, reservas y usuarios publicados. Esos conteos son de la operación
+académica; el cliente no solicita ni simula telemetría de infraestructura.
 
 ```mermaid
 sequenceDiagram

@@ -15,6 +15,7 @@
 - `HU-018-S07`: Keep offline behavior safe
 - `HU-018-S08`: Complete journeys with assistive technology
 - `HU-018-S09`: Understand real audit activity by period
+- `HU-018-S10`: Review administrator operational indicators
 
 ## Constraint mapping rule
 
