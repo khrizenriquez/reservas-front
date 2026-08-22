@@ -50,6 +50,14 @@ Feature: Use the public landing and accessible web PWA
     And a valid date range filters only those already returned records without an undocumented API query
     And an invalid date range keeps the last valid chart and announces localized feedback
 
+  @HU-018-S10 @HU-017
+  Scenario: Review administrator operational indicators
+    Given an administrator loads Logs with published Render records
+    Then the client shows real project indicators for laboratories, conditions, reservations, and accounts
+    And each unavailable resource reports its localized state without hiding the audit dashboard
+    And a professor does not request or see account indicators
+    And the client does not show CPU, memory, uptime, or server telemetry
+
   @HU-018-S07
   Scenario: Keep offline behavior safe
     Given the installed PWA loses connectivity

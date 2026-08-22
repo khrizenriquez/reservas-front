@@ -30,4 +30,18 @@ export function WeeklyActivityChart({ entries, label }) {
   </div>;
 }
 
+export function OperationalGauge({ label, value, total, description, summary }) {
+  const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+  const accessibleSummary = `${summary ?? `${label}: ${value}/${total} (${percentage}%)`}${description ? `. ${description}` : ""}`;
+  return <article className="operational-gauge" role="img" aria-label={accessibleSummary}>
+    <p>{label}</p><div className="operational-gauge-dial" aria-hidden="true" style={{ "--gauge-progress": `${percentage * 3.6}deg` }}><div><strong>{percentage}%</strong><span>{value}/{total}</span></div></div>{description ? <small>{description}</small> : null}
+  </article>;
+}
+
+export function OperationalBars({ entries, label, emptyLabel }) {
+  const maximum = Math.max(...entries.map(([, count]) => count), 1);
+  const description = entries.length ? entries.map(([name, count]) => `${name} ${count}`).join(", ") : emptyLabel;
+  return <div className="operational-bars" role="img" aria-label={`${label}: ${description}`}>{entries.length ? entries.map(([name, count]) => <div className="operational-bar-row" key={name}><span>{name}</span><div aria-hidden="true"><i style={{ width: `${(count / maximum) * 100}%` }} /></div><strong>{count}</strong></div>) : <p>{emptyLabel}</p>}</div>;
+}
+
 export const auditIcons = { total: IconActivity, modules: IconChartBar, action: IconFingerprint };

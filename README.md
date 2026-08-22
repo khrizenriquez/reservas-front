@@ -60,7 +60,7 @@ Architecture and sequence diagrams are documented in `docs/architecture-flow.md`
 | `/portal/reservas` | Authenticated UI | Paginated reservation list plus modal detail; administrators can manage future reservations and professors only their own. |
 | `/portal/administracion` | Authenticated UI | Laboratories, laboratory conditions, and audit review; administrators can manage the published laboratory and condition operations. |
 | `/portal/usuarios` | Administrator UI | Dedicated user-management route: real Render users, create, password reset, and inactivate actions. It is absent for professors, who are redirected if they open it directly. |
-| `/portal/logs` | Authenticated UI | Audit dashboard and paginated Render v1 log view, initially loaded for the signed-in user ID. It groups returned records locally by default calendar week or an explicit date range. |
+| `/portal/logs` | Authenticated UI | Audit dashboard and paginated Render v1 log view, initially loaded for the signed-in user ID. It groups returned records locally by default calendar week or an explicit date range; administrators also see project-resource indicators from published labs, conditions, reservations, and users. |
 | `/_not-found` | Public | Framework-generated fallback for unmatched routes. |
 
 The client includes localized ES/EN interface copy, accessible loading states,
@@ -76,7 +76,10 @@ signed-in ID and retains an editable query. Its full-width weekly chart defaults
 the Monday-to-Sunday interval containing the newest returned record; users may also
 apply a validated local date range. Cards, chart, module bars and pagination are
 calculated only from records returned by Render; no mock records, analytics endpoint,
-or undocumented date query is used.
+or undocumented date query is used. For administrators, the operational section
+separately derives laboratories, conditions, reservations, and accounts from their
+published Render reads. It never displays CPU, memory, pod, uptime, or other server
+telemetry because Render v1 does not publish it.
 
 `/acceso` validates credentials with Render and retains only a normalized identity
 (ID, name, email and role) in `sessionStorage` for the current browser tab. It never

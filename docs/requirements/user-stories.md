@@ -18,6 +18,8 @@ Este archivo lista las historias activas y su mapeo directo a criterios de acept
 	- Escenarios: `HU-018-S06`
 - Como usuario autenticado, quiero entender la actividad real de auditoría por semana o rango de fechas sin depender de una consulta no publicada.
 	- Escenarios: `HU-018-S09`
+- Como administrador, quiero ver indicadores reales de recursos académicos sin mezclar métricas de infraestructura ajenas al proyecto.
+	- Escenarios: `HU-018-S10`
 - Como usuario PWA, quiero comportamiento offline seguro para evitar mutaciones inseguras sin conectividad.
 	- Escenarios: `HU-018-S07`
 - Como usuario con tecnologia de asistencia, quiero recorridos accesibles con foco y anuncios correctos.
